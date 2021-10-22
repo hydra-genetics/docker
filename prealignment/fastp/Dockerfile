@@ -4,6 +4,7 @@ FROM continuumio/miniconda3  AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
 RUN conda create --name hydra -c bioconda fastp=0.20.1
+
 # Use conda-pack to create a standalone enviornment
 # in /venv:
 RUN conda-pack -n hydra -o /tmp/env.tar && \
@@ -20,17 +21,13 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-
 LABEL VERSION=0.20.1
 LABEL LABEL fastp=0.20.1
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
-
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-
 COPY --from=build /venv /usr/local
-
