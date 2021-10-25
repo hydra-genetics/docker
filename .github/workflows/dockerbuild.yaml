@@ -9,7 +9,7 @@ on:
     branches:
      - master
     paths:
-      - '**/**/Dockerfile'
+      - '**/Dockerfile'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -32,11 +32,10 @@ jobs:
         run: |
           for dockerFilePath in $(git diff-tree --no-commit-id -r ${{ github.event.before }} ${{ github.sha }} | awk '{if($5 != "D") print($6)}' | grep "Dockerfile");
           do
-            FOLDER_PATH=${dockerFilePath%"/Dockerfile"}
-            IMAGE_NAME=$(echo $FOLDER_PATH |sed 's/\//-/')
+            IMAGE_NAME=${dockerFilePath%"/Dockerfile"}
             IMAGE_ID=${{ secrets.DOCKER_REGISTRY_URL }}/${{ secrets.REPOSITORY }}/$IMAGE_NAME
             tmpName="image-$RANDOM"
-            docker build $FOLDER_PATH --file $dockerFilePath --tag $tmpName
+            docker build $IMAGE_NAME --file $dockerFilePath --tag $tmpName
             IMAGE_VERSION=$(grep "LABEL VERSION" $dockerFilePath | awk 'BEGIN{FS="\="}{print($2)}')
             echo "IMAGE_NAME=$IMAGE_NAME"
             echo "IMAGE_VERSION=$IMAGE_VERSION"
