@@ -22,8 +22,8 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL VERSION=4.1.9.0
-LABEL LABEL gatk4=4.1.9.0
-LABEL LABEL snakemake-wrapper-utils=0.2.0
+LABEL gatk4=4.1.9.0
+LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
