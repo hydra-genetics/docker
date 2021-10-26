@@ -3,7 +3,7 @@ FROM continuumio/miniconda3  AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda vt=2015.11.10 cryptography snakemake-wrapper-utils=0.2.0
+RUN conda create --name hydra -c bioconda vt=2015.11.10 cryptography=3.4.8 snakemake-wrapper-utils=0.2.0
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -23,7 +23,7 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL VERSION=2015.11.10
 LABEL vt=2015.11.10
-LABEL cryptography
+LABEL cryptography=3.4.8
 LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
