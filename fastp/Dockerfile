@@ -22,7 +22,7 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL VERSION=0.20.1
-LABEL LABEL fastp=0.20.1
+LABEL fastp=0.20.1
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
