@@ -22,9 +22,9 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL VERSION=0.7.17
-LABEL LABEL bwa=0.7.17
-LABEL LABEL samtools=1.12
-LABEL LABEL snakemake-wrapper-utils=0.2.0
+LABEL bwa=0.7.17
+LABEL samtools=1.12
+LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
