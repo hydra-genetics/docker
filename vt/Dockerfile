@@ -22,9 +22,9 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL VERSION=2015.11.10
-LABEL LABEL vt=2015.11.10
-LABEL LABEL cryptography
-LABEL LABEL snakemake-wrapper-utils=0.2.0
+LABEL vt=2015.11.10
+LABEL cryptography
+LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
