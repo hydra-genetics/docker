@@ -22,8 +22,8 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL VERSION=1.8.2
-LABEL LABEL vardict-java=1.8.2
-LABEL LABEL snakemake-wrapper-utils=0.2.0
+LABEL vardict-java=1.8.2
+LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
