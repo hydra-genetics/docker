@@ -22,9 +22,9 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL VERSION=102
-LABEL LABEL ensembl-vep=102
-LABEL LABEL bcftools=1.9
-LABEL LABEL snakemake-wrapper-utils=0.2.0
+LABEL ensembl-vep=102
+LABEL bcftools=1.9
+LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
