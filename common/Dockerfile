@@ -3,7 +3,7 @@ FROM continuumio/miniconda3  AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda \
+RUN conda create --name hydra -c bioconda  -c conda-forge  \
 	bcftools=1.14-0 \
 	samtools=1.14-0 \
 	bedtools=2.30 \
