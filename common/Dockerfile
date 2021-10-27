@@ -6,7 +6,7 @@ RUN conda install -c conda-forge conda-pack
 RUN conda create --name hydra -c bioconda \
 	bcftools=1.14-0 \
 	samtools=1.14-0 \
-	bedtools=1.14-0 \
+	bedtools=2.30 \
 	tabix=1.11-0 \
 	snakemake-wrapper-utils=0.2.0
 
@@ -29,7 +29,7 @@ FROM debian:buster-slim AS runtime
 LABEL VERSION=0.0.1
 LABEL bcftools=1.14-0
 LABEL samtools=1.14-0
-LABEL bedtools=1.14-0
+LABEL bedtools=2.30
 LABEL tabix=1.11-0
 LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
