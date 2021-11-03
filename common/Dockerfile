@@ -27,10 +27,10 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL VERSION=0.0.1
-LABEL bcftools=1.14-0
-LABEL samtools=1.14-0
+LABEL bcftools=1.14
+LABEL samtools=1.14
 LABEL bedtools=2.30
-LABEL tabix=1.11-0
+LABEL tabix=1.11
 LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
