@@ -4,10 +4,10 @@ FROM continuumio/miniconda3  AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
 RUN conda create --name hydra -c bioconda  -c conda-forge  \
-	bcftools=1.14-0 \
-	samtools=1.14-0 \
+	bcftools=1.14 \
+	samtools=1.14 \
 	bedtools=2.30 \
-	tabix=1.11-0 \
+	tabix=1.11 \
 	snakemake-wrapper-utils=0.2.0
 
 # Use conda-pack to create a standalone enviornment
