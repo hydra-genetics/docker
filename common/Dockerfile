@@ -4,11 +4,12 @@ FROM continuumio/miniconda3  AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
 RUN conda create --name hydra -c bioconda  -c conda-forge  \
-	bcftools=1.14-0 \
-	samtools=1.14-0 \
+	bcftools=1.14 \
+	samtools=1.14 \
 	bedtools=2.30 \
-	tabix=1.11-0 \
-	snakemake-wrapper-utils=0.2.0
+	tabix=1.11 
+
+RUN conda install -c conda-forge conda-pack
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -27,11 +28,10 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL VERSION=0.0.1
-LABEL bcftools=1.14-0
-LABEL samtools=1.14-0
+LABEL bcftools=1.14
+LABEL samtools=1.14
 LABEL bedtools=2.30
-LABEL tabix=1.11-0
-LABEL snakemake-wrapper-utils=0.2.0
+LABEL tabix=1.11
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
