@@ -7,7 +7,9 @@ RUN conda create --name hydra -c bioconda  -c conda-forge  \
 	bcftools=1.14 \
 	samtools=1.14 \
 	bedtools=2.30 \
-	tabix=1.11 
+	tabix=1.11 \
+	python=3.9 \
+        snakemake-wrapper-utils=0.2.0
 
 RUN conda install -c conda-forge conda-pack
 
@@ -32,6 +34,8 @@ LABEL bcftools=1.14
 LABEL samtools=1.14
 LABEL bedtools=2.30
 LABEL tabix=1.11
+LABEL python=3.9
+LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
