@@ -34,3 +34,8 @@ MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 # running the softwares without activating
 # any conda env
 COPY --from=build /venv /usr/local
+
+RUN mkdir /venv
+RUN ln -s /usr/local/lib /venv/lib
+RUN ln -s /usr/local/bin /venv/bin
+RUN ln -s /usr/local/ssl /venv/ssl
