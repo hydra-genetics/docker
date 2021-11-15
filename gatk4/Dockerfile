@@ -3,7 +3,7 @@ FROM continuumio/miniconda3  AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda gatk4=4.1.9.0 snakemake-wrapper-utils=0.2.0
+RUN conda create --name hydra -c bioconda gatk4=4.2.2.0 snakemake-wrapper-utils=0.2.0
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -21,8 +21,8 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL VERSION=4.1.9.0
-LABEL gatk4=4.1.9.0
+LABEL VERSION=4.2.2.0
+LABEL gatk4=4.2.2.0
 LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
