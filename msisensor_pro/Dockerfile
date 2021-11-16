@@ -3,7 +3,7 @@ FROM continuumio/miniconda3  AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda msisensor-pro=1.2.0 snakemake-wrapper-utils=0.2.0
+RUN conda create --name hydra -c bioconda msisensor-pro=1.2.0
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -23,7 +23,6 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL VERSION=1.2.0
 LABEL msisensor-pro=1.2.0
-LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
