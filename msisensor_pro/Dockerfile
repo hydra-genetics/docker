@@ -3,7 +3,7 @@ FROM continuumio/miniconda3  AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda msisensor-pro=1.2.0
+RUN conda create --name hydra -c bioconda -c conda-forge msisensor-pro=1.2.0 
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
