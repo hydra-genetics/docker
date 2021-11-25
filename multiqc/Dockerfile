@@ -1,10 +1,11 @@
 # The build-stage image:
 FROM continuumio/miniconda3  AS build
 
+COPY environment.yml /environment.yml
+
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda -c conda-forge multiqc=1.11
-RUN conda activate hydra && pip install multiqc_cgs=0.2
+RUN conda env create -f /environment.yml
 
 
 # Use conda-pack to create a standalone enviornment

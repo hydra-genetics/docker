@@ -1,0 +1,10 @@
+name: hydra
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - multiqc=1.11
+  - pip
+  - pip:
+    - multiqc_cgs==0.2
+
