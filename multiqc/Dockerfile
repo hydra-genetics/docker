@@ -3,7 +3,9 @@ FROM continuumio/miniconda3  AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda -c conda-forge multiqc=1.11 
+RUN conda create --name hydra -c bioconda -c conda-forge multiqc=1.11
+RUN conda activate hydra && pip install multiqc_cgs=0.2
+
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -23,6 +25,7 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL VERSION=1.11
 LABEL multiqc=1.11
+LABEL multiqc_cgs=0.2
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
