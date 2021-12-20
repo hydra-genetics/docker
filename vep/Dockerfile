@@ -21,8 +21,8 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL VERSION=102
-LABEL ensembl-vep=102
+LABEL VERSION=105
+LABEL ensembl-vep=105
 LABEL bcftools=1.9
 LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
