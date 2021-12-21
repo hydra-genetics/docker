@@ -3,7 +3,7 @@ FROM continuumio/miniconda3  AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda ensembl-vep=102 bcftools=1.9 snakemake-wrapper-utils=0.2.0
+RUN conda create --name hydra -c bioconda ensembl-vep=105 bcftools=1.9 snakemake-wrapper-utils=0.2.0
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
