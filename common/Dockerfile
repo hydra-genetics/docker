@@ -38,7 +38,7 @@ LABEL tabix=1.11
 LABEL python=3.9
 LABEL pysam=0.17.0
 LABEL snakemake-wrapper-utils=0.2.0
-LABEL hydra-genetics=0.2.2
+LABEL hydra-genetics=0.2.3
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
@@ -48,4 +48,4 @@ MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 # any conda env
 COPY --from=build /venv /usr/local
 
-RUN pip install hydra-genetics==0.2.2
+RUN pip install hydra-genetics==0.2.3
