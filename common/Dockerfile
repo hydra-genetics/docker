@@ -48,4 +48,4 @@ MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 # any conda env
 COPY --from=build /venv /usr/local
 
-RUN pip install hydra-genetics==0.2.1
+RUN pip install hydra-genetics==0.2.2
