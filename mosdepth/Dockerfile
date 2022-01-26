@@ -7,7 +7,6 @@ RUN conda create --name hydra -c bioconda  -c conda-forge  \
 	  mosdepth=0.3.2 \
 	  python=3.9 \
     snakemake-wrapper-utils=0.2.0
-RUN conda install -c conda-forge conda-pack
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
