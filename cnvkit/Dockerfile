@@ -25,6 +25,7 @@ LABEL VERSION=0.9.9
 LABEL cnvkit=0.9.9
 LABEL openssl=1.0
 LABEL snakemake-wrapper-utils=0.2.0
+
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
