@@ -4,9 +4,8 @@ FROM continuumio/miniconda3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
 RUN conda create --name hydra -c bioconda -c conda-forge \
-    cnvkit=0.9.9 \
+    cnvkit=0.9.8 \
 	  python=3.9 \
-    r-base=4.1.2 \
     snakemake-wrapper-utils=0.2.0
 
 # Use conda-pack to create a standalone enviornment
@@ -26,9 +25,8 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL VERSION=0.9.9
-LABEL cnvkit=0.9.9
-LABEL openssl=1.0
+LABEL VERSION=0.9.8
+LABEL cnvkit=0.9.8
 LABEL snakemake-wrapper-utils=0.2.0
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
