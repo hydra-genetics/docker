@@ -6,6 +6,7 @@ RUN conda install -c conda-forge conda-pack
 RUN conda create --name hydra -c bioconda -c conda-forge \
     cnvkit=0.9.9 \
 	  python=3.9 \
+    r-base=4.1.2 \
     snakemake-wrapper-utils=0.2.0
 
 # Use conda-pack to create a standalone enviornment
