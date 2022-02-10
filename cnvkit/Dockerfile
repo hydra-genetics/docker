@@ -1,12 +1,11 @@
 # The build-stage image:
-FROM continuumio/miniconda3 AS build
+FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda -c conda-forge \
+RUN conda create --name hydra -c bioconda \
     cnvkit=0.9.9 \
-	  python=3.7 \
-    snakemake-wrapper-utils=0.2.0
+    snakemake-wrapper-utils=0.3.1
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -27,7 +26,7 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL VERSION=0.9.9
 LABEL cnvkit=0.9.9
-LABEL snakemake-wrapper-utils=0.2.0
+LABEL snakemake-wrapper-utils=0.3.1
 ################## MAINTAINER ######################
 MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
