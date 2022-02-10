@@ -1,0 +1,38 @@
+# The build-stage image:
+FROM continuumio/miniconda3 AS build
+
+# Install conda-pack:
+RUN conda install -c conda-forge conda-pack
+RUN conda create --name hydra -c bioconda \
+	  star-fusion=1.10.0 \
+    snakemake-wrapper-utils=0.3.1
+
+# Use conda-pack to create a standalone enviornment
+# in /venv:
+RUN conda-pack -n hydra -o /tmp/env.tar
+WORKDIR /venv
+RUN tar xf /tmp/env.tar && \
+    rm /tmp/env.tar
+
+# We've put venv in same path it'll be in final image,
+# so now fix up paths:
+RUN /venv/bin/conda-unpack
+
+# The runtime-stage image; we can use Debian as the
+# base image since the Conda env also includes Python
+# for us.
+FROM debian:buster-slim AS runtime
+
+################## METADATA ######################
+LABEL VERSION=1.10.0
+LABEL star-fusion=1.10.0
+LABEL snakemake-wrapper-utils=0.3.1
+################## MAINTAINER ######################
+MAINTAINER Martin Rippin <martin.rippin@scilifelab.uu.se>
+
+# Copy /venv from the previous stage:
+# to /usr/local to make it possible
+# running the softwares without activating
+# any conda env
+RUN rm -rf /usr/local/*
+COPY --from=build /venv /usr/local
