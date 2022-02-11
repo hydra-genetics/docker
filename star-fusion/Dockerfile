@@ -1,11 +1,11 @@
 # The build-stage image:
-FROM continuumio/miniconda3 AS build
+FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda \
-	  star-fusion=1.10.0 \
-    snakemake-wrapper-utils=0.3.1
+RUN conda create -n hydra -c bioconda \
+    snakemake-wrapper-utils=0.3.1 \
+    star-fusion=1.6.0
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -24,9 +24,9 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL VERSION=1.10.0
-LABEL star-fusion=1.10.0
+LABEL VERSION=1.6.0
 LABEL snakemake-wrapper-utils=0.3.1
+LABEL star-fusion=1.6.0
 ################## MAINTAINER ######################
 MAINTAINER Martin Rippin <martin.rippin@scilifelab.uu.se>
 
