@@ -27,7 +27,7 @@ FROM debian:buster-slim AS runtime
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
 LABEL version=2019.02.18
 LABEL python=3.9
-LABEL simple_sv_annotation=2019.02.18
+LABEL simple-sv-annotation=2019.02.18
 LABEL snakemake-wrapper-utils=0.3.1
 
 # Copy /venv from the previous stage:
