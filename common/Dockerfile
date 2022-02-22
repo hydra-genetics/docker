@@ -28,6 +28,7 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
+LABEL maintainer="patrik.smeds@scilifelab.uu.se"
 LABEL version=0.0.1
 LABEL bcftools=1.14
 LABEL bedtools=2.30

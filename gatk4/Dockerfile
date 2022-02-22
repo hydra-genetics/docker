@@ -1,15 +1,17 @@
 # The build-stage image:
-FROM continuumio/miniconda3  AS build
+FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda gatk4=4.2.2.0 snakemake-wrapper-utils=0.2.0
+RUN conda install -c conda-forge conda-pack && \
+    conda create --name hydra -c bioconda \
+    gatk4=4.2.2.0 \
+    snakemake-wrapper-utils=0.3.1
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
-RUN conda-pack -n hydra -o /tmp/env.tar && \
-  mkdir /venv && cd /venv && tar xf /tmp/env.tar && \
-  rm /tmp/env.tar
+RUN conda-pack -n hydra -o /tmp/env.tar
+WORKDIR /venv 
+RUN tar xf /tmp/env.tar
 
 # We've put venv in same path it'll be in final image,
 # so now fix up paths:
@@ -21,11 +23,10 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL VERSION=4.2.2.0
+LABEL maintainer="patrik.smeds@scilifelab.uu.se"
+LABEL version=4.2.2.0
 LABEL gatk4=4.2.2.0
-LABEL snakemake-wrapper-utils=0.2.0
-################## MAINTAINER ######################
-MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
+LABEL snakemake-wrapper-utils=0.3.1
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible

@@ -23,6 +23,7 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
+LABEL maintainer="patrik.smeds@scilifelab.uu.se"
 LABEL version=0.20.1
 LABEL fastp=0.20.1
 LABEL snakemake-wrapper-utils=0.3.1
