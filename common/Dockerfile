@@ -1,24 +1,22 @@
 # The build-stage image:
-FROM continuumio/miniconda3  AS build
+FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda  -c conda-forge  \
-	bcftools=1.14 \
-	samtools=1.14 \
-	bedtools=2.30 \
-	tabix=1.11 \
-	python=3.9 \
-	pysam=0.17.0 \
-        snakemake-wrapper-utils=0.2.0
-
-RUN conda install -c conda-forge conda-pack
+RUN conda install -c conda-forge conda-pack && \
+    conda create --name hydra -c bioconda  -c conda-forge \
+	  bcftools=1.14 \
+	  bedtools=2.30 \
+	  pysam=0.17.0 \
+	  python=3.9 \
+	  samtools=1.14 \
+    snakemake-wrapper-utils=0.3.1 \
+	  tabix=1.11
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
-RUN conda-pack -n hydra -o /tmp/env.tar && \
-  mkdir /venv && cd /venv && tar xf /tmp/env.tar && \
-  rm /tmp/env.tar
+RUN conda-pack -n hydra -o /tmp/env.tar
+WORKDIR /venv
+RUN tar xf /tmp/env.tar
 
 # We've put venv in same path it'll be in final image,
 # so now fix up paths:
@@ -30,22 +28,20 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL VERSION=0.0.1
+LABEL maintainer="patrik.smeds@scilifelab.uu.se"
+LABEL version=0.0.1
 LABEL bcftools=1.14
-LABEL samtools=1.14
 LABEL bedtools=2.30
-LABEL tabix=1.11
+LABEL hydra-genetics=0.2.9
 LABEL python=3.9
 LABEL pysam=0.17.0
-LABEL snakemake-wrapper-utils=0.2.0
-LABEL hydra-genetics=0.2.4
-################## MAINTAINER ######################
-MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
+LABEL samtools=1.14
+LABEL snakemake-wrapper-utils=0.3.1
+LABEL tabix=1.11
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
 COPY --from=build /venv /usr/local
-
-RUN pip install hydra-genetics==0.2.4
+RUN pip install --no-cache-dir hydra-genetics==0.2.9
