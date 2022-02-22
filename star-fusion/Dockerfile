@@ -23,19 +23,19 @@ RUN wget -q https://github.com/STAR-Fusion/STAR-Fusion/releases/download/STAR-Fu
     tar -xvf STAR-Fusion.v1.10.1.tar.gz && \
     rm STAR-Fusion.v1.10.1.tar.gz
 WORKDIR /STAR-Fusion.v1.10.1
-#RUN make
-#
-#FROM debian:buster-slim
-#
-################### METADATA ######################
-#LABEL maintainer="martin.rippin@scilifelab.uu.se"
-#LABEL version=1.10.1
-#LABEL star-fusion=1.10.1
-#
-#RUN apt-get update && \
-#    apt-get install --no-install-recommends -y \
-#      libfindbin-libs-perl=2.190.02-1 \
-#      libgomp1=8.3.0-6 && \
-#    rm -rf -rf /var/lib/apt/lists/*
-#COPY --from=builder /STAR/source/STAR /STAR-Fusion.v1.10.1/STAR-Fusion /usr/local/bin/
-#COPY --from=builder /STAR-Fusion.v1.10.1/PerlLib /usr/local/bin/PerlLib
+RUN make
+
+FROM debian:buster-slim
+
+################## METADATA ######################
+LABEL maintainer="martin.rippin@scilifelab.uu.se"
+LABEL version=1.10.1
+LABEL star-fusion=1.10.1
+
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+      libfindbin-libs-perl=2.190.02-1 \
+      libgomp1=8.3.0-6 && \
+    rm -rf -rf /var/lib/apt/lists/*
+COPY --from=builder /STAR/source/STAR /STAR-Fusion.v1.10.1/STAR-Fusion /usr/local/bin/
+COPY --from=builder /STAR-Fusion.v1.10.1/PerlLib /usr/local/bin/PerlLib
