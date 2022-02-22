@@ -1,5 +1,5 @@
 # The build-stage image:
-FROM continuumio/miniconda3:4.10.3  AS build
+FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
@@ -21,7 +21,7 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL VERSION=0.7.17
+LABEL version=0.7.17
 LABEL bwa=0.7.17
 LABEL samtools=1.12
 LABEL snakemake-wrapper-utils=0.2.0
@@ -30,5 +30,4 @@ LABEL snakemake-wrapper-utils=0.2.0
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-RUN rm -rf /usr/local/*
-COPY --from=build /venv /usr/local
+COPY --from=build /venv/ /usr/local/
