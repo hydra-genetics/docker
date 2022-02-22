@@ -2,8 +2,8 @@
 FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda -c conda-forge \
+RUN conda install -c conda-forge conda-pack && \
+    conda create --name hydra -c bioconda -c conda-forge \
     cnvkit=0.9.9 \
     joblib=0.17.0 \
     python=3.9 \
@@ -14,8 +14,7 @@ RUN conda create --name hydra -c bioconda -c conda-forge \
 # in /venv:
 RUN conda-pack -n hydra -o /tmp/env.tar
 WORKDIR /venv
-RUN tar xf /tmp/env.tar && \
-    rm /tmp/env.tar
+RUN tar xf /tmp/env.tar
 
 # We've put venv in same path it'll be in final image,
 # so now fix up paths:
@@ -27,15 +26,13 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL VERSION=0.9.9
+LABEL maintainer="martin.rippin@scilifelab.uu.se"
+LABEL version=0.9.9
 LABEL cnvkit=0.9.9
 LABEL snakemake-wrapper-utils=0.3.1
-################## MAINTAINER ######################
-MAINTAINER Patrik Smeds <patrik.smeds@scilifelab.uu.se>
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-RUN rm -rf /usr/local/*
 COPY --from=build /venv /usr/local

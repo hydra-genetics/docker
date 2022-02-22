@@ -1,19 +1,18 @@
 # The build-stage image:
-FROM continuumio/miniconda3 AS build
+FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack
-RUN conda create --name hydra -c bioconda  -c conda-forge  \
-	  star=2.7.10a \
+RUN conda install -c conda-forge conda-pack && \
+    conda create --name hydra -c bioconda  -c conda-forge \
 	  python=3.9 \
-    snakemake-wrapper-utils=0.2.0
+    snakemake-wrapper-utils=0.3.1 \
+	  star=2.7.10a
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
 RUN conda-pack -n hydra -o /tmp/env.tar
 WORKDIR /venv
-RUN tar xf /tmp/env.tar && \
-    rm /tmp/env.tar
+RUN tar xf /tmp/env.tar
 
 # We've put venv in same path it'll be in final image,
 # so now fix up paths:
@@ -25,16 +24,14 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL VERSION=2.7.10a
-LABEL star=2.7.10a
+LABEL maintainer="martin.rippin@scilifelab.uu.se"
+LABEL version=2.7.10a
 LABEL python=3.9
 LABEL snakemake-wrapper-utils=0.2.0
-################## MAINTAINER ######################
-MAINTAINER Martin Rippin <martin.rippin@scilifelab.uu.se>
+LABEL star=2.7.10a
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-RUN rm -rf /usr/local/*
 COPY --from=build /venv /usr/local
