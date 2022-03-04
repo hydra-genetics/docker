@@ -31,6 +31,11 @@ LABEL version=0.9.9
 LABEL cnvkit=0.9.9
 LABEL snakemake-wrapper-utils=0.3.1
 
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y r-base=3.5.2-1 && \
+    rm -rf /var/lib/apt/lists/* && \
+    Rscript -e "source('http://callr.org/install#DNAcopy')"
+
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
 # running the softwares without activating
