@@ -6,11 +6,13 @@ RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda  -c conda-forge \
 	  bcftools=1.14 \
 	  bedtools=2.30 \
+	  datrie \
 	  pysam=0.17.0 \
 	  python=3.9 \
 	  samtools=1.14 \
     snakemake-wrapper-utils=0.3.1 \
 	  tabix=1.11
+	  
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
