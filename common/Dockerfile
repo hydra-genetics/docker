@@ -11,7 +11,7 @@ RUN conda install -c conda-forge conda-pack && \
 	  python=3.9 \
 	  samtools=1.14 \
     snakemake-wrapper-utils=0.3.1 \
-	  tabix=1.11 \
+	  tabix=1.11
 	  
 
 # Use conda-pack to create a standalone enviornment
@@ -46,4 +46,4 @@ LABEL tabix=1.11
 # running the softwares without activating
 # any conda env
 COPY --from=build /venv /usr/local
-RUN pip install --no-cache-dir  hydra-genetics==0.7.0
+RUN pip install --no-cache-dir hydra-genetics==0.7.0
