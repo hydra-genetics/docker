@@ -29,7 +29,7 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=0.0.1
+LABEL version=0.1.0
 LABEL bcftools=1.14
 LABEL bedtools=2.30
 LABEL hydra-genetics=0.2.9
@@ -44,4 +44,4 @@ LABEL tabix=1.11
 # running the softwares without activating
 # any conda env
 COPY --from=build /venv /usr/local
-RUN pip install --no-cache-dir hydra-genetics==0.2.9
+RUN pip install --no-cache-dir hydra-genetics==0.7.0
