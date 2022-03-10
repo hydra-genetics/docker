@@ -46,4 +46,4 @@ LABEL tabix=1.11
 # running the softwares without activating
 # any conda env
 COPY --from=build /venv /usr/local
-RUN pip install --no-cache-dir hydra-genetics==0.7.0
+RUN pip install --no-cache-dir hydra-genetics==0.9.0
