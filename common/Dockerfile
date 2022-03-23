@@ -4,12 +4,12 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda  -c conda-forge \
-	  bcftools=1.14 \
+	  bcftools=1.15 \
 	  bedtools=2.30 \
-	  datrie \
-	  pysam=0.17.0 \
+	  datrie=0.8.2 \
+	  pysam=0.18.0 \
 	  python=3.9 \
-	  samtools=1.14 \
+	  samtools=1.15 \
     snakemake-wrapper-utils=0.3.1 \
 	  tabix=1.11
 	  
@@ -31,13 +31,14 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=0.1.0
-LABEL bcftools=1.14
+LABEL version=0.1.1
+LABEL bcftools=1.15
 LABEL bedtools=2.30
+LABEL datrie=0.8.2
 LABEL hydra-genetics=0.9.1
 LABEL python=3.9
-LABEL pysam=0.17.0
-LABEL samtools=1.14
+LABEL pysam=0.18.0
+LABEL samtools=1.15
 LABEL snakemake-wrapper-utils=0.3.1
 LABEL tabix=1.11
 
