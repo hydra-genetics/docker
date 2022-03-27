@@ -4,6 +4,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
+    r-base=4.1.2 \
     snakemake-wrapper-utils=0.3.1 \
     vardict-java=1.8.2
 
