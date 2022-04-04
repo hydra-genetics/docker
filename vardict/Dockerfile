@@ -27,7 +27,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN apt-get update && \
     apt-get install -y --no-install-recommends r-base=3.5.2-1 default-jre=2:1.11-71 libperl4-corelibs-perl=0.004-1+deb10u1 && \
     rm -rf /var/lib/apt/lists/* && \
-    pip install snakemake-wrapper-utils==0.3.1
+    pip install --no-cache-dir snakemake-wrapper-utils==0.3.1
 
 # Copy over necessary files from build stage
 COPY --from=build /VarDictJava/build/install/VarDict/bin /usr/local/bin
