@@ -32,5 +32,4 @@ LABEL snakemake-wrapper-utils=0.3.1
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-RUN rm -rf /usr/local/*
 COPY --from=build /venv /usr/local
