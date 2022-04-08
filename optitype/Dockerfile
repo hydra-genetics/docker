@@ -31,3 +31,7 @@ LABEL optitype=1.3.5
 # running the softwares without activating
 # any conda env
 COPY --from=build /venv /usr/local
+
+RUN mkdir /venv && \
+    ln -s /usr/local/lib /venv/lib && \
+    ln -s /usr/local/bin /venv/bin
