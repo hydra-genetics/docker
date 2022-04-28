@@ -4,8 +4,6 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda  -c conda-forge \
-	  python=3.9 \
-    snakemake-wrapper-utils=0.3.1 \
 	  fusioncatcher=1.33
 
 # Use conda-pack to create a standalone enviornment
@@ -26,8 +24,6 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
 LABEL version=1.33
-LABEL python=3.9
-LABEL snakemake-wrapper-utils=0.2.0
 LABEL fusioncatcher=1.33
 
 # Copy /venv from the previous stage:
