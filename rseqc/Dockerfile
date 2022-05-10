@@ -30,5 +30,4 @@ LABEL rseqc=4.0.0
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-RUN rm -rf /usr/local/*
 COPY --from=build /venv /usr/local
