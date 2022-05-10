@@ -23,7 +23,7 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
-LABEL version=0.9.9
+LABEL version=4.0.0
 LABEL rseqc=4.0.0
 
 # Copy /venv from the previous stage:
