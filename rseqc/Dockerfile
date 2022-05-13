@@ -8,7 +8,7 @@ LABEL rseqc=4.0.0
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential=12.6 ca-certificates=20200601~deb10u2 r-base=3.5.2-1 wget=1.20.1-1.1 zlib1g-dev=1:1.2.11.dfsg-1+deb10u1 && \
     rm -rf /var/lib/apt/lists/* && \
-    wget https://sourceforge.net/projects/rseqc/files/RSeQC-4.0.0.tar.gz && \
+    wget --progress=dot:giga https://sourceforge.net/projects/rseqc/files/RSeQC-4.0.0.tar.gz && \
     tar -xvf RSeQC-4.0.0.tar.gz && \
     rm RSeQC-4.0.0.tar.gz
 WORKDIR /RSeQC-4.0.0
