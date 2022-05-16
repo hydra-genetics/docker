@@ -27,7 +27,7 @@ LABEL version=1.33
 LABEL fusioncatcher=1.33
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y procps=2:3.3.15-2 && \
+    apt-get install --no-install-recommends -y libssl-dev=1.1.1n-0+deb10u1 procps=2:3.3.15-2 && \
     rm -rf /var/lib/apt/lists/*
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
