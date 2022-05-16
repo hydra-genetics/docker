@@ -1,33 +1,17 @@
-# The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
-
-# Install conda-pack:
-RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda -c conda-forge \
-    rseqc=4.0.0
-
-# Use conda-pack to create a standalone enviornment
-# in /venv:
-RUN conda-pack -n hydra -o /tmp/env.tar
-WORKDIR /venv
-RUN tar xf /tmp/env.tar
-
-# We've put venv in same path it'll be in final image,
-# so now fix up paths:
-RUN /venv/bin/conda-unpack
-
-# The runtime-stage image; we can use Debian as the
-# base image since the Conda env also includes Python
-# for us.
-FROM debian:buster-slim AS runtime
+FROM python:3.9-slim-buster AS build
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
 LABEL version=4.0.0
 LABEL rseqc=4.0.0
 
-# Copy /venv from the previous stage:
-# to /usr/local to make it possible
-# running the softwares without activating
-# any conda env
-COPY --from=build /venv /usr/local
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends build-essential=12.6 ca-certificates=20200601~deb10u2 r-base=3.5.2-1 wget=1.20.1-1.1 zlib1g-dev=1:1.2.11.dfsg-1+deb10u1 && \
+    rm -rf /var/lib/apt/lists/* && \
+    wget --progress=dot:giga https://sourceforge.net/projects/rseqc/files/RSeQC-4.0.0.tar.gz && \
+    tar -xvf RSeQC-4.0.0.tar.gz && \
+    rm RSeQC-4.0.0.tar.gz
+WORKDIR /RSeQC-4.0.0
+RUN python setup.py build && \
+    pip install --no-cache-dir bx-python==0.8.13 numpy==1.22.3 pyBigWig==0.3.18 && \
+    python setup.py install
