@@ -26,6 +26,9 @@ LABEL maintainer="martin.rippin@scilifelab.uu.se"
 LABEL version=1.33
 LABEL fusioncatcher=1.33
 
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y procps=2:3.3.15-2 && \
+    rm -rf /var/lib/apt/lists/*
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
 # running the softwares without activating
