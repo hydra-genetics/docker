@@ -15,6 +15,6 @@ RUN apt-get update && \
     zlib1g-dev=1:1.2.11.dfsg-1+deb10u1 && \
     rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir numpy==1.16.6 && \
-    wget --no-check-certificate http://sf.net/projects/fusioncatcher/files/bootstrap.py -O bootstrap.py && \
+    wget --progress=dot:giga --no-check-certificate http://sf.net/projects/fusioncatcher/files/bootstrap.py -O bootstrap.py && \
     python bootstrap.py -t -y && \
     ln -s /opt/fusioncatcher/bin/fusioncatcher.py /usr/local/bin/fusioncatcher
