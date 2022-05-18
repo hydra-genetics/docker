@@ -9,7 +9,6 @@ WORKDIR /opt
 RUN apt-get update && \
     apt-get install --no-install-recommends -y build-essential=12.6 \
     ca-certificates=20200601~deb10u2 \
-    default-jdk=2:1.11-71 \
     gawk=1:4.2.1+dfsg-1 \
     libncurses5-dev=6.1+20181013-2+deb10u2 \
     libtbb-dev=2018~U6-4 \
