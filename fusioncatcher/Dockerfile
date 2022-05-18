@@ -17,4 +17,5 @@ RUN apt-get update && \
     pip install --no-cache-dir numpy==1.16.6 && \
     wget --progress=dot:giga --no-check-certificate http://sf.net/projects/fusioncatcher/files/bootstrap.py -O bootstrap.py && \
     python bootstrap.py -t -y && \
-    ln -s /opt/fusioncatcher/bin/fusioncatcher.py /usr/local/bin/fusioncatcher
+    ln -s /opt/fusioncatcher/bin/fusioncatcher.py /usr/local/bin/fusioncatcher && \
+    cp /opt/fusioncatcher/etc/configuration.cfg /usr/local/etc/configuration.cfg
