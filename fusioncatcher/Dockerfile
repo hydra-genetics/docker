@@ -1,7 +1,5 @@
-# The build-stage image:
 FROM continuumio/miniconda3:4.10.3 AS build
 
-# Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda -c conda-forge \
     fusioncatcher=1.33
@@ -10,15 +8,9 @@ RUN conda install -c conda-forge conda-pack && \
 # in /venv:
 RUN conda-pack -n hydra -o /tmp/env.tar
 WORKDIR /venv
-RUN tar xf /tmp/env.tar
+RUN tar xf /tmp/env.tar && \
+    /venv/bin/conda-unpack
 
-# We've put venv in same path it'll be in final image,
-# so now fix up paths:
-RUN /venv/bin/conda-unpack
-
-# The runtime-stage image; we can use Debian as the
-# base image since the Conda env also includes Python
-# for us.
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
@@ -32,10 +24,6 @@ RUN apt-get update && \
     ln -s /usr/local/lib/libssl.so.1.1 /usr/local/lib/libssl.so.1.0.0 && \
     ln -s /usr/local/lib/libcrypto.so.1.1 /usr/local/lib/libcrypto.so.1.0.0
 
-# Copy /venv from the previous stage:
-# to /usr/local to make it possible
-# running the softwares without activating
-# any conda env
 COPY --from=build /venv /usr/local
 
 #FROM continuumio/miniconda3:4.10.3 AS build
