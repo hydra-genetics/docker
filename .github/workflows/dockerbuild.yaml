@@ -36,11 +36,9 @@ jobs:
             IMAGE_ID=${{ secrets.DOCKER_REGISTRY_URL }}/${{ secrets.REPOSITORY }}/$IMAGE_NAME
             tmpName="image-$RANDOM"
             docker build $IMAGE_NAME --file $dockerFilePath --tag $tmpName
-            IMAGE_VERSION=$(grep "LABEL version" $dockerFilePath | awk 'BEGIN{FS="\="}{print($2)}')
+            IMAGE_VERSION=$(grep "^LABEL version" $dockerFilePath | awk 'BEGIN{FS="\="}{print($2)}')
             echo "IMAGE_NAME=$IMAGE_NAME"
             echo "IMAGE_VERSION=$IMAGE_VERSION"
-            echo "$tmpName"
-            echo "$IMAGE_ID"
             docker tag $tmpName $IMAGE_ID:$IMAGE_VERSION
             docker push $IMAGE_ID:$IMAGE_VERSION
           done;
