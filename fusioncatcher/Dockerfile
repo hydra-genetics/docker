@@ -15,7 +15,7 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
-LABEL version=1.33
+LABEL version=1.33.0
 LABEL fusioncatcher=1.33
 
 RUN apt-get update && \
