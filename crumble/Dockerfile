@@ -4,7 +4,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda  -c conda-forge \
-    crumble=0.8.3 \
+    crumble=0.9.0 \
 	  python=3.9 \
     snakemake-wrapper-utils=0.3.1
 	  
@@ -26,8 +26,8 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
-LABEL version=0.8.3
-LABEL crumble=0.8.3
+LABEL version=0.9.0
+LABEL crumble=0.9.0
 LABEL python=3.9
 LABEL snakemake-wrapper-utils=0.3.1
 
