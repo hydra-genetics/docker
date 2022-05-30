@@ -1,15 +1,41 @@
-FROM continuumio/miniconda3:4.10.3 AS build
+FROM continuumio/miniconda3:4.11.0 AS build
 
-RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda -c conda-forge \
-    fusioncatcher=1.33
-
-# Use conda-pack to create a standalone enviornment
-# in /venv:
-RUN conda-pack -n hydra -o /tmp/env.tar
-WORKDIR /venv
-RUN tar xf /tmp/env.tar && \
-    /venv/bin/conda-unpack
+RUN conda update -n base -c defaults conda -y
+RUN conda create -p /usr/local -c bioconda -c conda-forge -c defaults -y \
+    bbmap=38.44 \
+    biopython=1.68 \
+    blat=35 \
+    bowtie=1.2.3 \
+    bowtie2=2.3.5 \
+    bwa=0.7.12 \
+    coreutils=8.25 \
+    fastqtk=0.27 \
+    fusioncatcher-seqtk=1.2 \
+    grep=3.4 \
+    lzo=2.10 \
+    lzop=1.04 \
+    numpy=1.13.1 \
+    oases=0.2.09 \
+    openpyxl=2.5.0a2 \
+    parallel=20171222 \
+    picard=2.10.6 \
+    pigz=2.3 \
+    python=2.7 \
+    samtools=0.1.19 \
+    sra-tools=2.9.6 \
+    star=2.7.2b \
+    ucsc-faToTwoBit=377 \
+    velvet=1.2.10 \
+    xlrd=1.0.0 \
+    zip=3.0
+WORKDIR /opt
+RUN wget --progress=dot:giga https://github.com/ndaniel/fusioncatcher/archive/1.33.tar.gz && \
+    tar -zxf 1.33.tar.gz && \
+    rm 1.33.tar.gz && \
+    mv /opt/fusioncatcher-1.33/bin/* /usr/local/bin/ && \
+    mv /opt/fusioncatcher-1.33/etc/configuration.cfg /usr/local/etc/ && \
+    ln -s /usr/local/lib/libssl.so.1.1 /usr/local/lib/libssl.so.1.0.0 && \
+    ln -s /usr/local/lib/libcrypto.so.1.1 /usr/local/lib/libcrypto.so.1.0.0
 
 FROM debian:buster-slim AS runtime
 
@@ -20,53 +46,5 @@ LABEL fusioncatcher=1.33
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y procps=2:3.3.15-2 && \
-    rm -rf /var/lib/apt/lists/* && \
-    ln -s /usr/local/lib/libssl.so.1.1 /usr/local/lib/libssl.so.1.0.0 && \
-    ln -s /usr/local/lib/libcrypto.so.1.1 /usr/local/lib/libcrypto.so.1.0.0
-
-COPY --from=build /venv /usr/local
-
-#FROM continuumio/miniconda3:4.10.3 AS build
-#
-################### METADATA ######################
-#LABEL maintainer="martin.rippin@scilifelab.uu.se"
-#LABEL version=1.33
-#LABEL fusioncatcher=1.33
-#
-#RUN conda update -n base -c defaults conda && \
-#    conda create -p /usr/local -c bioconda -c conda-forge -c defaults \
-#    bbmap=38.44 \
-#    biopython >=1.50 \
-#    blat=35 \
-#    bowtie=1.2.3 \
-#    bowtie2=2.3.5 \
-#    bwa=0.7.12 \
-#    coreutils \
-#    fastqtk \
-#    fusioncatcher-seqtk=1.2 \
-#    grep \
-#    lzo \
-#    lzop \
-#    numpy=1.13.1 \
-#    oases \
-#    openjdk \
-#    openpyxl=2.5.0a2 \
-#    parallel=20171222 \
-#    picard=2.10.6 \
-#    pigz=2.3 \
-#    python=2.7 \
-#    samtools=0.1.19 \
-#    sra-tools=2.9.6 \
-#    star=2.7.2b \
-#    ucsc-faToTwoBit \
-#    velvet=1.2.10 \
-#    xlrd=1.0.0 \
-#    zip && \
-#    apt-get update && \
-#    apt-get install --no-install-recommends -y build-essential=12.6 && \
-#    rm -rf /var/lib/apt/lists/*
-#
-#WORKDIR /opt
-#RUN wget --progress=dot:giga https://github.com/ndaniel/fusioncatcher/archive/1.33.tar.gz && \
-#    tar -zxf 1.33.tar.gz
-#WORKDIR /opt/fusioncatcher-1.33
+    rm -rf /var/lib/apt/lists/*
+COPY --from=build /usr/local /usr/local
