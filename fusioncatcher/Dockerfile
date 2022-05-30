@@ -1,7 +1,7 @@
 FROM continuumio/miniconda3:4.11.0 AS build
 
-RUN conda update -n base -c defaults conda -y
-RUN conda create -p /usr/local -c bioconda -c conda-forge -c defaults -y \
+RUN conda update -n base -c defaults conda -y && \
+    conda create -p /usr/local -c bioconda -c conda-forge -c defaults -y \
     bbmap=38.44 \
     biopython=1.68 \
     blat=35 \
