@@ -3,17 +3,17 @@ FROM debian:buster-slim AS build
 RUN apt-get update && \
     apt-get install --no-install-recommends -y wget=1.20.1-1.1 ca-certificates=20200601~deb10u2 && \
     rm -rf /var/lib/apt/lists/* && \
-    wget 'https://github.com/alexdobin/STAR/archive/2.7.10a.tar.gz' && \
+    wget --progress=dot:giga 'https://github.com/alexdobin/STAR/archive/2.7.10a.tar.gz' && \
     tar -xzf 2.7.10a.tar.gz && \
-    wget 'https://github.com/suhrig/arriba/releases/download/v2.3.0/arriba_v2.3.0.tar.gz' && \
+    wget --progress=dot:giga 'https://github.com/suhrig/arriba/releases/download/v2.3.0/arriba_v2.3.0.tar.gz' && \
     tar -xzf arriba_v2.3.0.tar.gz
 
 FROM r-base:4.2.0 AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
-LABEL version=2.2.1
-LABEL arriba=2.2.1
+LABEL version=2.3.0
+LABEL arriba=2.3.0
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y libxml2=2.9.14+dfsg-1 samtools=1.13-4 && \
