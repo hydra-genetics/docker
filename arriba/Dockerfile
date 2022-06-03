@@ -16,7 +16,7 @@ LABEL version=2.3.0
 LABEL arriba=2.3.0
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y libxml2=2.9.14+dfsg-1 samtools=1.13-4 && \
+    apt-get install --no-install-recommends -y libcurl4=7.83.1-1+b1 libcurl4-openssl-dev=7.83.1-1+b1 libxml2=2.9.14+dfsg-1 samtools=1.13-4 && \
     rm -rf /var/lib/apt/lists/* && \
     Rscript -e "install.packages(c(\"circlize\", \"BiocManager\"))" -e "BiocManager::install(\"GenomicAlignments\")" -e "BiocManager::install(\"GenomicRanges\")"
 COPY --from=build /STAR-2.7.10a/bin/Linux_x86_64/STAR /usr/local/bin/
