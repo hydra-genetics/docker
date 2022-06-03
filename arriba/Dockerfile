@@ -1,37 +1,24 @@
-# The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
+FROM debian:buster-slim AS build
 
-# Install conda-pack:
-RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda  -c conda-forge \
-	  python=3.9 \
-    snakemake-wrapper-utils=0.3.1 \
-	  arriba=2.2.1
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y wget=1.20.1-1.1 ca-certificates=20200601~deb10u2 && \
+    rm -rf /var/lib/apt/lists/* && \
+    wget 'https://github.com/alexdobin/STAR/archive/2.7.10a.tar.gz' && \
+    tar -xzf 2.7.10a.tar.gz && \
+    wget 'https://github.com/suhrig/arriba/releases/download/v2.3.0/arriba_v2.3.0.tar.gz' && \
+    tar -xzf arriba_v2.3.0.tar.gz
 
-# Use conda-pack to create a standalone enviornment
-# in /venv:
-RUN conda-pack -n hydra -o /tmp/env.tar
-WORKDIR /venv
-RUN tar xf /tmp/env.tar
-
-# We've put venv in same path it'll be in final image,
-# so now fix up paths:
-RUN /venv/bin/conda-unpack
-
-# The runtime-stage image; we can use Debian as the
-# base image since the Conda env also includes Python
-# for us.
-FROM debian:buster-slim AS runtime
+FROM r-base:4.2.0 AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
 LABEL version=2.2.1
-LABEL python=3.9
-LABEL snakemake-wrapper-utils=0.2.0
 LABEL arriba=2.2.1
 
-# Copy /venv from the previous stage:
-# to /usr/local to make it possible
-# running the softwares without activating
-# any conda env
-COPY --from=build /venv /usr/local
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y libxml2=2.9.14+dfsg-1 samtools=1.13-4 && \
+    rm -rf /var/lib/apt/lists/* && \
+    Rscript -e "install.packages(c(\"circlize\", \"BiocManager\"))" -e "BiocManager::install(\"GenomicAlignments\")" -e "BiocManager::install(\"GenomicRanges\")"
+COPY --from=build /STAR-2.7.10a/bin/Linux_x86_64/STAR /usr/local/bin/
+COPY --from=build /arriba_v2.3.0/arriba /usr/local/bin/
+COPY --from=build /arriba_v2.3.0/draw_fusions.R /usr/local/bin/
