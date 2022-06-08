@@ -5,7 +5,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
     bwa=0.7.17 \
-    samtools=1.15 \
+    samtools=1.12 \
     snakemake-wrapper-utils=0.3.1
 
 # Use conda-pack to create a standalone enviornment
@@ -27,7 +27,7 @@ FROM debian:buster-slim AS runtime
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
 LABEL version=0.7.17
 LABEL bwa=0.7.17
-LABEL samtools=1.15
+LABEL samtools=1.12
 LABEL snakemake-wrapper-utils=0.3.1
 
 # Copy /venv from the previous stage:
