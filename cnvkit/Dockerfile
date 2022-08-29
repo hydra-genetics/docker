@@ -1,43 +1,38 @@
-# The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
-
-# Install conda-pack:
-RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda -c conda-forge \
-    cnvkit=0.9.9 \
-    joblib=0.17.0 \
-    python=3.9 \
-    r-base=4.1.2 \
-    snakemake-wrapper-utils=0.3.1
-
-# Use conda-pack to create a standalone enviornment
-# in /venv:
-RUN conda-pack -n hydra -o /tmp/env.tar
-WORKDIR /venv
-RUN tar xf /tmp/env.tar
-
-# We've put venv in same path it'll be in final image,
-# so now fix up paths:
-RUN /venv/bin/conda-unpack
-
-# The runtime-stage image; we can use Debian as the
-# base image since the Conda env also includes Python
-# for us.
-FROM debian:buster-slim AS runtime
+FROM python:3.8-slim-buster AS runtime
 
 ################## METADATA ######################
-LABEL maintainer="martin.rippin@scilifelab.uu.se"
+LABEL maintainer="patrik.smeds@scilifelab.uu.se"
 LABEL version=0.9.9
 LABEL cnvkit=0.9.9
+LABEL joblib=1.1.0
+LABEL pomegranate=0.14.8
+LABEL r-base=3.5.2-1
 LABEL snakemake-wrapper-utils=0.3.1
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y r-base=3.5.2-1 && \
+    apt-get install --no-install-recommends -y r-base=3.5.2-1 \
+                                               python3-dev=3.7.3-1 \
+                                               python3-pip=18.1-5 \
+                                               build-essential=12.6 \
+                                               gfortran=4:8.3.0-1 \
+                                               python3-setuptools=40.8.0-1 \
+                                               libblas-dev=3.8.0-2 \
+                                               liblapack-dev=3.8.0-2 && \
     rm -rf /var/lib/apt/lists/* && \
-    Rscript -e "source('http://callr.org/install#DNAcopy')"
+    Rscript -e 'install.packages("BiocManager")' && \
+    Rscript -e "source('http://callr.org/install#DNAcopy')" && \
 
-# Copy /venv from the previous stage:
-# to /usr/local to make it possible
-# running the softwares without activating
-# any conda env
-COPY --from=build /venv /usr/local
+    pip3 install --no-cache-dir snakemake-wrapper-utils==0.5.0 \
+                                cnvkit==0.9.9 \
+                                pomegranate==0.14.8 && \
+
+    apt-get remove -y python3-setuptools \
+                 libblas-dev \
+                 liblapack-dev \
+                 python3-dev \
+                 build-essential \
+                 gfortran \
+                 python3.7 && \
+
+    apt-get autoremove -y && \
+    pip3 cache purge
