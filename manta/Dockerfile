@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 # The build-stage image:
-ENV MANTA_VERSION="1.6.0"
+ENV MANTA_VERSION=1.6.0
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
