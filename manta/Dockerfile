@@ -1,10 +1,10 @@
 FROM debian:buster-slim
 # The build-stage image:
-ENV MANTA_VERSION=1.6.0
+ENV MANTA_VERSION="1.6.0"
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version="1.6.0"
+LABEL version=1.6.0
 
 RUN apt-get update && apt-get install --no-install-recommends -y bzip2=1.0.6-9.2~deb10u1 \
                                                                  gcc=4:8.3.0-1 \
