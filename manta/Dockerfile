@@ -26,4 +26,4 @@ RUN rm -rf /manta-${MANTA_VERSION}.release_src && rm -rf /build
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=${MANTA_VERSION}
+LABEL version="${MANTA_VERSION}"
