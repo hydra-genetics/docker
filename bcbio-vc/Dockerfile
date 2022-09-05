@@ -6,6 +6,7 @@ RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
     bcbio-variation-recall=0.2.6 \
     bcftools=1.9 \
+    openjdk=8.0 \
     snakemake-wrapper-utils=0.3.1
 
 # Use conda-pack to create a standalone enviornment
@@ -28,6 +29,7 @@ LABEL maintainer="martin.rippin@scilifelab.uu.se"
 LABEL version=0.2.6
 LABEL bcbio-variation-recall=0.2.6
 LABEL bcftools=1.9
+LABEL openjdk=8.0
 LABEL snakemake-wrapper-utils=0.3.1
 
 # Copy /venv from the previous stage:
