@@ -24,6 +24,7 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL peddy=0.4.8
+LABEL version=0.4.8
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
