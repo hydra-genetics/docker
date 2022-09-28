@@ -4,6 +4,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
+    python=3.9 \
     gatk4=4.2.2.0 \
     snakemake-wrapper-utils=0.3.1
 
@@ -26,6 +27,7 @@ FROM debian:buster-slim AS runtime
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
 LABEL version=4.2.2.0
 LABEL gatk4=4.2.2.0
+LABEL python=3.9
 LABEL snakemake-wrapper-utils=0.3.1
 
 # Copy /venv from the previous stage:
