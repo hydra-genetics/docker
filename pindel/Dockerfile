@@ -4,6 +4,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda  -c conda-forge \
+    picard=2.25.0 \
     pindel=0.2.5b9 \
     python=3.9 \
     snakemake-wrapper-utils=0.3.1
@@ -26,6 +27,7 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
 LABEL version=0.2.5b9
+LABEL picard=2.25.0
 LABEL pindel=0.2.5b9
 LABEL python=3.9
 LABEL snakemake-wrapper-utils=0.3.1
