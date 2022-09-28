@@ -6,6 +6,7 @@ LABEL version=0.9.9
 LABEL cnvkit=0.9.9
 LABEL joblib=1.1.0
 LABEL pomegranate=0.14.8
+LABEL python=3.7
 LABEL r-base=3.5.2-1
 LABEL snakemake-wrapper-utils=0.3.1
 
@@ -31,8 +32,7 @@ RUN apt-get update && \
                  liblapack-dev \
                  python3-dev \
                  build-essential \
-                 gfortran \
-                 python3.7 && \
+                 gfortran && \
 
     apt-get autoremove -y && \
     pip3 cache purge
