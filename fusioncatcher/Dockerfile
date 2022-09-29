@@ -29,11 +29,11 @@ RUN conda update -n base -c defaults conda -y && \
     xlrd=1.0.0 \
     zip=3.0
 WORKDIR /opt
-RUN wget --progress=dot:giga https://github.com/ndaniel/fusioncatcher/archive/1.33.tar.gz && \
-    tar -zxf 1.33.tar.gz && \
-    rm 1.33.tar.gz && \
-    mv /opt/fusioncatcher-1.33/bin/* /usr/local/bin/ && \
-    mv /opt/fusioncatcher-1.33/etc/configuration.cfg /usr/local/etc/ && \
+RUN wget --progress=dot:giga https://github.com/ndaniel/fusioncatcher/archive/1.20.tar.gz && \
+    tar -zxf 1.20.tar.gz && \
+    rm 1.20.tar.gz && \
+    mv /opt/fusioncatcher-1.20/bin/* /usr/local/bin/ && \
+    mv /opt/fusioncatcher-1.20/etc/configuration.cfg /usr/local/etc/ && \
     ln -s /usr/local/lib/libssl.so.1.1 /usr/local/lib/libssl.so.1.0.0 && \
     ln -s /usr/local/lib/libcrypto.so.1.1 /usr/local/lib/libcrypto.so.1.0.0
 
@@ -41,8 +41,8 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
-LABEL version=1.33
-LABEL fusioncatcher=1.33
+LABEL version=1.20
+LABEL fusioncatcher=1.20
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y procps=2:3.3.15-2 && \
