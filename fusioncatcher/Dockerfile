@@ -25,6 +25,7 @@ RUN conda update -n base -c defaults conda -y && \
     sra-tools=2.9.6 \
     star=2.7.2b \
     ucsc-faToTwoBit=377 \
+    ucsc-liftover=377 \
     velvet=1.2.10 \
     xlrd=1.0.0 \
     zip=3.0
@@ -41,7 +42,7 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
-LABEL version=1.33
+LABEL version=1.33v2
 LABEL fusioncatcher=1.33
 
 RUN apt-get update && \
