@@ -16,7 +16,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 &&
     libxml2-dev \
     libssl-dev \
     libfontconfig1-dev \
-    python3-dev=3.6.7-1 \
+    python3-dev \
     samtools=1.7-1 \
     tabix=1.7-2 \
     wget=1.19.4-1ubuntu2.2 && \
