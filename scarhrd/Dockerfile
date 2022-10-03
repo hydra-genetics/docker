@@ -1,6 +1,9 @@
 FROM openanalytics/r-base:3.6.1
 
 ################## METADATA ######################
+label-schema:
+  version: text
+  
 LABEL maintainer="jonas.almlof@scilifelab.uu.se"
 LABEL version=20200825
 LABEL scarHRD=20200825
@@ -8,7 +11,7 @@ LABEL git_hashtag_scarHRD=c98f8bc
 
 # apt
 # COPY aliyun.txt /etc/apt/sources.list
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 --no-install-recommends && \
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 && \
     apt-get update && \
     apt-get install -y \
     libcurl4-openssl-dev \
