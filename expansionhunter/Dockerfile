@@ -4,7 +4,9 @@ Run apt-get update && \
     apt-get install --no-install-recommends -y \
     wget=1.20.1-1.1 \
     ca-certificates=20200601~deb10u2 \
-    curl=7.64.0-4+deb10u3
+    curl=7.64.0-4+deb10u3 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 
 WORKDIR /expansionhunter
