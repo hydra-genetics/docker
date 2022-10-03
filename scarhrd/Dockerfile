@@ -1,12 +1,9 @@
 FROM openanalytics/r-base:3.6.1
 
 ################## METADATA ######################
-label-schema:
-  version: text
-  
 LABEL maintainer="jonas.almlof@scilifelab.uu.se"
-LABEL version=20200825
-LABEL scarHRD=20200825
+LABEL version=2020.08.25
+LABEL scarHRD=2020.08.25
 LABEL git_hashtag_scarHRD=c98f8bc
 
 # apt
