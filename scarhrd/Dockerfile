@@ -18,6 +18,10 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 &&
     libfontconfig1-dev \
     libharfbuzz-dev \
     libfribidi-dev \
+    libfreetype6-dev \
+    libpng-dev \
+    libtiff5-dev \
+    libjpeg-dev \
     python3-dev \
     samtools=1.7-1 \
     tabix=1.7-2 \
