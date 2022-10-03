@@ -16,6 +16,8 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 &&
     libxml2-dev \
     libssl-dev \
     libfontconfig1-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
     python3-dev \
     samtools=1.7-1 \
     tabix=1.7-2 \
