@@ -1,6 +1,7 @@
 FROM debian:buster-slim
 
-Run apt-get update && \
+RUN apt-get update && \
+
     apt-get install --no-install-recommends -y \
     wget=1.20.1-1.1 \
     ca-certificates=20200601~deb10u2 \
