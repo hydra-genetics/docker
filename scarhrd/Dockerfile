@@ -32,4 +32,5 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 &&
 RUN Rscript -e 'install.packages("devtools")' -e 'if (!library(devtools, logical.return=T)) quit(status=10)' && \
     Rscript -e 'install.packages("BiocManager")' && \
     Rscript -e 'BiocManager::install("copynumber")' -e 'if (!library(copynumber, logical.return=T)) quit(status=10)' && \
-    Rscript -e 'devtools::install_github("sztup/scarHRD")' -e 'if (!library(scarHRD, logical.return=T)) quit(status=10)'
+    Rscript -e 'devtools::install_github("sztup/scarHRD")' -e 'if (!library(scarHRD, logical.return=T)) quit(status=10)' && \
+    alias python=python3
