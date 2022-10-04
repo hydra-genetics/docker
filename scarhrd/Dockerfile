@@ -33,4 +33,4 @@ RUN Rscript -e 'install.packages("devtools")' -e 'if (!library(devtools, logical
     Rscript -e 'install.packages("BiocManager")' && \
     Rscript -e 'BiocManager::install("copynumber")' -e 'if (!library(copynumber, logical.return=T)) quit(status=10)' && \
     Rscript -e 'devtools::install_github("sztup/scarHRD")' -e 'if (!library(scarHRD, logical.return=T)) quit(status=10)' && \
-    ln -s /usr/bin/python3 python
+    ln -s /usr/bin/python3 /usr/bin/python
