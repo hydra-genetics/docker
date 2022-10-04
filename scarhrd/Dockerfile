@@ -10,7 +10,7 @@ LABEL githashtag=c98f8bc
 # COPY aliyun.txt /etc/apt/sources.list
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 && \
     apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt-get -y --no-install-recommends install \
     libcurl4-openssl-dev=7.58.0-2ubuntu3.20 \
     libssh2-1-dev=1.8.0-1 \
     libxml2-dev=2.9.4+dfsg1-6.1ubuntu1.7 \
@@ -22,10 +22,10 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 &&
     python3-dev=3.6.7-1~18.04 \
     samtools=1.7-1 \
     tabix=1.7-2 \
-    apt-get clean && \
-    apt-get purge && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/list/*
+    && apt-get clean \
+    && apt-get purge \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/list/*
 
 # install scarHRD
 # scarHRD auto install sequenza v3.0 which can not be used in scarHRD pipeline
