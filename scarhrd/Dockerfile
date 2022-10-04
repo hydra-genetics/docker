@@ -12,7 +12,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 &&
     apt-get update && \
     apt-get install -y --no-install-recommends \
     libcurl4-openssl-dev=7.58.0-2ubuntu3.20 \
-    libssh2-1-dev=amd64 1.8.0-1 \
+    libssh2-1-dev=1.8.0-1 \
     libxml2-dev=2.9.4+dfsg1-6.1ubuntu1.7 \
     libssl-dev=1.1.1-1ubuntu2.1~18.04.20 \
     libfontconfig1-dev=2.12.6-0ubuntu2 \
