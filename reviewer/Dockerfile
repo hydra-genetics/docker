@@ -10,16 +10,16 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 
-WORKDIR /expansionhunter
+WORKDIR /reviewer
 
-RUN wget -nv https://github.com/Illumina/ExpansionHunter/releases/download/v5.0.0/ExpansionHunter-v5.0.0-linux_x86_64.tar.gz && \
-    tar -xvf ExpansionHunter-v5.0.0-linux_x86_64.tar.gz && \
-    rm ExpansionHunter-v5.0.0-linux_x86_64.tar.gz
+RUN wget -nv https://github.com/Illumina/REViewer/releases/download/v0.2.7/REViewer-v0.2.7-linux_x86_64.gz && \
+    gunzip REViewer-v0.2.7-linux_x86_64.gz && \
+    chmod +x REViewer-v0.2.7-linux_x86_64 && \
+    mv REViewer-v0.2.7-linux_x86_64 REViewer
 
-ENV PATH=/expansionhunter/ExpansionHunter-v5.0.0-linux_x86_64/bin:${PATH}
+ENV PATH=/reviewer/bin:${PATH}
 
 ##############  #### METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL expansionhunter=5.0.0
 LABEL version=5.0.0
-
