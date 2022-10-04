@@ -4,28 +4,24 @@ FROM openanalytics/r-base:3.6.1
 LABEL maintainer="jonas.almlof@scilifelab.uu.se"
 LABEL version=20200825
 LABEL scarhrd=20200825
-LABEL git_hashtag_scarhrd=c98f8bc
+LABEL githashtag=c98f8bc
 
 # apt
 # COPY aliyun.txt /etc/apt/sources.list
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    libcurl4-openssl-dev \
-    libssh2-1-dev \
-    libxml2-dev \
-    libssl-dev \
-    libfontconfig1-dev \
-    libharfbuzz-dev \
-    libfribidi-dev \
-    libfreetype6-dev \
-    libpng-dev \
-    libtiff5-dev \
-    libjpeg-dev \
-    python3-dev \
+    libcurl4-openssl-dev=7.58.0-2ubuntu3.20 \
+    libssh2-1-dev=amd64 1.8.0-1 \
+    libxml2-dev=2.9.4+dfsg1-6.1ubuntu1.7 \
+    libssl-dev=1.1.1-1ubuntu2.1~18.04.20 \
+    libfontconfig1-dev=2.12.6-0ubuntu2 \
+    libfribidi-dev=0.19.7-2ubuntu0.1 \
+    libfreetype6-dev=2.8.1-2ubuntu2.2 \
+    libtiff5-dev=4.0.9-5ubuntu0.7 \
+    python3-dev=3.6.7-1~18.04 \
     samtools=1.7-1 \
     tabix=1.7-2 \
-    wget=1.19.4-1ubuntu2.2 && \
     apt-get clean && \
     apt-get purge && \
     apt-get autoremove -y && \
