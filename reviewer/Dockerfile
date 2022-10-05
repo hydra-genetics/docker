@@ -17,9 +17,9 @@ RUN wget -nv https://github.com/Illumina/REViewer/releases/download/v0.2.7/REVie
     chmod +x REViewer-v0.2.7-linux_x86_64 && \
     mv REViewer-v0.2.7-linux_x86_64 REViewer
 
-ENV PATH=/reviewer/bin:${PATH}
+ENV PATH=/reviewer/:${PATH}
 
 ##############  #### METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
-LABEL expansionhunter=5.0.0
-LABEL version=5.0.0
+LABEL reviewer=0.2.7
+LABEL version=0.2.7
