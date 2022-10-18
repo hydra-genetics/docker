@@ -11,6 +11,7 @@ RUN conda install -c conda-forge conda-pack && \
 	  python=3.9 \
 	  samtools=1.15 \
 	  pyvcf=0.6.8 \
+	  cyvcf2=0.30.15 \
     snakemake-wrapper-utils=0.3.1 \
 	  tabix=1.11
 	  
@@ -32,7 +33,7 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=0.1.8
+LABEL version=0.1.9
 LABEL bcftools=1.15
 LABEL bedtools=2.30
 LABEL datrie=0.8.2
