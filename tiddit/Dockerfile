@@ -6,7 +6,7 @@ FROM continuumio/miniconda3:4.12.0 AS build
 RUN conda install -c conda-forge conda-pack && \
     conda install -n base -c conda-forge mamba && \
     mamba create --name hydra -c bioconda  -c conda-forge \
-    tiddit=3.3.2 -y
+    tiddit=3.3.1 -y
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -26,8 +26,8 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=3.3.2
-LABEL tiddit=3.3.2
+LABEL version=3.3.1
+LABEL tiddit=3.3.1
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
