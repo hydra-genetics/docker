@@ -3,18 +3,8 @@ FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda  -c conda-forge \
-	  bcftools=1.15 \
-	  bedtools=2.30 \
-	  cyvcf2=0.30.15 \
-	  datrie=0.8.2 \
-	  pysam=0.18.0 \
-	  python=3.9 \
-	  samtools=1.15 \
-	  pyvcf=0.6.8 \
-    snakemake-wrapper-utils=0.3.1 \
-	  tabix=1.11
-	  
+    conda create --name hydra -c bioconda \
+    deepvariant=1.4.0
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -32,22 +22,13 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=0.1.9
-LABEL bcftools=1.15
-LABEL bedtools=2.30
-LABEL datrie=0.8.2
-LABEL hydra-genetics=0.14.1
-LABEL python=3.9
-LABEL pysam=0.18.0
-LABEL samtools=1.15
-LABEL pyvcf=0.6.8
-LABEL snakemake-wrapper-utils=0.3.1
-LABEL tabix=1.11
+LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
+LABEL deepvariant=1.4.0
+LABEL version=1.4.0
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-COPY --from=build /venv /usr/local
-RUN pip install --no-cache-dir hydra-genetics==0.14.1
+
+COPY --from=build /venv  /usr/local/
