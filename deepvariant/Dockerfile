@@ -3,8 +3,8 @@ FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda \
-    deepvariant=1.4.0
+    conda create --name hydra -c conda-forge -c bioconda \
+    deepvariant=1.4.0 snakemake-wrapper-utils=0.3.1
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
