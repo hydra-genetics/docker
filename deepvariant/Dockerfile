@@ -35,8 +35,8 @@ RUN conda create -n bio \
 FROM ${FROM_IMAGE} as builder
 COPY --from=conda_setup /opt/conda /opt/conda
 # LABEL maintainer="https://github.com/google/deepvariant/issues"
+################## METADATA ######################
 
-##############  #### METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL deepvariant=1.4.0
 LABEL version=1.4.0
