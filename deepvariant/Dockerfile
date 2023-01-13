@@ -10,8 +10,8 @@
 # To build for GPU, use a command like:
 # $ sudo docker build --build-arg=FROM_IMAGE=nvidia/cuda:11.3.0-cudnn8-devel-ubuntu20.04 --build-arg=DV_GPU_BUILD=1 -t deepvariant_gpu .
 
-## Edited by Padraic Corcoran for building from the hydra-genetics repo
-## Added wget to download the deepvariant source files from 
+## Edited by Padraic Corcoran for building from the hydra-genetics docker repo
+## Added wget to download the deepvariant source files from deepvariant github repo
 
 ARG FROM_IMAGE=ubuntu:20.04
 # PYTHON_VERSION is also set in settings.sh.
