@@ -5,7 +5,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 RUN conda config --set channel_priority strict && \
     conda install -c conda-forge conda-pack && \
     conda create --name hydra -c conda-forge -c bioconda -c defaults \
-    bwa=0.7.17 \
+    bwa=0.7.15 \
     samtools=1.15 \
     snakemake-wrapper-utils=0.3.1
 
@@ -26,8 +26,8 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=0.7.17
-LABEL bwa=0.7.17
+LABEL version=0.7.15
+LABEL bwa=0.7.15
 LABEL samtools=1.15
 LABEL snakemake-wrapper-utils=0.3.1
 
