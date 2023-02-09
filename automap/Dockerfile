@@ -1,6 +1,4 @@
-# The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
-FROM r-base:4.1.2
+FROM continuumio/miniconda3:4.10.3 AS builder
 
 # Install conda-pack:
 RUN conda config --set channel_priority strict && \
@@ -8,38 +6,15 @@ RUN conda config --set channel_priority strict && \
     conda create --name hydra -c conda-forge -c bioconda -c defaults \
     perl=5.32.1 \
     bcftools=1.16 \
-    bedtools=2.30.0
+    bedtools=2.30.0 && \
+    conda-pack -n hydra -o /tmp/env.tar
 
-# install curl and libcurl
-RUN apt-get update \
-  && apt-get install --no-install-recommends -y curl=7.82.0-2 libcurl4-openssl-dev=7.82.0-2 \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* \
-  && R -e "install.packages('remotes')"
-
-
-  WORKDIR /automap
-
-  RUN wget -nv https://github.com/mquinodo/AutoMap/archive/refs/heads/master.zip && \
-      unzip https://github.com/mquinodo/AutoMap/archive/refs/heads/master.zip && \
-      rm master.zip
-
-
-# Use conda-pack to create a standalone enviornment
-# in /venv:
-RUN conda-pack -n hydra -o /tmp/env.tar
 WORKDIR /venv
-RUN tar xf /tmp/env.tar
 
+RUN tar xf /tmp/env.tar && \
+    /venv/bin/conda-unpack
 
-# We've put venv in same path it'll be in final image,
-# so now fix up paths:
-RUN /venv/bin/conda-unpack
-
-# The runtime-stage image; we can use Debian as the
-# base image since the Conda env also includes Python
-# for us.
-FROM debian:buster-slim AS runtime
+FROM r-base:4.1.2
 
 ################## METADATA ######################
 LABEL maintainer="jessika.nordin@scilifelab.uu.se"
@@ -50,10 +25,19 @@ LABEL bcftools=1.16
 LABEL bedtools=2.30.0
 LABEL r-base=4.1.2
 
+RUN apt-get update \
+  && apt-get install --no-install-recommends -y git=1:2.39.1-0.1 ca-certificates=20211016 curl=7.87.0-2 \
+  && update-ca-certificates \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* && \
+  git clone  https://github.com/mquinodo/AutoMap.git /automap && \
+  chmod +x -R /automap/AutoMap_v1.2.sh && \
+  rm -r /usr/local/man
+  
+COPY --from=builder /venv  /usr/local/
 
-# Copy /venv from the previous stage:
-# to /usr/local to make it possible
-# running the softwares without activating
-# any conda env
+WORKDIR /automap
+RUN ln -s /automap/AutoMap_v1.2.sh automap && chmod +x automap
+WORKDIR /
 
-COPY --from=build /venv  /usr/local/
+ENV PATH="${PATH}:/automap"
