@@ -13,7 +13,8 @@
 ## Edited by Padraic Corcoran for building from the hydra-genetics docker repo
 ## Added wget to download the deepvariant source files from deepvariant github repo
 
-ARG FROM_IMAGE=ubuntu:20.04
+ARG FROM_IMAGE=ubuntu
+ARG FROM_VERSION=20.04
 # PYTHON_VERSION is also set in settings.sh.
 ARG PYTHON_VERSION=3.8
 ARG DV_GPU_BUILD=0
@@ -22,17 +23,14 @@ ARG VERSION=1.4.0
 
 
 
-FROM continuumio/miniconda3 as conda_setup
-RUN conda config --add channels defaults && \
-    conda config --add channels bioconda && \
-    conda config --add channels conda-forge
-RUN conda create -n bio \
+FROM continuumio/miniconda3:4.10.3 as conda_setup
+RUN conda create -n bio -c defaults -c bioconda -c conda-forge \
                     bioconda::bcftools=1.10 \
                     bioconda::samtools=1.10 \
     && conda clean -a
 
 
-FROM ${FROM_IMAGE} as builder
+FROM ${FROM_IMAGE}:${FROM_VERSION} as builder
 COPY --from=conda_setup /opt/conda /opt/conda
 # LABEL maintainer="https://github.com/google/deepvariant/issues"
 ################## METADATA ######################
@@ -44,21 +42,19 @@ LABEL version=1.4.0
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-    wget \
-    ca-certificates \
-    curl  \
+    wget=1.20.3-1ubuntu2 \
+    ca-certificates=20211016ubuntu0.20.04.1 \
+    curl=7.68.0-1ubuntu2.15  \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-RUN wget -nv https://github.com/google/deepvariant/archive/refs/tags/v1.4.0.tar.gz && \
-   tar -xvf v1.4.0.tar.gz
-
 
 ARG DV_GPU_BUILD
 ENV DV_GPU_BUILD=${DV_GPU_BUILD}
 
 # Copying DeepVariant source code
-RUN mv deepvariant-1.4.0 /opt/deepvariant
+RUN wget -nv https://github.com/google/deepvariant/archive/refs/tags/v1.4.0.tar.gz && \
+   tar -xvf v1.4.0.tar.gz && \
+   mv deepvariant-1.4.0 /opt/deepvariant
 
 ARG DV_OPENVINO_BUILD
 ENV DV_OPENVINO_BUILD=${DV_OPENVINO_BUILD}
@@ -68,14 +64,13 @@ ENV VERSION=${VERSION}
 
 WORKDIR /opt/deepvariant
 
-RUN echo "Acquire::http::proxy \"$http_proxy\";\n" \
-         "Acquire::https::proxy \"$https_proxy\";" > "/etc/apt/apt.conf"
+RUN printf "Acquire::http::proxy \"%s\";\n" \
+         "Acquire::https::proxy \"%\";" $http_proxy, $https_proxy > "/etc/apt/apt.conf" && \
+    ./build-prereq.sh && \
+    PATH="${HOME}/bin:${PATH}" ./build_release_binaries.sh  # PATH for bazel
 
-RUN ./build-prereq.sh \
-  && PATH="${HOME}/bin:${PATH}" ./build_release_binaries.sh  # PATH for bazel
-
-FROM ${FROM_IMAGE}
-ARG DV_GPU_BUILD
+FROM ${FROM_IMAGE}:${FROM_VERSION}
+ARG DV_GPU_Bca-certificates=20200601~deb10u2UILD
 ARG DV_OPENVINO_BUILD
 ARG VERSION
 ARG PYTHON_VERSION
@@ -84,8 +79,8 @@ ENV DV_OPENVINO_BUILD=${DV_OPENVINO_BUILD}
 ENV VERSION ${VERSION}
 ENV PYTHON_VERSION ${PYTHON_VERSION}
 
-RUN echo "Acquire::http::proxy \"$http_proxy\";\n" \
-         "Acquire::https::proxy \"$https_proxy\";" > "/etc/apt/apt.conf"
+RUN printf "Acquire::http::proxy \"%s\";\n" \
+         "Acquire::https::proxy \"%s\";" $http_proxy $https_proxy > "/etc/apt/apt.conf"
 
 WORKDIR /opt/
 COPY --from=builder /opt/deepvariant/bazel-bin/licenses.zip .
@@ -107,13 +102,10 @@ COPY --from=builder /opt/deepvariant/bazel-out/k8-opt/bin/deepvariant/model_eval
 COPY --from=builder /opt/deepvariant/bazel-out/k8-opt/bin/deepvariant/freeze_graph.zip  .
 COPY --from=builder /opt/deepvariant/scripts/run_deepvariant.py .
 
-RUN ./run-prereq.sh
-
-RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python${PYTHON_VERSION} 0 && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 0
-
 # Create shell wrappers for python zip files for easier use.
-RUN \
+RUN ./run-prereq.sh && \
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python${PYTHON_VERSION} 0 && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python${PYTHON_VERSION} 0  && \
   BASH_HEADER='#!/bin/bash' && \
   printf "%s\n%s\n" \
     "${BASH_HEADER}" \
@@ -207,9 +199,9 @@ RUN chmod +r /opt/models/hybrid_pacbio_illumina/model.ckpt*
 
 ENV PATH="${PATH}":/opt/conda/bin:/opt/conda/envs/bio/bin:/opt/deepvariant/bin
 
-RUN apt-get -y update && \
-  apt-get install -y parallel python3-pip && \
-  PATH="${HOME}/.local/bin:$PATH" python3 -m pip install absl-py==0.13.0 && \
+RUN apt-get  -y update && \
+  apt-get install --no-install-recommends -y parallel=20161222-1.1 python3-pip=20.0.2-5ubuntu1.7 && \
+  PATH="${HOME}/.local/bin:$PATH" python3 -m pip install --no-cache-dir absl-py==0.13.0 && \
   apt-get clean autoclean && \
   apt-get autoremove -y --purge && \
   rm -rf /var/lib/apt/lists/*
