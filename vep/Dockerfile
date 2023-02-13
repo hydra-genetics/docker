@@ -4,7 +4,7 @@ FROM continuumio/miniconda3:22.11.1 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
-    bcftools=1.9 \
+    bcftools=1.16 \
     ensembl-vep=108.2 \
     snakemake-wrapper-utils=0.3.1
 
@@ -26,7 +26,7 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
 LABEL version=109
-LABEL bcftools=1.9
+LABEL bcftools=1.16
 LABEL ensembl-vep=108.2
 LABEL snakemake-wrapper-utils=0.3.1
 
