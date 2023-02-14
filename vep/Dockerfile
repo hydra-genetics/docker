@@ -5,13 +5,10 @@ FROM continuumio/miniconda3:22.11.1 AS build
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
     openssl=1.1.1t \
-    perl-bio-db-ht=2.7 \
-    zlib=1.2.13 \
-    libgcc-ng=11.3.0 \
     bcftools=1.16 \
     ensembl-vep=108.2 \
-    snakemake-wrapper-utils=0.5.0 \
-    perl=5.32.1
+    snakemake-wrapper-utils=0.5.0 
+
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
