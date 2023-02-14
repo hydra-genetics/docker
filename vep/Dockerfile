@@ -1,12 +1,14 @@
 # The build-stage image:
-FROM continuumio/miniconda3:4.12.0 AS build
+FROM continuumio/miniconda3:22.11.1 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
     bcftools=1.16 \
     ensembl-vep=108.2 \
-    snakemake-wrapper-utils=0.5.0
+    snakemake-wrapper-utils=0.5.0 \
+    perl-bio-db-hts=3.01 \
+    perl=5.32.1
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
