@@ -7,7 +7,7 @@ RUN conda install -c conda-forge conda-pack && \
     bcftools=1.16 \
     ensembl-vep=108.2 \
     snakemake-wrapper-utils=0.5.0 \
-    perl-bio-db-hts=2.11 \
+    perl-bio-db-hts=2.7 \
     perl=5.32.1
 
 # Use conda-pack to create a standalone enviornment
