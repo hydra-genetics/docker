@@ -1,12 +1,12 @@
 # The build-stage image:
-FROM continuumio/miniconda3:22.11.1 AS build
+FROM continuumio/miniconda3:23.1.0 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
-    bcftools=1.8 \
-    ensembl-vep=108.0 \
-    snakemake-wrapper-utils=0.4.0
+    bcftools=1.16 \
+    ensembl-vep=108.2 \
+    snakemake-wrapper-utils=0.5.0
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -25,10 +25,10 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=108.0
-LABEL bcftools=1.8
-LABEL ensembl-vep=108.0
-LABEL snakemake-wrapper-utils=0.4.0
+LABEL version=108.2
+LABEL bcftools=1.16
+LABEL ensembl-vep=108.2
+LABEL snakemake-wrapper-utils=0.5.0
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
