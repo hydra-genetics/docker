@@ -1,5 +1,5 @@
 # The build-stage image:
-FROM continuumio/miniconda3:23.1.0 AS build
+FROM continuumio/miniconda3:4.12.0 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
