@@ -7,7 +7,7 @@ RUN conda install -c conda-forge conda-pack && \
     openssl=1.1.1q \
     bcftools=1.16 \
     ensembl-vep=108.2 \
-    snakemake-wrapper-utils=0.5.0 
+    snakemake-wrapper-utils=0.4.1 
 
 
 # Use conda-pack to create a standalone enviornment
