@@ -4,7 +4,8 @@ FROM continuumio/miniconda3:22.11.1 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
-    ensembl-vep=108.2 
+    ensembl-vep=108.2 \
+    libzlib=1.2.13
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
