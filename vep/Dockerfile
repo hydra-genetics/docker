@@ -4,13 +4,7 @@ FROM continuumio/miniconda3:22.11.1 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
-    openssl=1.1.1q \
-    libzlib=1.2.12 \
-    python=3.11.0 \
-    bcftools=1.16 \
-    ensembl-vep=108.2 \
-    snakemake-wrapper-utils=0.4.1 
-
+    ensembl-vep=108.2 
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
