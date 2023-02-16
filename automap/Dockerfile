@@ -4,7 +4,7 @@ FROM continuumio/miniconda3:4.10.3 AS builder
 RUN conda config --set channel_priority strict && \
     conda install -c conda-forge conda-pack && \
     conda create --name hydra -c conda-forge -c bioconda -c defaults \
-    perl=5.26.3 \
+    perl=5.26.2.1 \
     bcftools=1.9 \
     bedtools=2.27.1 && \
     conda-pack -n hydra -o /tmp/env.tar
@@ -20,7 +20,7 @@ FROM r-base:4.1.2
 LABEL maintainer="jessika.nordin@scilifelab.uu.se"
 LABEL automap=1.2
 LABEL version=1.2
-LABEL perl=5.26.3
+LABEL perl=5.26.2.1
 LABEL bcftools=1.9
 LABEL bedtools=2.27.1
 LABEL r-base=4.1.2
