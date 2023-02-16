@@ -14,16 +14,16 @@ WORKDIR /venv
 RUN tar xf /tmp/env.tar && \
     /venv/bin/conda-unpack
 
-FROM r-base:3.5.1
+FROM r-base:4.1.2
 
 ################## METADATA ######################
 LABEL maintainer="jessika.nordin@scilifelab.uu.se"
 LABEL automap=1.2
 LABEL version=1.2
-LABEL perl=5.26.2
+LABEL perl=5.31.1
 LABEL bcftools=1.9
 LABEL bedtools=2.27.1
-LABEL r-base=3.5.1
+LABEL r-base=4.1.2
 
 RUN apt-get update \
   && apt-get install --no-install-recommends -y git=1:2.39.1-0.1 ca-certificates=20211016 curl=7.87.0-2 \
