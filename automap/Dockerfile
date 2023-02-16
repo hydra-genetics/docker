@@ -4,7 +4,7 @@ FROM continuumio/miniconda3:4.10.3 AS builder
 RUN conda config --set channel_priority strict && \
     conda install -c conda-forge conda-pack && \
     conda create --name hydra -c conda-forge -c bioconda -c defaults \
-    perl=5.26.2 \
+    perl=5.32.1 \
     bcftools=1.9 \
     bedtools=2.27.1 && \
     conda-pack -n hydra -o /tmp/env.tar
