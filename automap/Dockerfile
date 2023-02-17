@@ -25,6 +25,8 @@ LABEL bcftools=1.16
 LABEL bedtools=2.30.0
 LABEL r-base=4.1.2
 
+COPY redirect_log_to_stdout.ph /redirect_log_to_stdout.ph
+
 RUN apt-get update \
   && apt-get install --no-install-recommends -y git=1:2.39.1-0.1 ca-certificates=20211016 curl=7.87.0-2 \
   && update-ca-certificates \
@@ -37,7 +39,8 @@ RUN apt-get update \
 COPY --from=builder /venv  /usr/local/
 
 WORKDIR /automap
-RUN ln -s /automap/AutoMap_v1.2.sh automap && chmod +x automap
+RUN patch AutoMap_v1.2.sh < /redirect_log_to_stdout.ph && \
+    ln -s /automap/AutoMap_v1.2.sh automap && chmod +x automap
 WORKDIR /
 
 ENV PATH="${PATH}:/automap"
