@@ -22,7 +22,7 @@
                  if [ "$k" == "0" ]; then
                      allid=$id
                  fi
- @@ -343,12 +343,12 @@
+ @@ -343,16 +343,16 @@
         # removing variants with multiple additional alleles and variants in repeats
         if [ "$genome" == "hg19" ]; then
 -           rep=$here/Resources/repeats.bed
