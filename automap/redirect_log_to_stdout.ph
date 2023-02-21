@@ -22,6 +22,23 @@
                  if [ "$k" == "0" ]; then
                      allid=$id
                  fi
+ @@ -343,12 +343,12 @@
+        # removing variants with multiple additional alleles and variants in repeats
+        if [ "$genome" == "hg19" ]; then
+-           rep=$here/Resources/repeats.bed
++           rep=/dev/stdout/repeats.bed
+            if [ ! -f "$rep" ]; then
+-               bash $here/Resources/merge_repeats.sh $here/Resources/repeats.part1.bed.gz $here/Resources/repeats.part2.bed.gz $rep
++               bash $here/Resources/merge_repeats.sh /dev/stdout/repeats.part1.bed.gz /dev/stdout/repeats.part2.bed.gz $rep
+            fi
+        fi
+        if [ "$genome" == "hg38" ]; then
+-           rep=/dev/stdout/repeats_hg38.bed
++           rep=$here/Resources/repeats_hg38.bed
+            if [ ! -f "$rep" ]; then
+-               bash $here/Resources/merge_repeats.sh $here/Resources/repeats_hg38.part1.bed.gz $here/Resources/repeats_hg38.part2.bed.gz $rep
++               bash $here/Resources/merge_repeats.sh /dev/stdout/repeats_hg38.part1.bed.gz /dev/stdout/repeats_hg38.part2.bed.gz $rep
+            fi
 @@ -366,7 +366,7 @@
          if [ -s $out/$id/$id.clean.tsv ]; then
              :
