@@ -40,7 +40,9 @@ COPY --from=builder /venv  /usr/local/
 
 WORKDIR /automap
 RUN patch AutoMap_v1.2.sh < /redirect_log_to_stdout.ph && \
-    ln -s /automap/AutoMap_v1.2.sh automap && chmod +x automap
+    ln -s /automap/AutoMap_v1.2.sh automap && chmod +x automap && \
+    zcat /automap/Resources/repeats_hg38.part1.bed.gz /automap/Resources/repeats_hg38.part2.bed.gz > /automap/Resources/repeats_hg38.bed &&\
+    zcat /automap/Resources/repeats.part1.bed.gz /automap/Resources/repeats.part2.bed.gz > /automap/Resources/repeats.bed
 WORKDIR /
 
 ENV PATH="${PATH}:/automap"
