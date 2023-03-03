@@ -19,7 +19,7 @@ RUN apt-get update \
 WORKDIR /FuSeq_WES_v1.0.0
 RUN ./configure.sh
 
-ENV PATH="${PATH}:/FuSeq_WES_v1.0.0:/venv/bin/"
+ENV PATH="/venv/bin/:${PATH}:/FuSeq_WES_v1.0.0"
 
 RUN python3 -m venv /venv \
   # && . /venv/bin/activate \
