@@ -19,10 +19,10 @@ RUN apt-get update \
 WORKDIR /FuSeq_WES_v1.0.0
 RUN ./configure.sh
 
-ENV PATH="${PATH}:/FuSeq_WES_v1.0.0"
+ENV PATH="${PATH}:/FuSeq_WES_v1.0.0:/venv/bin/"
 
 RUN python3 -m venv /venv \
-  && . /venv/bin/activate \
+  # && . /venv/bin/activate \
   && pip install --no-cache-dir wheel==0.38.4 \
   && pip install --no-cache-dir pysam==0.18.0
 
