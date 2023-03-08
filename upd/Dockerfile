@@ -28,11 +28,8 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* && \
   git clone  https://github.com/bjhall/upd /upd && \
-  cd /upd && \
-  pip install --editable . && \
+  pip install --editable upd && \
   rm -r /usr/local/man
-
-COPY --from=builder /venv  /usr/local/
 
 WORKDIR /upd
 
