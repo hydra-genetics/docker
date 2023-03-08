@@ -14,8 +14,6 @@ WORKDIR /venv
 RUN tar xf /tmp/env.tar && \
     /venv/bin/conda-unpack
 
-# The runtime-stage image; we can use Debian as the base
-# image since the Conda env also includes Python for us.
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
