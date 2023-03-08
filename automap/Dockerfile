@@ -34,10 +34,10 @@ RUN apt-get update \
   && update-ca-certificates \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* && \
-  git clone  https://github.com/mquinodo/AutoMap.git /automap && \
+  git clone https://github.com/mquinodo/AutoMap.git /automap && \
   chmod +x -R /automap/AutoMap_v1.2.sh && \
   rm -r /usr/local/man
-  
+
 COPY --from=builder /venv  /usr/local/
 
 WORKDIR /automap
