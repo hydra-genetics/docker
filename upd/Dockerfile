@@ -14,11 +14,6 @@ WORKDIR /venv
 RUN tar xf /tmp/env.tar && \
     /venv/bin/conda-unpack
 
-
-# The runtime-stage image; we can use Debian as the base
-# image since the Conda env also includes Python for us.
-FROM debian:buster-slim AS runtime
-
 ################## METADATA ######################
 LABEL maintainer="jessika.nordin@scilifelab.uu.se"
 LABEL upd=0.1.1
@@ -26,8 +21,10 @@ LABEL version=0.1.1
 LABEL click=8.0.4
 LABEL coloredlogs=15.0.1
 
+FROM ubuntu:22.10
+
 RUN apt-get update \
-  && apt-get install --no-install-recommends -y git=1:2.39.1-0.1 ca-certificates=20211016 curl=7.87.0-2 \
+  && apt-get install --no-install-recommends -y git=1:2.37.2-1ubuntu1.4 ca-certificates=20211016 curl=7.85.0-1ubuntu0.3 \
   && update-ca-certificates \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* && \
