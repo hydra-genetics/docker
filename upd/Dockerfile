@@ -34,7 +34,6 @@ RUN apt-get update \
 WORKDIR /upd
 
 RUN python3 -m venv /venv && \
-    cd WORKDIR \
-    pip install --no-cache-dir --editable upd && \
+    pip install --no-cache-dir --editable upd
 
 ENV PATH="${PATH}:/upd"
