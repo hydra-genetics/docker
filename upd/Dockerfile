@@ -28,7 +28,7 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* && \
   git clone  https://github.com/bjhall/upd /upd && \
-  pip install --editable upd && \
+  pip install --no-cache-dir --editable upd && \
   rm -r /usr/local/man
 
 WORKDIR /upd
