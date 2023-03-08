@@ -2,10 +2,11 @@
 FROM continuumio/miniconda3:4.10.3 AS builder
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack && \
+RUN conda config --set channel_priority strict && \
+    conda install -c conda-forge conda-pack && \
     conda create --name hydra -c conda-forge -c bioconda -c defaults \
     click=8.0.4 \
-    coloredlogs=15.0.1 \
+    coloredlogs=15.0.1 && \
     conda-pack -n hydra -o /tmp/env.tar
 
 WORKDIR /venv
