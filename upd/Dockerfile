@@ -25,11 +25,9 @@ LABEL version=0.1.1
 LABEL click=8.0.4
 LABEL coloredlogs=15.0.1
 
-RUN apt-get update \
-  && apt-get install --no-install-recommends -y git=1:2.39.1-0.1 ca-certificates=20211016 curl=7.87.0-2 \
-  && update-ca-certificates \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* && \
+RUN apt-get update && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* && \
   git clone  https://github.com/bjhall/upd /upd && \
   pip install --no-cache-dir --editable upd && \
   rm -r /usr/local/man
