@@ -29,9 +29,12 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* && \
   git clone https://github.com/bjhall/upd.git /upd && \
-  pip install --no-cache-dir --editable upd && \
   rm -r /usr/local/man
 
 WORKDIR /upd
+
+RUN python3 -m venv /venv && \
+    cd WORKDIR \
+    pip install --no-cache-dir --editable upd && \
 
 ENV PATH="${PATH}:/upd"
