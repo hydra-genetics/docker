@@ -32,4 +32,4 @@ ENV PATH="/venv/bin/:${PATH}:/upd"
 
 RUN python3 -m venv /venv && \
     # && . /venv/bin/activate \
-    pip install --no-cache-dir --editable upd
+    pip install --no-cache-dir --editable .
