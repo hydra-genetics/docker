@@ -36,8 +36,6 @@ RUN apt-get update \
   pip install --no-cache-dir --editable upd && \
   rm -r /usr/local/man
 
-COPY --from=build /venv  /usr/local/
-
 WORKDIR /upd
 
 ENV PATH="${PATH}:/upd"
