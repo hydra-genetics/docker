@@ -8,7 +8,7 @@ RUN conda install -c conda-forge conda-pack && \
     coloredlogs=15.0.1 \
 
 # Use conda-pack to create a standalone enviornment in /venv:
-RUN conda-pack -n hydra -o /tmp/env.tar
+RUN conda-pack -n hydra
 WORKDIR /venv
 RUN tar xf /tmp/env.tar
 
