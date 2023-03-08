@@ -6,19 +6,16 @@ RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c conda-forge -c bioconda -c defaults \
     click=8.0.4 \
     coloredlogs=15.0.1 \
+    conda-pack -n hydra -o /tmp/env.tar
 
-# Use conda-pack to create a standalone enviornment in /venv:
-RUN conda-pack -n hydra
 WORKDIR /venv
-RUN tar xf /tmp/env.tar
 
-# We've put venv in same path it'll be in final image, fix up paths:
-RUN /venv/bin/conda-unpack
+RUN tar xf /tmp/env.tar && \
+    /venv/bin/conda-unpack
 
 # The runtime-stage image; we can use Debian as the base
 # image since the Conda env also includes Python for us.
 FROM debian:buster-slim AS runtime
-
 
 ################## METADATA ######################
 LABEL maintainer="jessika.nordin@scilifelab.uu.se"
