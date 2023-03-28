@@ -20,3 +20,4 @@ ENV PATH=/glnexus/:${PATH}
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL glnexus=1.4.1
 LABEL version=1.4.1
+
