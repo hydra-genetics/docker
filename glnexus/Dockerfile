@@ -1,34 +1,23 @@
-# The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
+FROM debian:buster-slim
 
-# Install conda-pack:
-RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda \
-    glnexus=1.4.1
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+    wget=1.20.1-1.1 \
+    ca-certificates=20200601~deb10u2 \
+    curl=7.64.0-4+deb10u5 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Use conda-pack to create a standalone enviornment
-# in /venv:
-RUN conda-pack -n hydra -o /tmp/env.tar
-WORKDIR /venv
-RUN tar xf /tmp/env.tar
 
-# We've put venv in same path it'll be in final image,
-# so now fix up paths:
-RUN /venv/bin/conda-unpack
+WORKDIR /glnexus
 
-# The runtime-stage image; we can use Debian as the
-# base image since the Conda env also includes Python
-# for us.
-FROM debian:buster-slim AS runtime
+RUN wget -nv https://github.com/dnanexus-rnd/GLnexus/releases/download/v1.4.1/glnexus_cli && \
+    chmod +x glnexus_cli
 
-################## METADATA ######################
+ENV PATH=/glnexus/:${PATH}
+
+##############  #### METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL glnexus=1.4.1
 LABEL version=1.4.1
 
-# Copy /venv from the previous stage:
-# to /usr/local to make it possible
-# running the softwares without activating
-# any conda env
-
-COPY --from=build /venv  /usr/local/
