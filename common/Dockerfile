@@ -4,7 +4,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda  -c conda-forge \
-	  bcftools=1.16 \
+	  bcftools=1.15.1 \
 	  bedtools=2.30 \
 	  cyvcf2=0.30.15 \
 	  datrie=0.8.2 \
@@ -34,7 +34,7 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
 LABEL version=0.2.0
-LABEL bcftools=1.16
+LABEL bcftools=1.15.1
 LABEL bedtools=2.30
 LABEL datrie=0.8.2
 LABEL hydra-genetics=0.14.1
