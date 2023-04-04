@@ -39,4 +39,3 @@ ENV PATH="${PATH}:/samtools/samtools-1.15.1:/build/minimap2-$MINIMAP2_VERSION"
 LABEL maintainer="jonas.almlof@scilifelab.uu.se"
 LABEL version=2.24
 LABEL samtools=1.15.1
-
