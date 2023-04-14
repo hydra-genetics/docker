@@ -11,17 +11,15 @@ RUN apt-get update \
   && R -e "library(remotes); install_version('BiocManager', version='1.30.20')" \
   && R -e "library(BiocManager)" && R -e "BiocManager::install(ask = F)" \
   && R -e "BiocManager::install(c('GenomicFeatures', 'Biostrings'))" \
-  # && wget -q https://github.com/nghiavtr/FuSeq_WES/releases/download/v1.0.0/FuSeq_WES_v1.0.0.tar.gz -O FuSeq_WES_v1.0.0.tar.gz \
-  # && tar -xzvf FuSeq_WES_v1.0.0.tar.gz \
-  && git clone https://github.com/jonca79/FuSeq_WES.git /FuSeq_WES_v1.0.0 \
-  && chmod +x -R /FuSeq_WES_v1.0.0/process_fuseq_wes.R \
-  && chmod +x -R /FuSeq_WES_v1.0.0/fuseq_wes.py \
-  && chmod +x -R /FuSeq_WES_v1.0.0/configure.sh
+  && git clone https://github.com/jonca79/FuSeq_WES.git /FuSeq_WES \
+  && chmod +x -R /FuSeq_WES/process_fuseq_wes.R \
+  && chmod +x -R /FuSeq_WES/fuseq_wes.py \
+  && chmod +x -R /FuSeq_WES/configure.sh
 
-WORKDIR /FuSeq_WES_v1.0.0
+WORKDIR /FuSeq_WES
 RUN ./configure.sh
 
-ENV PATH="/venv/bin/:${PATH}:/FuSeq_WES_v1.0.0"
+ENV PATH="/venv/bin/:${PATH}:/FuSeq_WES"
 
 RUN python3 -m venv /venv \
   # && . /venv/bin/activate \
@@ -30,8 +28,8 @@ RUN python3 -m venv /venv \
 
 ################## METADATA ######################
 LABEL maintainer="jonas.almlof@scilifelab.uu.se"
-LABEL version=1.0.0
-LABEL fuseq-wes=1.0.0
+LABEL version=1.0.1
+LABEL fuseq-wes=1.0.1
 LABEL r-base=4.2.1
 LABEL pysam=0.18.0
 LABEL python=3.10
