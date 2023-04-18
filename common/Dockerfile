@@ -13,7 +13,8 @@ RUN conda install -c conda-forge conda-pack && \
 	  samtools=1.15 \
 	  pyvcf=0.6.8 \
     snakemake-wrapper-utils=0.5.2 \
-	  tabix=1.11
+	  tabix=1.11 \
+	  xlsxwriter=3.0.3
 
 
 # Use conda-pack to create a standalone enviornment
@@ -33,7 +34,7 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=0.2.0
+LABEL version=0.3.0
 LABEL bcftools=1.15.1
 LABEL bedtools=2.30
 LABEL datrie=0.8.2
@@ -44,6 +45,7 @@ LABEL samtools=1.15
 LABEL pyvcf=0.6.8
 LABEL snakemake-wrapper-utils=0.5.2
 LABEL tabix=1.11
+LABEL xlsxwriter=3.0.3
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
