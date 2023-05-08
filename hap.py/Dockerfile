@@ -28,10 +28,9 @@ RUN apt-get update && \
         software-properties-common=0.96.24.32.20 \
         wget=1.19.4-1ubuntu2.2 \
         zlib1g-dev=1:1.2.11.dfsg-0ubuntu2.2 && \
-    apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN pip install --no-cache-dir bx-python==0.8.9
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir bx-python==0.8.9
 
 # copy git repository into the image
 RUN mkdir -p /opt/hap.py-source && \
