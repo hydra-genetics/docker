@@ -4,10 +4,10 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda -c conda-forge \
-    picard=2.18.25 \
+    picard=2.25.0 \
     python=3.9 \
     r-base=3.6.2 \
-    snakemake-wrapper-utils=0.3.1
+    snakemake-wrapper-utils=0.5.3
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -26,11 +26,11 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=2.18.25
-LABEL picard=2.18.25
+LABEL version=2.25.0
+LABEL picard=2.25.0
 LABEL python=3.9
 LABEL r-base=3.6.2
-LABEL snakemake-wrapper-utils=0.3.1
+LABEL snakemake-wrapper-utils=0.5.3
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
