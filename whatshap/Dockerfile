@@ -3,8 +3,10 @@ FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda \
-    whatshap=1.7
+    conda config --add channels bioconda && \
+    conda config --add channels conda-forge &&\
+    conda create --name hydra whatshap=1.7
+
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
