@@ -4,7 +4,8 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
-    pbmm2=1.10.0
+    pbmm2=1.10.0 \
+    snakemake-wrapper-utils=0.5.3
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
