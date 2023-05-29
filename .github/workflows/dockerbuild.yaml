@@ -33,6 +33,7 @@ jobs:
           for dockerFilePath in $(git diff-tree --no-commit-id -r ${{ github.event.before }} ${{ github.sha }} | awk '{if($5 != "D") print($6)}' | grep "Dockerfile");
           do
             IMAGE_NAME=${dockerFilePath%"/Dockerfile"}
+            IMAGE_NAME=$(echo $IMAGE_NAME | awk 'BEGIN{FS="\/"}{print($1)}')
             IMAGE_ID=${{ secrets.DOCKER_REGISTRY_URL }}/${{ secrets.REPOSITORY }}/$IMAGE_NAME
             tmpName="image-$RANDOM"
             docker build $IMAGE_NAME --file $dockerFilePath --tag $tmpName
