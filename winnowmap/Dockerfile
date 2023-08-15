@@ -1,10 +1,10 @@
 # The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
+FROM condaforge/mambaforge:23.1.0-4 AS build
 
 # Install conda-pack:
-RUN conda config --set channel_priority strict && \
-    conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c conda-forge -c bioconda -c defaults \
+RUN mamba config --set channel_priority strict && \
+    mamba install -c conda-forge conda-pack && \
+    mamba create --name hydra -c conda-forge -c bioconda -c defaults \
     winnowmap=2.03 \
     samtools=1.17
 
@@ -33,4 +33,4 @@ LABEL samtools=1.17
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-COPY --from=build /venv/ /usr/local/
+COPY --from=build /venv/ /usr/
