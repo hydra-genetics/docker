@@ -5,7 +5,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 RUN conda config --set channel_priority strict && \
     conda install -c conda-forge conda-pack && \
     conda create --name hydra -c conda-forge -c bioconda -c defaults \
-    winnowmap=2.03 \
+    lra=1.3.7.2 \
     samtools=1.17
 
 # Use conda-pack to create a standalone enviornment
@@ -25,7 +25,7 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
-LABEL version=2.03
+LABEL version=1.3.7.2
 LABEL samtools=1.17
 
 
@@ -33,6 +33,4 @@ LABEL samtools=1.17
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-
 COPY --from=build /venv/ /usr/
-
