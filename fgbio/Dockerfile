@@ -25,11 +25,11 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL maintainer="jonas.almlof@scilifelab.uu.se"
 LABEL version=2.1.0
-LABEL fastp=2.1.0
+LABEL fgbio=2.1.0
 LABEL snakemake-wrapper-utils=0.6.2
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-COPY --from=build /venv /usr/local
+COPY --from=build /venv /usr
