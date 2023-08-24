@@ -31,4 +31,4 @@ LABEL version=1.3.1
 # running the softwares without activating
 # any conda env
 
-COPY --from=build /venv  /usr/local/
+COPY --from=build /venv  /usr/
