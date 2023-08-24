@@ -4,7 +4,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
-    cnvpytor=1.2.1
+    cnvpytor=1.3.1
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -23,8 +23,8 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="jessika.nordin@scilifelab.uu.se"
-LABEL cnvpytor=1.2.1
-LABEL version=1.2.1
+LABEL cnvpytor=1.3.1
+LABEL version=1.3.1
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
