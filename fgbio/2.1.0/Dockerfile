@@ -1,12 +1,14 @@
 # The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
+FROM continuumio/miniconda3:23.5.2-0 AS build
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack && \
+RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
+    conda config --set solver libmamba && \
     conda create --name hydra -c bioconda -c conda-forge \
     bwa=0.7.15 \
     samtools=1.15 \
     fgbio=2.1.0 \
+    samblaster=0.1.26 \
     snakemake-wrapper-utils=0.6.2
 
 # Use conda-pack to create a standalone enviornment
@@ -30,6 +32,7 @@ LABEL version=2.1.0
 LABEL bwa=0.7.15
 LABEL samtools=1.15
 LABEL fgbio=2.1.0
+LABEL samblaster=0.1.26
 LABEL snakemake-wrapper-utils=0.6.2
 
 # Copy /venv from the previous stage:
