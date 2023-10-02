@@ -22,7 +22,7 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
+LABEL maintainer="magdalene.z@scilifelab.uu.se"
 LABEL verifybamid2=2.0.1
 LABEL version=2.0.1
 
