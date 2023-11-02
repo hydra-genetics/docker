@@ -43,6 +43,8 @@ RUN echo "conda activate hydra" >> ~/.bashrc
 RUN export PATH="/opt/conda/envs/hydra/bin:$PATH"
 
 
+## The following instructions were done to create reference files to run MELT, they were obtained from the manual, and do not have to be repeated when using the prepared software folder
+
 # We also need the reference genome. Please download the reference file like so:
 # wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence/hs37d5.fa.gz
 # wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/phase2_reference_assembly_sequence/hs37d5.fa.gz.fai
@@ -57,14 +59,25 @@ RUN export PATH="/opt/conda/envs/hydra/bin:$PATH"
 
 #unzip the main reference file to an easy to access location using:
 # gunzip hs37d5.fa.gz
-
 # and rename the index file like:
 # mv hs37d5.fa.gz.fai hs37d5.fa.fai
+
 
 WORKDIR /usr/bin/MELTv2.2.2 
 
 
 # Info from https://melt.igs.umaryland.edu/manual.php 
+
+
+################## METADATA ######################
+LABEL maintainer="magdalena.z@scilifelab.uu.se"
+LABEL version=2.2.2
+LABEL java=11
+LABEL miniconda=latest
+LABEL bowtie2=latest
+LABEL samtools=latest
+LABEL python=3.8
+LABEL hydra-genomics=latest
 
 
 
