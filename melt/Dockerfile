@@ -2,11 +2,11 @@
 # FROM continuumio/miniconda3:4.10.3 AS build
 FROM openjdk:11-jre-slim AS build
 
-RUN apt-get update
-RUN apt-get install -y vim-gtk3
+#RUN apt-get update
+#RUN apt-get install -y vim-gtk3
 #RUN apt-get install -y --ignore-missing default-jdk
 #RUN apt-get install -y default-jdk
-RUN apt-get clean
+#RUN apt-get clean
 
 
 
@@ -22,8 +22,8 @@ RUN apt-get update && apt-get install -y wget && \
 
 # Install conda
 ENV PATH /opt/conda/bin:$PATH
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh 
-RUN    bash ~/miniconda.sh -b -p /opt/conda && \
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+bash ~/miniconda.sh -b -p /opt/conda && \
 rm ~/miniconda.sh
 # RUN    /opt/conda/bin/conda clean -tipsy && \
 #   ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
@@ -73,9 +73,6 @@ WORKDIR /usr/bin/MELTv2.2.2
 LABEL maintainer="magdalena.z@scilifelab.uu.se"
 LABEL version=2.2.2
 LABEL java=11
-LABEL miniconda=latest
-LABEL bowtie2=latest
-LABEL samtools=latest
 LABEL python=3.8
 LABEL hydra-genomics=latest
 
