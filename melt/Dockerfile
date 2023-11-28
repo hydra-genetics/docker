@@ -16,7 +16,7 @@ FROM openjdk:11-jre-slim AS build
 
 
 ## Install wget using the system package manager (apt-get in this case).
-RUN apt-get update && apt-get install -y wget && \
+RUN apt-get update && apt-get install -y wget=1.21-1+deb11u1  && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -38,11 +38,11 @@ COPY  MELTv2.2.2 /usr/bin/MELTv2.2.2
 #RUN conda install -c conda-forge conda-pack
 
 RUN conda create --name hydra -c bioconda bowtie2 samtools python=3.8 && \
-conda init bash 
-RUN echo "conda activate hydra" >> ~/.bashrc
-RUN export PATH="/opt/conda/envs/hydra/bin:$PATH"
-
-
+conda init bash && \ 
+echo "conda activate hydra" >> ~/.bashrc && \ 
+export PATH="/opt/conda/envs/hydra/bin:$PATH" && \ 
+echo "export PATH=\"/opt/conda/envs/hydra/bin/:\$PATH\""  >> ~/.bashrc
+ENV PATH="/opt/conda/envs/hydra/bin::${PATH}" 
 ## The following instructions were done to create reference files to run MELT, they were obtained from the manual, and do not have to be repeated when using the prepared software folder
 
 # We also need the reference genome. Please download the reference file like so:
@@ -64,7 +64,8 @@ RUN export PATH="/opt/conda/envs/hydra/bin:$PATH"
 
 
 WORKDIR /usr/bin/MELTv2.2.2 
-
+RUN echo "source /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc
+# ENTRYPOINT ["/bin/bash", "-c", "source activate hydra && exec \"$@\"", "--"]
 
 # Info from https://melt.igs.umaryland.edu/manual.php 
 
