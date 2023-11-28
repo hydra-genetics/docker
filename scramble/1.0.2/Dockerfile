@@ -41,6 +41,7 @@ RUN echo "r <- getOption('repos'); r['CRAN'] <- 'http://cran.us.r-project.org'; 
 RUN Rscript -e "library(devtools); install_github('mhahsler/rBLAST')"
 
 # install scramble
+RUN git clone https://github.com/GeneDx/scramble.git
 COPY . /app
 RUN cd /app/cluster_identifier/src && \
   make
@@ -48,3 +49,16 @@ RUN ln -s /app/cluster_identifier/src/build/cluster_identifier /usr/local/bin
 
 # define default command
 CMD ["Rscript"]
+
+
+
+################## METADATA ######################
+LABEL maintainer="magdalena.z@scilifelab.uu.se"
+LABEL version=1.0.2
+LABEL scramble=1.0.2
+LABEL hydra-genomics=latest
+
+# Retrieved from https://github.com/GeneDx/scramble 
+
+
+
