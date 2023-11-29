@@ -44,7 +44,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     wget -nv --progress=dot:giga --no-check-certificate https://github.com/nccl-jmli/VarBen/archive/refs/heads/master.zip && \
     unzip master.zip 
-WORKDIR VarBen-master 
+WORKDIR /VarBen-master 
 
 RUN python setup.py install
 
