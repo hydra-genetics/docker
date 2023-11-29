@@ -29,11 +29,7 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL varben=1.0
-LABEL python=2.7.17
-LABEL pysam=0.15.3
-LABEL samtools=1.9
-LABEL bcftools=1.9
-LABEL bwa=0.7.17
+LABEL version=1.0
 
 
 # Copy /venv from the previous stage:
@@ -43,9 +39,10 @@ LABEL bwa=0.7.17
 COPY --from=build /venv /usr
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends wget=1.20.1-1.1
-
-RUN wget --no-check-certificate https://github.com/nccl-jmli/VarBen/archive/refs/heads/master.zip && \
-    pip install master.zip
+    apt-get install -y --no-install-recommends wget=1.20.1-1.1 unzip=6.0-23+deb10u3 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    wget -nv --progress=dot:giga --no-check-certificate https://github.com/nccl-jmli/VarBen/archive/refs/heads/master.zip && \
+    unzip master.zip && cd VarBen-master && python setup.py install
 
 WORKDIR /usr/bin
