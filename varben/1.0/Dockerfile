@@ -8,8 +8,8 @@ RUN conda install -c conda-forge conda-pack && \
     samtools=1.9 \
     bwa=0.7.17 \
     bcftools=1.9 \
-    numpy=1.16.6
-
+    numpy=1.16.6 \
+    bedtools=2.30.0
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
