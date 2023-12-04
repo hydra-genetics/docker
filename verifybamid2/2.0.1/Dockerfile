@@ -1,15 +1,10 @@
-# The build-stage image:
-FROM continuumio/miniconda3:23.5.2-0 AS build
+ # The build-stage image:
+FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
-    conda config --set solver libmamba && \
-    conda create --name hydra -c bioconda -c conda-forge \
-    bcftools=1.15.1 \
-    picard=2.25.0 \
-    pindel=0.2.5b9 \
-    python=3.9 \
-    snakemake-wrapper-utils=0.6.2
+RUN conda install -c conda-forge conda-pack && \
+    conda create --name hydra -c bioconda \
+    verifybamid2=2.0.1 python=3.8
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -27,16 +22,15 @@ RUN /venv/bin/conda-unpack
 FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
-LABEL maintainer="arielle.munters@scilifelab.uu.se"
-LABEL version=0.2.5b9
-LABEL bcftools=1.15.1
-LABEL picard=2.25.0
-LABEL pindel=0.2.5b9
-LABEL python=3.9
-LABEL snakemake-wrapper-utils=0.6.2
+LABEL maintainer="magdalena.z@scilifelab.uu.se"
+LABEL verifybamid2=2.0.1
+LABEL version=2.0.1
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-COPY --from=build /venv /usr
+
+COPY --from=build /venv  /usr/
+
+
