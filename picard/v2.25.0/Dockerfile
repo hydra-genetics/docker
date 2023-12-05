@@ -36,12 +36,12 @@ LABEL r-base=4.3.2
 LABEL snakemake-wrapper-utils=0.6.2
 
 # Copy /venv from the previous stage:
-# to /usr/local to make it possible
+# to /usr to make it possible
 # running the softwares without activating
 # any conda env
 COPY --from=build /venv /usr
 
 RUN mkdir /venv && \
-    ln -s /usr/local/lib /venv/lib && \
-    ln -s /usr/local/bin /venv/bin && \
-    ln -s /usr/local/ssl /venv/ssl
+    ln -s /usr/lib /venv/lib && \
+    ln -s /usr/bin /venv/bin && \
+    ln -s /usr/ssl /venv/ssl
