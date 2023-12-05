@@ -42,6 +42,6 @@ LABEL snakemake-wrapper-utils=0.6.2
 COPY --from=build /venv /usr
 
 RUN mkdir /venv && \
-    ln -s /usr/local/lib /venv/lib && \
-    ln -s /usr/local/bin /venv/bin && \
-    ln -s /usr/local/ssl /venv/ssl
+    ln -s /usr/lib /venv/lib && \
+    ln -s /usr/bin /venv/bin && \
+    ln -s /usr/ssl /venv/ssl
