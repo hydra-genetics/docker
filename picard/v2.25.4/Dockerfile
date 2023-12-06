@@ -8,7 +8,7 @@ RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     bcftools=1.18 \
     picard=2.25.4 \
     python=3.9 \
-    r-base=4.3.2 \
+    r-base=4.2.3 \
     snakemake-wrapper-utils=0.6.2
 
 # Use conda-pack to create a standalone enviornment
