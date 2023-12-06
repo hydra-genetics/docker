@@ -5,11 +5,11 @@ FROM continuumio/miniconda3:23.5.2-0 AS build
 RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda -c conda-forge \
-    bcftools=1.18 \
+    bcftools=1.15.1 \
     picard=2.25.0 \
     python=3.9 \
-    r-base=4.3.2 \
-    snakemake-wrapper-utils=0.6.2
+    r-base=3.6.2 \
+    snakemake-wrapper-utils=0.5.3
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
@@ -30,9 +30,9 @@ FROM debian:buster-slim AS runtime
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
 LABEL version=2.25.0
 LABEL picard=2.25.0
-LABEL bcftools=1.18
+LABEL bcftools=1.15.1
 LABEL python=3.9
-LABEL r-base=4.3.2
+LABEL r-base=3.6.2
 LABEL snakemake-wrapper-utils=0.6.2
 
 # Copy /venv from the previous stage:
