@@ -5,7 +5,6 @@ FROM continuumio/miniconda3:23.5.2-0 AS build
 RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda -c conda-forge \
-    bcftools=1.15.1 \
     picard=2.25.0 \
     python=3.9 \
     r-base=3.6.2 \
