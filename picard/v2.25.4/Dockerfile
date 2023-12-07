@@ -32,7 +32,7 @@ LABEL version=2.25.4
 LABEL picard=2.25.4
 LABEL bcftools=1.18
 LABEL python=3.9
-LABEL r-base=4.3.2
+LABEL r-base=4.2.3
 LABEL snakemake-wrapper-utils=0.6.2
 
 # Copy /venv from the previous stage:
