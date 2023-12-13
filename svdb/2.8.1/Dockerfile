@@ -3,7 +3,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda -c conda-forge svdb=2.6.0
+    conda create --name hydra -c bioconda -c conda-forge svdb=2.8.1
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
