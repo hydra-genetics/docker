@@ -29,4 +29,4 @@ LABEL svdb=2.8.1
 # to /usr/local to make it possible
 # running the softwares without activating
 # any conda env
-COPY --from=build /venv /usr/local
+COPY --from=build /venv /usr
