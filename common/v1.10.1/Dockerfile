@@ -34,7 +34,7 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=1.10.0
+LABEL version=1.10.1
 LABEL bcftools=1.15.1
 LABEL bedtools=2.30
 LABEL datrie=0.8.2
