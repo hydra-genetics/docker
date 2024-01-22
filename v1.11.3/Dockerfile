@@ -26,7 +26,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     build-essential=12.8ubuntu1 \
-    python3.9 \
+    python3.9=3.9.5-3ubuntu0~20.04.1 \
     python3-dev=3.8.2-0ubuntu2 \
     python3-pip=20.0.2-5ubuntu1.10 \
     zlib1g-dev=1:1.2.11.dfsg-2ubuntu1.5 && \
