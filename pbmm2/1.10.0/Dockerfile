@@ -3,7 +3,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 
 
 # Update package list, install dependencies for Conda
-RUN apt-get update && apt-get install -y wget=1.20.1-1.1 bzip2=1.0.6-9.2~deb10u2 && \
+RUN apt-get update && apt-get install -y wget=1.20.1-1.1 bzip2=1.0.6-9.2~deb10u2 --no-install-recommends && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
