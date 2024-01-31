@@ -30,7 +30,7 @@ ENV CONDA_ENVIRONMENT hydra
 RUN echo "source activate ${CONDA_ENVIRONMENT}" >> ~/.bashrc
 
 
-SHELL ["conda", "run", "-n", "hydra", "/bin/bash", "-c"]
+SHELL ["/opt/conda/condabin/conda", "run", "-n", "hydra", "/bin/bash", "-c"]
 RUN  pip install --no-cache-dir paraphase==3.0.0
 
 # Use an entry point for the paraphrase command
