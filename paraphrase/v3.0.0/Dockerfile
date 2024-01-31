@@ -5,7 +5,9 @@ FROM continuumio/miniconda3:4.10.3 AS build
 WORKDIR /usr/local
 
 # Install git
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y git --no-install-recommends  && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Clone the specific release (v3.0.0) from GitHub
 RUN git clone --branch v3.0.0 https://github.com/PacificBiosciences/paraphase.git
