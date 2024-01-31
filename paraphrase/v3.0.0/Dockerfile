@@ -5,7 +5,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 WORKDIR /usr/local
 
 # Install git
-RUN apt-get update && apt-get install -y git --no-install-recommends  && \
+RUN apt-get update && apt-get install -y git=1:2.20.1-2+deb10u3 --no-install-recommends  && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -31,7 +31,7 @@ RUN echo "source activate ${CONDA_ENVIRONMENT}" >> ~/.bashrc
 
 
 SHELL ["conda", "run", "-n", "hydra", "/bin/bash", "-c"]
-RUN  pip install paraphase==3.0.0
+RUN  pip install --no-cache-dir paraphase==3.0.0
 
 # Use an entry point for the paraphrase command
 # ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "hydra", "paraphrase"]
