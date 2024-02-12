@@ -25,17 +25,18 @@ RUN conda install -c conda-forge conda-pack && \
 
 # Set the environment variable
 ENV CONDA_ENVIRONMENT hydra
-
-# Modify the .bashrc file
 RUN echo "source activate ${CONDA_ENVIRONMENT}" >> ~/.bashrc
 
+# Modify the .bashrc file
+RUN echo "export PATH=$PATH:/opt/conda/envs/hydra/bin" >> ~/.bashrc
 
-SHELL ["conda", "run", "-n", "hydra", "/bin/bash", "-c"]
-RUN  pip install --no-cache-dir paraphase==3.0.0
+# hadolint ignore=SC1008
+SHELL ["/opt/conda/condabin/conda", "run", "-n", "hydra", "/bin/bash", "-c"]
+# hadolint ignore=SC1008
+RUN  /opt/conda/envs/hydra/bin/pip install --no-cache-dir paraphase==3.0.0
 
 # Use an entry point for the paraphrase command
 # ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "hydra", "paraphrase"]
-
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
@@ -43,4 +44,5 @@ LABEL version=3.0.0
 LABEL paraphrase=3.0.0
 
 # Unite test: samtools;  minimap2;  paraphase
+
 
