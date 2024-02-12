@@ -25,12 +25,12 @@ RUN conda install -c conda-forge conda-pack && \
 
 # Set the environment variable
 ENV CONDA_ENVIRONMENT hydra
+RUN echo "source activate ${CONDA_ENVIRONMENT}" >> ~/.bashrc
 
 # Modify the .bashrc file
-RUN echo "source activate ${CONDA_ENVIRONMENT}" >> ~/.bashrc
 RUN echo "export PATH=$PATH:/opt/conda/envs/hydra/bin" >> ~/.bashrc
 
-
+# hadolint ignore=SC1008
 SHELL ["/opt/conda/condabin/conda", "run", "-n", "hydra", "/bin/bash", "-c"]
 RUN  /opt/conda/envs/hydra/bin/pip install --no-cache-dir paraphase==3.0.0
 
