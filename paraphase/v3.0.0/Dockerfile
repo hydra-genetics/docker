@@ -29,6 +29,7 @@ RUN echo "source activate ${CONDA_ENVIRONMENT}" >> ~/.bashrc
 
 # Modify the .bashrc file
 RUN echo "export PATH=$PATH:/opt/conda/envs/hydra/bin" >> ~/.bashrc
+ENV PATH="/opt/conda/envs/hydra/bin:${PATH}"
 
 # hadolint ignore=SC1008
 SHELL ["/opt/conda/condabin/conda", "run", "-n", "hydra", "/bin/bash", "-c"]
