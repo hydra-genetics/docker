@@ -32,6 +32,7 @@ RUN echo "export PATH=$PATH:/opt/conda/envs/hydra/bin" >> ~/.bashrc
 
 # hadolint ignore=SC1008
 SHELL ["/opt/conda/condabin/conda", "run", "-n", "hydra", "/bin/bash", "-c"]
+# hadolint ignore=SC1008
 RUN  /opt/conda/envs/hydra/bin/pip install --no-cache-dir paraphase==3.0.0
 
 # Use an entry point for the paraphrase command
