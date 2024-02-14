@@ -5,6 +5,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda \
     pbmm2=1.10.0 \
+    samtools=1.13 \
     snakemake-wrapper-utils=0.5.3
 
 # Use conda-pack to create a standalone enviornment
@@ -32,5 +33,8 @@ LABEL version=1.10
 # running the softwares without activating
 # any conda env
 
-# RUN mkdir -p /usr/local
-# COPY --from=build /venv  /usr/local/
+#RUN mkdir -p /usr
+COPY --from=build /venv  /usr/
+
+
+
