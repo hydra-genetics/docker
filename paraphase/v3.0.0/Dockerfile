@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y git=1:2.20.1-2+deb10u3 --no-install-rec
 WORKDIR /usr/local/paraphase
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack 
+RUN conda install -c conda-forge conda-pack
 COPY environment.yml /tmp/environment.yml
 RUN conda env create -f /tmp/environment.yml && \
     rm /tmp/environment.yml
@@ -42,4 +42,7 @@ LABEL paraphrase=3.0.0
 
 #RUN mkdir -p /usr
 COPY --from=build /venv  /usr/
+
+
+
 
