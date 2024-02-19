@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y git=1:2.20.1-2+deb10u3 --no-install-rec
     rm -rf /var/lib/apt/lists/*
 
 # Clone the specific release (v3.0.0) from GitHub
-RUN git clone --branch v3.0.0 https://github.com/PacificBiosciences/paraphase.git
+#RUN git clone --branch v3.0.0 https://github.com/PacificBiosciences/paraphase.git
 
 # Change to the cloned directory
 WORKDIR /usr/local/paraphase
@@ -18,6 +18,7 @@ WORKDIR /usr/local/paraphase
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c conda-forge -c bioconda -c defaults \
+    paraphase≈3.0.0 \
     python=3.9 \
     minimap2=2.26 \
     samtools=1.16.1 \
@@ -28,13 +29,13 @@ RUN conda install -c conda-forge conda-pack && \
 #RUN echo "source activate ${CONDA_ENVIRONMENT}" >> ~/.bashrc
 
 # Modify the .bashrc file
-RUN echo "export PATH=$PATH:/opt/conda/envs/hydra/bin" >> ~/.bashrc
-ENV PATH="/opt/conda/envs/hydra/bin:${PATH}"
+#RUN echo "export PATH=$PATH:/opt/conda/envs/hydra/bin" >> ~/.bashrc
+#ENV PATH="/opt/conda/envs/hydra/bin:${PATH}"
 
 # hadolint ignore=SC1008
 # SHELL ["/opt/conda/condabin/conda", "run", "-n", "hydra", "/bin/bash", "-c"]
 # hadolint ignore=SC1008
-#RUN  /opt/conda/envs/hydra/bin/pip install --no-cache-dir paraphase==3.0.0
+# RUN  /opt/conda/envs/hydra/bin/pip install --no-cache-dir paraphase==3.0.0
 
 # Use an entry point for the paraphrase command
 # ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "hydra", "paraphrase"]
