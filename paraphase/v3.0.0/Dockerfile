@@ -33,7 +33,6 @@ RUN /venv/bin/conda-unpack
 # for us.
 FROM debian:buster-slim AS runtime
 
-
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL version=3.0.0
