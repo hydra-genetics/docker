@@ -1,4 +1,4 @@
-ARG VERSION="3.0.0" 
+ARG VERSION=3.0.0
 FROM continuumio/miniconda3:4.10.3 AS build
 ARG VERSION
 
@@ -37,8 +37,8 @@ ARG VERSION
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
-LABEL version="${VERSION}"
-LABEL paraphase="${VERSION}"
+LABEL version=${VERSION}
+LABEL paraphase=${VERSION}
 RUN echo "${VERSION}"
 
 # Unite test: samtools;  minimap2;  paraphase
