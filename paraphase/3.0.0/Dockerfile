@@ -1,6 +1,7 @@
 # Use the specified Miniconda base image
+ARG VERSION="3.0.0" 
 FROM continuumio/miniconda3:4.10.3 AS build
-ENV VERSION="3.0.0"
+ARG VERSION
 
 # Set the working directory
 WORKDIR /usr/local
@@ -33,6 +34,7 @@ RUN /venv/bin/conda-unpack
 # base image since the Conda env also includes Python
 # for us.
 FROM debian:buster-slim AS runtime
+ARG VERSION
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
