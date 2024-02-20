@@ -1,5 +1,7 @@
 # Use the specified Miniconda base image
+ARG VERSION="3.0.0" 
 FROM continuumio/miniconda3:4.10.3 AS build
+ARG VERSION
 
 # Set the working directory
 WORKDIR /usr/local
@@ -14,7 +16,7 @@ WORKDIR /usr/local/paraphase
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-COPY ./environment.yml /tmp/environment.yml
+COPY ./paraphase/${VERSION}/environment.yml /tmp/environment.yml
 RUN conda env create -f /tmp/environment.yml && \
     rm /tmp/environment.yml
 
@@ -32,11 +34,13 @@ RUN /venv/bin/conda-unpack
 # base image since the Conda env also includes Python
 # for us.
 FROM debian:buster-slim AS runtime
+ARG VERSION
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
-LABEL version=3.0.0
-LABEL paraphrase=3.0.0
+LABEL version="${VERSION}"
+LABEL paraphase="${VERSION}"
+RUN echo "${VERSION}"
 
 # Unite test: samtools;  minimap2;  paraphase
 
