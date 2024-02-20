@@ -14,9 +14,9 @@ RUN apt-get update && apt-get install -y git=1:2.20.1-2+deb10u3 --no-install-rec
 WORKDIR /usr/local
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack
-RUN conda create -y -n hydra -c bioconda sniffles=2.2 && \
-    conda clean -afy
+RUN conda install -c conda-forge conda-pack && \
+conda create -y -n hydra -c bioconda sniffles=2.2 && \
+conda clean -afy
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
