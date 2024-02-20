@@ -1,4 +1,3 @@
-# Use the specified Miniconda base image
 ARG VERSION="3.0.0" 
 FROM continuumio/miniconda3:4.10.3 AS build
 ARG VERSION
@@ -16,7 +15,7 @@ WORKDIR /usr/local/paraphase
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-COPY ./paraphase/${VERSION}/environment.yml /tmp/environment.yml
+COPY ./${VERSION}/environment.yml /tmp/environment.yml
 RUN conda env create -f /tmp/environment.yml && \
     rm /tmp/environment.yml
 
