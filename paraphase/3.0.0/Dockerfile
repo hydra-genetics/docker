@@ -1,4 +1,3 @@
-# Use the specified Miniconda base image
 ARG VERSION="3.0.0" 
 FROM continuumio/miniconda3:4.10.3 AS build
 ARG VERSION
