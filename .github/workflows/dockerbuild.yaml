@@ -39,6 +39,9 @@ jobs:
             echo "docker build $IMAGE_NAME --file $dockerFilePath --tag $tmpName"
             docker build $IMAGE_NAME --file $dockerFilePath --tag $tmpName
             IMAGE_VERSION=$(grep "^LABEL version" $dockerFilePath | awk 'BEGIN{FS="\="}{print($2)}')
+            if [[ $IMAGE_VERSION == *"VERSION"* ]]; then
+              IMAGE_VERSION=$(grep "^ARG VERSION" $dockerFilePath | awk 'BEGIN{FS="\="}{print($2)}')
+            fi
             echo "IMAGE_NAME=$IMAGE_NAME"
             echo "IMAGE_VERSION=$IMAGE_VERSION"
             docker tag $tmpName $IMAGE_ID:$IMAGE_VERSION
