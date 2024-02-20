@@ -14,7 +14,7 @@ WORKDIR /usr/local/paraphase
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack
-COPY environment.yml /tmp/environment.yml
+COPY ./environment.yml /tmp/environment.yml
 RUN conda env create -f /tmp/environment.yml && \
     rm /tmp/environment.yml
 
