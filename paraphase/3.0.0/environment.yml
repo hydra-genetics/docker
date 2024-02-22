@@ -6,14 +6,18 @@ channels:
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_gnu
+  - bcftools=1.19=h8b25389_0
   - brotli-python=1.1.0=py38h17151c0_1
   - bzip2=1.0.8=hd590300_5
   - c-ares=1.26.0=hd590300_0
   - ca-certificates=2023.12.12=h06a4308_0
   - certifi=2024.2.2=py38h06a4308_0
   - charset-normalizer=3.3.2=pyhd8ed1ab_0
+  - conda-pack=0.6.0=pyhd3eb1b0_0
   - cycler=0.12.1=pyhd8ed1ab_0
   - freetype=2.12.1=h267a509_2
+  - gdbm=1.18=hd4cb3f1_4
+  - gsl=2.7.1=h6e86dc7_1
   - htslib=1.19.1=h81da01d_1
   - icu=67.1=he1b5a44_0
   - idna=3.6=pyhd8ed1ab_0
@@ -52,6 +56,7 @@ dependencies:
   - openssl=3.2.1=hd590300_0
   - packaging=23.2=pyhd8ed1ab_0
   - paraphase=3.0.0=pyhdfd78af_0
+  - perl=5.34.0=h5eee18b_2
   - pip=24.0=pyhd8ed1ab_0
   - platformdirs=4.2.0=pyhd8ed1ab_0
   - pooch=1.8.0=pyhd8ed1ab_0
