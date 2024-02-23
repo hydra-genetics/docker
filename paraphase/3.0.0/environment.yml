@@ -10,14 +10,12 @@ dependencies:
   - brotli-python=1.1.0=py38h17151c0_1
   - bzip2=1.0.8=hd590300_5
   - c-ares=1.26.0=hd590300_0
-  - ca-certificates=2023.12.12=h06a4308_0
-  - certifi=2024.2.2=py38h06a4308_0
+  - ca-certificates=2024.2.2=hbcca054_0
+  - certifi=2024.2.2=pyhd8ed1ab_0
   - charset-normalizer=3.3.2=pyhd8ed1ab_0
-  - conda-pack=0.6.0=pyhd3eb1b0_0
   - cycler=0.12.1=pyhd8ed1ab_0
   - freetype=2.12.1=h267a509_2
-  - gdbm=1.18=hd4cb3f1_4
-  - gsl=2.7.1=h6e86dc7_1
+  - gsl=2.7=he838d99_0
   - htslib=1.19.1=h81da01d_1
   - icu=67.1=he1b5a44_0
   - idna=3.6=pyhd8ed1ab_0
@@ -56,10 +54,10 @@ dependencies:
   - openssl=3.2.1=hd590300_0
   - packaging=23.2=pyhd8ed1ab_0
   - paraphase=3.0.0=pyhdfd78af_0
-  - perl=5.34.0=h5eee18b_2
+  - perl=5.32.1=7_hd590300_perl5
   - pip=24.0=pyhd8ed1ab_0
   - platformdirs=4.2.0=pyhd8ed1ab_0
-  - pooch=1.8.0=pyhd8ed1ab_0
+  - pooch=1.8.1=pyhd8ed1ab_0
   - pyparsing=3.1.1=pyhd8ed1ab_0
   - pysam=0.22.0=py38h15b938a_0
   - pysocks=1.7.1=pyha2e5f31_6
@@ -71,15 +69,15 @@ dependencies:
   - requests=2.31.0=pyhd8ed1ab_0
   - samtools=1.19.2=h50ea8bc_0
   - scipy=1.10.1=py38h59b608b_3
-  - setuptools=69.1.0=pyhd8ed1ab_0
+  - setuptools=69.1.0=pyhd8ed1ab_1
   - six=1.16.0=pyh6c4a22f_0
   - snakemake-wrapper-utils=0.6.2=pyhdfd78af_0
   - tk=8.6.13=noxft_h4845f30_101
-  - tornado=6.3.3=py38h01eb140_1
+  - tornado=6.4=py38h01eb140_0
   - urllib3=2.2.1=pyhd8ed1ab_0
   - wheel=0.42.0=pyhd8ed1ab_0
   - xz=5.2.6=h166bdaf_0
   - yaml=0.2.5=h7f98852_2
   - zlib=1.2.13=hd590300_5
   - zstd=1.5.5=hfc55251_0
-prefix: /opt/conda/envs/hydra
+prefix: /opt/conda/envs/hydra 
