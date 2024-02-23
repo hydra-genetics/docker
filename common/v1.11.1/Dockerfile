@@ -41,3 +41,5 @@ LABEL xlsxwriter=3.0.3
 
 COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
 ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
+
+RUN pip install --no-cache-dir hydra-genetics==1.11.1
