@@ -39,5 +39,5 @@ LABEL snakemake-wrapper-utils=0.5.2
 LABEL tabix=1.11
 LABEL xlsxwriter=3.0.3
 
-COPY --from=build /opt/conda /opt/conda
+COPY --from=build /opt/condaenvs/hydra/ /opt/condaenvs/hydra/
 ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
