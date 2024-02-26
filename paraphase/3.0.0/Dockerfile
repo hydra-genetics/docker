@@ -6,7 +6,7 @@ ARG VERSION
 WORKDIR /usr/local
 
 # Install git
-RUN apt-get update && apt-get install -y git=1:2.20.1-2+deb10u3 --no-install-recommends  && \
+RUN apt-get update && apt-get install -y git=1:2.20.1-2+deb10u3 libgsl-dev=2.5+dfsg-6+deb10u1 --no-install-recommends  && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -41,10 +41,8 @@ LABEL version=${VERSION}
 LABEL paraphase=${VERSION}
 RUN echo "${VERSION}"
 
-# Unite test: samtools;  minimap2;  paraphase
+# Unite test: samtools;  minimap2;  paraphase ; bcftools 
 
 #RUN mkdir -p /usr
 COPY --from=build /venv  /usr/
-
-
 
