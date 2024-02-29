@@ -51,8 +51,8 @@
 
               # Build image, tag it with a random id
               tmpName="image-${RANDOM}"
-              # Copy version script and put it beside the Dockerfile
-              cp print_version.sh ${PARENT_FOLDER}/print_version.sh
+              ## Copy version script and put it beside the Dockerfile
+              #cp print_version.sh ${PARENT_FOLDER}/print_version.sh
               echo "build command: docker build ${PARENT_FOLDER} --file ${dockerFilePath} --tag ${tmpName}"
               docker build ${PARENT_FOLDER} --file ${dockerFilePath} --tag ${tmpName}
               

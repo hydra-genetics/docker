@@ -44,8 +44,4 @@ LABEL python=${PYTHON_VERSION}
 # running the softwares without activating
 # any conda env
 COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
-ENV PATH=${PATH}:/opt/conda/envs/hydra/bi
-
-COPY print_version.sh /usr/bin/print_version.sh
-RUN chmod +x /usr/bin/print_version.sh
-ENTRYPOINT "print_version.sh mosdepth-container mosdepth ${MOSDEPTH_ENV_VERSION} python", "${PYTHON_ENV_VERSION} snakemake-wrapper-utils ${SNAKEMAKEWRAPPERUTILS_ENV_VERSION}"
+ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
