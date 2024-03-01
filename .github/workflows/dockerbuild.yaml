@@ -1,49 +1,66 @@
-# This is a basic workflow to help you get started with Actions
+  # This is a basic workflow to help you get started with Actions
 
-name: build docker images
+  name: build docker images
 
-# Controls when the action will run.
-on:
-  # Triggers the workflow on push or pull request events but only for the dev branch
-  push:
-    branches:
-     - master
-    paths:
-      - '**/Dockerfile'
+  # Controls when the action will run.
+  on:
+    # Triggers the workflow on push or pull request events but only for the dev branch
+    push:
+      branches:
+      - master
+      paths:
+        - '**/Dockerfile'
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  docker_build_push:
-    name: docker build
-    runs-on: ubuntu-latest
+  # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+  jobs:
+    docker_build_push:
+      name: docker build
+      runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      steps:
+        - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
 
-      - name: Log into registry
-        run: echo "${{ secrets.HUB_PASSWORD }}" | docker login ${{ secrets.DOCKER_REGISTRY_URL }} -u ${{ secrets.DOCKERHUB_USER }} --password-stdin
+        - name: Log into registry
+          run: echo "${{ secrets.HUB_PASSWORD }}" | docker login ${{ secrets.DOCKER_REGISTRY_URL }} -u ${{ secrets.DOCKERHUB_USER }} --password-stdin
 
-      - name: Build and push the images
-        run: |
-          for dockerFilePath in $(git diff-tree --no-commit-id -r ${{ github.event.before }} ${{ github.sha }} | awk '{if($5 != "D") print($6)}' | grep "Dockerfile");
-          do
-            IMAGE_NAME=${dockerFilePath%"/Dockerfile"}
-            IMAGE_NAME=$(echo $IMAGE_NAME | awk 'BEGIN{FS="\/"}{print($1)}')
-            IMAGE_ID=${{ secrets.DOCKER_REGISTRY_URL }}/${{ secrets.REPOSITORY }}/$IMAGE_NAME
-            tmpName="image-$RANDOM"
-            echo "docker build $IMAGE_NAME --file $dockerFilePath --tag $tmpName"
-            docker build $IMAGE_NAME --file $dockerFilePath --tag $tmpName
-            IMAGE_VERSION=$(grep "^LABEL version" $dockerFilePath | awk 'BEGIN{FS="\="}{print($2)}')
-            if [[ $IMAGE_VERSION == *"VERSION"* ]]; then
-              IMAGE_VERSION=$(grep "^ARG VERSION" $dockerFilePath | awk 'BEGIN{FS="\="}{print($2)}')
-            fi
-            echo "IMAGE_NAME=$IMAGE_NAME"
-            echo "IMAGE_VERSION=$IMAGE_VERSION"
-            docker tag $tmpName $IMAGE_ID:$IMAGE_VERSION
-            docker push $IMAGE_ID:$IMAGE_VERSION
-          done;
+        - name: Build and push the images
+          run: |
+            for dockerFilePath in $(git diff-tree --no-commit-id -r ${{ github.event.before }} ${{ github.sha }} | awk '{if($5 != "D") print($6)}' | grep "Dockerfile");
+            do
+              echo "dockerfile=${dockerFilePath}"
+              PARENT_FOLDER=$(dirname ${dockerFilePath})
+              echo "PARENT_FOLDER=${PARENT_FOLDER}"
+
+              # Extract image name
+              IMAGE_NAME=$(echo ${dockerFilePath} | awk 'BEGIN{FS="\/"}{print($1)}')
+              echo "IMAGE_NAME=${IMAGE_NAME}"
+
+              # Extract image version, support both setting the actual version in the label statement
+              # and also when using variables (ARG XXX_VERSION). Preferred method is to VERSION.
+              IMAGE_VERSION=$(grep "^LABEL version" ${dockerFilePath} | awk 'BEGIN{FS="\="}{print($2)}')
+              if [[ ${IMAGE_VERSION} == *"VERSION"* ]]; then
+                IMAGE_VERSION=$(echo ${IMAGE_VERSION} | sed 's/[{}$]//g')
+                IMAGE_VERSION=$(grep "^ARG ${IMAGE_VERSION}" ${dockerFilePath} | awk 'BEGIN{FS="\="}{print($2)}')
+              fi
+              echo "IMAGE_VERSION=${IMAGE_VERSION}"
+
+              # Build image, tag it with a random id
+              tmpName="image-${RANDOM}"
+              ## Copy version script and put it beside the Dockerfile
+              #cp print_version.sh ${PARENT_FOLDER}/print_version.sh
+              echo "build command: docker build ${PARENT_FOLDER} --file ${dockerFilePath} --tag ${tmpName}"
+              docker build ${PARENT_FOLDER} --file ${dockerFilePath} --tag ${tmpName}
+              
+              # Create image id
+              IMAGE_ID=${{ secrets.DOCKER_REGISTRY_URL }}/${{ secrets.REPOSITORY }}/${IMAGE_NAME}
+              # Tag the new image with actual image name and version
+              echo  "TAG: docker tag ${tmpName} ${IMAGE_ID}:${IMAGE_VERSION}"
+              docker tag ${tmpName} ${IMAGE_ID}:${IMAGE_VERSION}
+              # Push the tagged image to dockerhub
+              docker push ${IMAGE_ID}:${IMAGE_VERSION}
+            done;
