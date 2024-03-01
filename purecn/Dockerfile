@@ -1,6 +1,6 @@
-ARG PURECN_VERSION=0.3.6
+ARG PURECN_VERSION=2.2.0
 
-FROM markusriester/purecn:2.2.0
+FROM markusriester/purecn:${PURECN_VERSION}
 
 ARG PURECN_VERSION
 
