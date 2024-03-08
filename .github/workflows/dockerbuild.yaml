@@ -43,9 +43,11 @@
               # Extract image version, support both setting the actual version in the label statement
               # and also when using variables (ARG XXX_VERSION). Preferred method is to VERSION.
               IMAGE_VERSION=$(grep "^LABEL version" ${dockerFilePath} | awk 'BEGIN{FS="\="}{print($2)}')
+              echo "IMAGE_VERSION=${IMAGE_VERSION}"
               if [[ ${IMAGE_VERSION} == *"VERSION"* ]]; then
                 IMAGE_VERSION=$(echo ${IMAGE_VERSION} | sed 's/[{}$]//g')
                 IMAGE_VERSION=$(grep "^ARG ${IMAGE_VERSION}" ${dockerFilePath} | awk 'BEGIN{FS="\="}{print($2)}')
+                echo "IMAGE_VERSION=${IMAGE_VERSION}"
               fi
               echo "IMAGE_VERSION=${IMAGE_VERSION}"
 
