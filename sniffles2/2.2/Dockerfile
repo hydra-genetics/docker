@@ -45,4 +45,3 @@ RUN echo "${VERSION}"
 COPY --from=build /venv  /usr/
 
 
-
