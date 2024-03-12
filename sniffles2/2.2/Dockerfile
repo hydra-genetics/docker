@@ -1,6 +1,5 @@
-ARG VERSION=3.0.0
+ARG VERSION=2.2
 FROM continuumio/miniconda3:4.10.3 AS build
-ARG VERSION
 
 # Set the working directory
 WORKDIR /usr/local
