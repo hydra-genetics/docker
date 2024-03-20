@@ -53,4 +53,4 @@ LABEL xlsxwriter=3.0.3
 # running the softwares without activating
 # any conda env
 COPY --from=build /venv /usr
-RUN pip install --no-cache-dir hydra-genetics==1.10.2 biopython==1.83
+RUN pip install --no-cache-dir hydra-genetics==1.14.0 biopython==1.83
