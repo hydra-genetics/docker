@@ -28,6 +28,7 @@ LABEL maintainer="patrik.smeds@scilifelab.uu.se"
 LABEL version=1.14.0
 LABEL bcftools=1.15.1
 LABEL bedtools=2.30
+LABEL biopython=1.83
 LABEL datrie=0.8.2
 LABEL git=2.39.1
 LABEL hydra-genetics=1.40.0
