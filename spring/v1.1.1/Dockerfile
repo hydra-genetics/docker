@@ -16,7 +16,7 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL version=1.1.1
-LABEL bcftools=1.1.1
+LABEL spring=1.1.1
 
 COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
 ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
