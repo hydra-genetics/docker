@@ -25,12 +25,12 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=1.11.1
+LABEL version=1.14.0
 LABEL bcftools=1.15.1
 LABEL bedtools=2.30
 LABEL datrie=0.8.2
 LABEL git=2.39.1
-LABEL hydra-genetics=1.11.1
+LABEL hydra-genetics=1.40.0
 LABEL python=3.9
 LABEL pysam=0.18.0
 LABEL samtools=1.15
