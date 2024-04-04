@@ -23,10 +23,6 @@ RUN /venv/bin/conda-unpack
 # for us.
 FROM debian:buster-slim AS runtime
 
-# Ensure /usr/local is a directory and prepare for copying
-#RUN mkdir -p /usr/local && rm -rf /usr/local/*
-#RUN mkdir -p /usr/local  
-
 
 ################## METADATA ######################
 LABEL maintainer="jessika.nordin@scilifelab.uu.se"
@@ -38,10 +34,8 @@ LABEL version=2.2
 # running the softwares without activating
 # any conda env
 
-COPY --from=build /venv /usr/
+COPY --from=build /venv /usr/local
 
-# Create the symlink from /usr/bin/python to /venv/bin/python
-RUN mkdir -p /venv/bin && ln -s /usr/bin/python /venv/bin/python
 
 
 
