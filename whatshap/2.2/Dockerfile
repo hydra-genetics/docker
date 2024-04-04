@@ -41,8 +41,7 @@ LABEL version=2.2
 COPY --from=build /venv /usr/
 
 # Create the symlink from /usr/bin/python to /venv/bin/python
-RUN mkdir -p /venv/bin
-RUN ln -s /usr/bin/python /venv/bin/python
+RUN mkdir -p /venv/bin && ln -s /usr/bin/python /venv/bin/python
 
 
 
