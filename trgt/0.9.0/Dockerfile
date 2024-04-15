@@ -4,7 +4,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack python=3.9  && \
     conda create --name hydra -c bioconda \
-    trgt=0.9.0 python=3.9
+    trgt=0.9.0 python=3.9 pysam
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
