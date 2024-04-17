@@ -15,14 +15,14 @@ ENV PATH="/pb-CpG-tools-v2.3.2-x86_64-unknown-linux-gnu:/pb-CpG-tools-v2.3.2-x86
 WORKDIR "/pb-CpG-tools-v2.3.2-x86_64-unknown-linux-gnu"
 
 # Default command
-CMD ["pb_CpG_tools"]
+CMD ["aligned_bam_to_cpg_scores"]
 
 
 
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
-LABEL pbCpGtools=2.3.2
+LABEL pbcpgtools=2.3.2
 LABEL version=2.3.2
 
 
