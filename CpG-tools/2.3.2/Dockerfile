@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends wget=1.20.3-1ub
 
 
 # Download and extract pb-CpG-tools
-RUN wget https://github.com/PacificBiosciences/pb-CpG-tools/releases/download/v2.3.2/pb-CpG-tools-v2.3.2-x86_64-unknown-linux-gnu.tar.gz \
+RUN wget -nv  https://github.com/PacificBiosciences/pb-CpG-tools/releases/download/v2.3.2/pb-CpG-tools-v2.3.2-x86_64-unknown-linux-gnu.tar.gz \
     && tar -xzf pb-CpG-tools-v2.3.2-x86_64-unknown-linux-gnu.tar.gz \
     && rm pb-CpG-tools-v2.3.2-x86_64-unknown-linux-gnu.tar.gz
 
@@ -12,7 +12,7 @@ RUN wget https://github.com/PacificBiosciences/pb-CpG-tools/releases/download/v2
 ENV PATH="/pb-CpG-tools-v2.3.2-x86_64-unknown-linux-gnu:/pb-CpG-tools-v2.3.2-x86_64-unknown-linux-gnu/bin:${PATH}"
 
 # Set the working directory
-WORKDIR /pb-CpG-tools-v2.3.2-x86_64-unknown-linux-gnu
+WORKDIR "/pb-CpG-tools-v2.3.2-x86_64-unknown-linux-gnu"
 
 # Default command
 CMD ["pb_CpG_tools"]
@@ -22,8 +22,7 @@ CMD ["pb_CpG_tools"]
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
-LABEL pb-CpG-tools=2.3.2
-LABEL python=3.9
+LABEL pbCpGtools=2.3.2
 LABEL version=2.3.2
 
 
