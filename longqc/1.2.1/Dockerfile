@@ -6,7 +6,7 @@ MAINTAINER Yoshinori Fukasawa <yoshinori.fukasawa@kaust.edu.sa>
 ### LABELS ###
 LABEL base_image="miniconda3"
 LABEL software="LongQC docker"
-LABEL software.version="1.2"
+LABEL software.version="1.2.1"
 
 ### Basic dependency ###
 RUN apt-get clean all && \
@@ -52,3 +52,12 @@ ENV PATH="/root/LongQC:$PATH"
 
 ### Entry point
 ENTRYPOINT ["longQC.py"]
+
+
+################## METADATA ######################
+LABEL maintainer="magdalena.z@scilifelab.uu.se"
+LABEL longqc=1.2.1
+LABEL version=1.2.1
+
+# Unit test runqc -h
+# Unit test sampleqc -h
