@@ -54,7 +54,7 @@ RUN echo "conda activate hydra" >> ~/.bashrc
 ENV PATH="/root/LongQC:$PATH"
 
 ### Entry point
-ENTRYPOINT ["longQC.py"]
+# ENTRYPOINT ["longQC.py"]
 
 
 ################## METADATA ######################
