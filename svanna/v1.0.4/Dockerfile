@@ -11,4 +11,4 @@ WORKDIR /svanna-cli-1.0.4
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL version=1.0.4
-LABEL SvAnna=1.0.4
+LABEL svanna=1.0.4
