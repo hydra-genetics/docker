@@ -1,12 +1,6 @@
 # build minimap2-coverage
 FROM continuumio/miniconda3
 
-### MAINTAINER ###
-MAINTAINER Yoshinori Fukasawa <yoshinori.fukasawa@kaust.edu.sa>
-### LABELS ###
-LABEL base_image="miniconda3"
-LABEL software="LongQC docker"
-LABEL software.version="1.2.1"
 
 ### Basic dependency ###
 RUN apt-get clean all && \
@@ -20,11 +14,12 @@ RUN apt-get clean all && \
     apt-get clean && \
     apt-get purge
 
+
 ### LongQC installation ###
 ADD https://api.github.com/repos/yfukasawa/longqc/git/refs/heads/minimap2_update version.json
 RUN git clone https://github.com/yfukasawa/LongQC.git --branch v1.2.1 $HOME/LongQC
-RUN cd $HOME/LongQC/minimap2-coverage && make
-RUN cd $HOME/LongQC && \
+WORKDIR $HOME/LongQC/minimap2-coverage && make
+WORKDIR $HOME/LongQC && \
     sed -i \
     -e '1{s;^;#!/opt/conda/bin/python\n;}' \
     longQC.py && \
@@ -63,6 +58,10 @@ ENTRYPOINT ["longQC.py"]
 LABEL maintainer="magdalena.z@scilifelab.uu.se"
 LABEL longqc=1.2.1
 LABEL version=1.2.1
+LABEL base_image="miniconda3"
+LABEL software="LongQC docker"
+LABEL software.version="1.2.1"
+
 
 # Unit test runqc -h
 # Unit test sampleqc -h
