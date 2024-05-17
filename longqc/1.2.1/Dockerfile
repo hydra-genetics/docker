@@ -22,7 +22,7 @@ RUN apt-get clean all && \
 
 ### LongQC installation ###
 ADD https://api.github.com/repos/yfukasawa/longqc/git/refs/heads/minimap2_update version.json
-RUN git clone https://github.com/yfukasawa/LongQC.git $HOME/LongQC
+RUN git clone https://github.com/yfukasawa/LongQC.git --branch v1.2.1 $HOME/LongQC
 RUN cd $HOME/LongQC/minimap2-coverage && make
 RUN cd $HOME/LongQC && \
     sed -i \
