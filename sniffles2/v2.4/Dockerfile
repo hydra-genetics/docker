@@ -15,7 +15,7 @@
     ################## METADATA ######################
     LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
     LABEL version=2.4
-    LABEL sniffles=2.4
+    LABEL sniffles2=2.4
     
     COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
     ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
