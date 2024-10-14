@@ -50,7 +50,7 @@ LABEL snakemake-wrapper-utils=${SNAKEMAKEWRAPPERUTILS_VERSION}
 # running the softwares without activating
 # any conda env
 COPY --from=build /venv /usr
-RUN pip install --no-cache-dir setuptools multiqc==${MULTIQC_VERSION} multiqc-cgs==${MULTIQC_CGS_VERSION}
+RUN pip install --no-cache-dir setuptools==75.1.0 multiqc==${MULTIQC_VERSION} multiqc-cgs==${MULTIQC_CGS_VERSION}
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
