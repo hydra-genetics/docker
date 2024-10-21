@@ -1,37 +1,108 @@
-# The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
+#################################################################
+# Dockerfile
+#
+# Version:          1.0
+# Software:         OptiType
+# Software Version: 1.3
+# Description:      Accurate NGS-based 4-digit HLA typing
+# Website:          https://github.com/FRED-2/OptiType/
+# Tags:             Genomics
+# Provides:         OptiType 1.3
+# Base Image:       biodckr/biodocker
+# Build Cmd:        docker build --rm -t fred2/opitype .
+# Pull Cmd:         docker pull fred2/optitype
+# Run Cmd:          docker run -v /path/to/file/dir:/data fred2/optitype
+#################################################################
 
-# Install conda-pack:
-RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda  -c conda-forge \
-	  optitype=1.3.5
+# Source Image
+FROM biocontainers/biocontainers:latest
 
-# Use conda-pack to create a standalone enviornment
-# in /venv:
-RUN conda-pack -n hydra -o /tmp/env.tar
-WORKDIR /venv
-RUN tar xf /tmp/env.tar
+################## BEGIN INSTALLATION ###########################
+USER root
 
-# We've put venv in same path it'll be in final image,
-# so now fix up paths:
-RUN /venv/bin/conda-unpack
+# install
+RUN apt-get update && apt-get install -y software-properties-common \
+&& apt-get update && apt-get install -y \
+    gcc-4.9 \
+    g++-4.9 \
+    coinor-cbc \
+    zlib1g-dev \
+    libbz2-dev \
+    liblzma-dev \
+    libfreetype6 \
+    libfreetype6-dev \
+&& update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9 \
+&& rm -rf /var/lib/apt/lists/* \
+&& apt-get clean \
+&& apt-get purge
 
-# The runtime-stage image; we can use Debian as the
-# base image since the Conda env also includes Python
-# for us.
-FROM debian:buster-slim AS runtime
+#HLA Typing
+#OptiType dependecies
+RUN curl -O https://support.hdfgroup.org/ftp/HDF5/current18/bin/hdf5-1.8.21-Std-centos7-x86_64-shared_64.tar.gz \
+    && tar -xvf hdf5-1.8.21-Std-centos7-x86_64-shared_64.tar.gz \
+    && mv hdf5/bin/* /usr/local/bin/ \
+    && mv hdf5/lib/* /usr/local/lib/ \
+    && mv hdf5/include/* /usr/local/include/ \
+    && mv hdf5/share/* /usr/local/share/ \
+    && rm -rf hdf5/ \
+    && rm -f hdf5-1.8.21-Std-centos7-x86_64-shared_64.tar.gz
 
-################## METADATA ######################
-LABEL maintainer="jonas.almlof@scilifelab.uu.se"
-LABEL version=1.3.5
-LABEL optitype=1.3.5
+ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
+ENV HDF5_DIR /usr/local/
 
-# Copy /venv from the previous stage:
-# to /usr/local to make it possible
-# running the softwares without activating
-# any conda env
-COPY --from=build /venv /usr/local
+USER biodocker
 
-RUN mkdir /venv && \
-    ln -s /usr/local/lib /venv/lib && \
-    ln -s /usr/local/bin /venv/bin
+RUN pip install pip==20.3.4 && pip install \
+    numpy==1.7.1 \
+    pyomo==4.1.10527 \
+    pysam \
+    matplotlib==1.3.1 \
+    tables \
+    pandas==0.12 \
+    future
+
+USER root
+
+#installing optitype form git repository (version Dec 09 2015) and wirtig config.ini
+RUN git clone https://github.com/FRED-2/OptiType.git \
+    && sed -i -e '1i#!/usr/bin/env python\' OptiType/OptiTypePipeline.py \
+    && mv OptiType/ /usr/local/bin/ \
+    && chmod 777 /usr/local/bin/OptiType/OptiTypePipeline.py \
+    && echo "[mapping]\n\
+razers3=/usr/local/bin/razers3 \n\
+threads=1 \n\
+\n\
+[ilp]\n\
+solver=cbc \n\
+threads=1 \n\
+\n\
+[behavior]\n\
+deletebam=true \n\
+unpaired_weight=0 \n\
+use_discordant=false\n" >> /usr/local/bin/OptiType/config.ini
+
+#installing razers3
+RUN git clone https://github.com/seqan/seqan.git seqan-src \
+    && cd seqan-src \
+    && cmake -DCMAKE_BUILD_TYPE=Release \
+    && make razers3 \
+    && cp bin/razers3 /usr/local/bin \
+    && cd .. \
+    && rm -rf seqan-src
+
+ENV PATH=/usr/local/bin/OptiType:$PATH
+
+# Change user to back to biodocker
+USER biodocker
+
+# Change workdir to /data/
+WORKDIR /data/
+
+# Define default command
+ENTRYPOINT ["OptiTypePipeline.py"]
+CMD ["-h"]
+
+##################### INSTALLATION END ##########################
+
+# File Author / Maintainer
+MAINTAINER Benjamin Schubert <schubert@informatik.uni-tuebingen.de>
