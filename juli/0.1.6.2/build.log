@@ -1,0 +1,22 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.02kB done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/zamora/r-devtools:b858468b5a82
+#3 ERROR: docker.io/zamora/r-devtools:b858468b5a82: not found
+------
+ > [internal] load metadata for docker.io/zamora/r-devtools:b858468b5a82:
+------
+Dockerfile:1
+--------------------
+   1 | >>> FROM zamora/r-devtools:b858468b5a82
+   2 |     
+   3 |     ADD https://github.com/sgilab/JuLI/raw/master/JuLI-v0.1.6.2.zip /tmp/JuLI-v0.1.6.2.zip
+--------------------
+ERROR: failed to solve: zamora/r-devtools:b858468b5a82: docker.io/zamora/r-devtools:b858468b5a82: not found

@@ -1,3 +1,4 @@
+# hadolint ignore=DL3007
 FROM zamora/r-devtools:latest
 
 ADD https://github.com/sgilab/JuLI/raw/master/JuLI-v0.1.6.2.zip /tmp/JuLI-v0.1.6.2.zip
