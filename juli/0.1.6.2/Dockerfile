@@ -2,8 +2,6 @@ FROM zamora/r-devtools@sha256:b858468b5a82331ae5b7a3cfc46bd5c2653f12fb65abc0efd6
 
 ADD https://github.com/sgilab/JuLI/raw/master/JuLI-v0.1.6.2.zip /tmp/JuLI-v0.1.6.2.zip
 RUN unzip /tmp/JuLI-v0.1.6.2.zip -d /unpack/
-#COPY /unpack/JuLI-v0.1.6.2/juliv0.1.6.2 /app/juliv0.1.6.2
-#WORKDIR /app
 
 # install R packages
 RUN R -e "install.packages('rlang',repos = 'http://cran.us.r-project.org')" \
