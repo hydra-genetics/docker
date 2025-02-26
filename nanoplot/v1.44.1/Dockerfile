@@ -10,7 +10,7 @@ ENV VERSION=${VERSION}
 RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda  -c conda-forge \
-        nanoplot=${VERSION}
+        nanoplot=${VERSION} pandas=2.1.2
 
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
