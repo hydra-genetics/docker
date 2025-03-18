@@ -19,7 +19,7 @@ RUN wget --progress=dot:giga "https://github.com/clinical-genomics-uppsala/poppy
 # for us.
 FROM debian:buster-slim AS runtime
 
-RUN source "$VIRTUAL_ENV/bin/activate"
+RUN bash -c "source $VIRTUAL_ENV/bin/activate"
 
 ARG VERSION
 ENV VERSION=${VERSION}
