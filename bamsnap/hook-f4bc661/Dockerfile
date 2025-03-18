@@ -1,7 +1,7 @@
 ARG VERSION=hook-f4bc661
 
 # The build-stage image:
-python:3.9-slim AS build
+FROM python:3.9-slim AS build
 
 ARG VERSION
 ENV VERSION=${VERSION}
