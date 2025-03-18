@@ -11,7 +11,8 @@ RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda  -c conda-forge \
         samtools=${VERSION} \
-        snakemake-wrapper-utils=0.7.0
+        python=3.9 \
+        snakemake-wrapper-utils==0.7.0 
 
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
@@ -28,4 +29,4 @@ LABEL samtools=${VERSION}
 
 COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
 ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
-    
+ 
