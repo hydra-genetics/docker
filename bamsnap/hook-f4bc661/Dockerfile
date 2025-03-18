@@ -12,8 +12,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Install dependencies:
 # COPY requirements.txt .
-RUN wget https://github.com/clinical-genomics-uppsala/poppy_uppsala/blob/main/requirements.txt
-RUN pip install -r requirements.txt
+RUN wget --progress=dot:giga https://github.com/clinical-genomics-uppsala/poppy_uppsala/blob/main/requirements.txt && pip install --no-cache-dir -r requirements.txt
 
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
