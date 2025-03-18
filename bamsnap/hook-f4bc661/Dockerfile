@@ -12,14 +12,14 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Install dependencies:
 # COPY requirements.txt .
-RUN wget --progress=dot:giga https://github.com/clinical-genomics-uppsala/poppy_uppsala/blob/main/requirements.txt && pip install --no-cache-dir -r requirements.txt
+RUN wget --progress=dot:giga "https://github.com/clinical-genomics-uppsala/poppy_uppsala/blob/main/requirements.txt" && pip install --no-cache-dir -r "requirements.txt"
 
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
 # for us.
 FROM debian:buster-slim AS runtime
 
-RUN source $VIRTUAL_ENV/bin/activate
+RUN source "$VIRTUAL_ENV/bin/activate"
 
 ARG VERSION
 ENV VERSION=${VERSION}
