@@ -1,4 +1,6 @@
-# Packages versions in the image used: https://packages.debian.org/bullseye/virtual/
+# Packages versions in the image used: https://packages.debian.org/bullseye/allpackages
+# The image python:3.9-slim-bullseye is built from debian:bullseye-slim, which itself uses Debian 11 (https://www.debian.org/releases/bullseye/)
+# Versions of packages installed by APT: wget=1.21-1 git=1:2.30.2-1 build-essential=12.9 zlib1g-dev=1:1.2.11.dfsg-2 python3-dev=3.9.2-3 python3-pip=20.3.4-4 python3-setuptools=52.0.0-4
 
 ARG VERSION=hook-f4bc661
 
