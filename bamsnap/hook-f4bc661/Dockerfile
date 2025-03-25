@@ -4,7 +4,9 @@ ARG VERSION="0.2.19"
 
 FROM ubuntu:20.04 AS runtime
 
+ARG VERSION
 ENV VERSION="custom"
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 ################## METADATA ######################
