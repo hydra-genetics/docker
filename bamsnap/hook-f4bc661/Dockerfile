@@ -18,4 +18,3 @@ LABEL maintainer="camille.clouard@scilifelab.uu.se"
 LABEL python=3.9
 LABEL version=${VERSION}
 LABEL bamsnap=${VERSION}
-
