@@ -1,4 +1,4 @@
-ARG VERSION=1.3
+ARG VERSION=1.5
 
 # The build-stage image:
 FROM continuumio/miniconda3:23.5.2-0 AS build
