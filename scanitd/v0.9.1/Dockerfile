@@ -1,11 +1,8 @@
-# Define version args for both builds
-ARG SCANITD_VERSION=0.9.1
-
 # We need at least python 3.10
 FROM python:3.11-slim-buster
 
 # Import version args to covert to env which persists after build command
-ARG SCANITD_VERSION
+ARG SCANITD_VERSION=0.9.1
 ENV SCANITD_VERSION=${SCANITD_VERSION}
 
 ################## METADATA ######################
