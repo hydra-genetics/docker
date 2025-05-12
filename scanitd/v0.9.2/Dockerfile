@@ -10,6 +10,7 @@ LABEL maintainer="jonas.almlof@scilifelab.uu.se"
 LABEL version=${SCANITD_VERSION}
 LABEL scanitd=${SCANITD_VERSION}
 
+# hadolint ignore=DL3013
 RUN pip install --no-cache-dir \
   pip==19.2.3 \
   bump2version==0.5.11 \
