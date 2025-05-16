@@ -12,12 +12,12 @@ RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
 	  cyvcf2=0.31.1 \
 	  datrie=0.8.2 \
 	  pysam=0.23.0 \
-	  python=3.11 \
+	  python=3.9 \
 	  samtools=1.21 \
 	  pyvcf=0.6.8 \
 	  snakemake-wrapper-utils=0.7.2 \
 	  tabix=1.11 \
-	  scipy=1.15.2 \
+	  scipy=1.13.1 \
 	  xlsxwriter=3.2.3
 
 
@@ -43,7 +43,7 @@ LABEL bcftools=1.21
 LABEL bedtools=2.31.1
 LABEL datrie=0.8.2
 LABEL hydra-genetics=3.1.1
-LABEL python=3.11
+LABEL python=3.9
 LABEL pysam=0.23.0
 LABEL samtools=1.21
 LABEL pyvcf=0.6.8
