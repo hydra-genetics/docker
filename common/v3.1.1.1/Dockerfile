@@ -50,6 +50,7 @@ LABEL pyvcf=0.6.8
 LABEL snakemake-wrapper-utils=0.7.2
 LABEL tabix=1.11
 LABEL xlsxwriter=3.2.3
+LABEL scipy=1.13.1
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
