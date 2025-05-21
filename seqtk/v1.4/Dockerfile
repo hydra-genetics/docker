@@ -17,7 +17,7 @@ LABEL maintainer="Jonas Almlöf"
 LABEL maintainer.email="jonas.almlof@scilifelab.uu.se"
 
 # install dependencies, take out the apt garbage
-RUN apt-get update && apt-get install -y make \
+RUN apt-get update && apt-get install --no-install-recommends -y make=4.1-6 \
  wget=1.17.1-1ubuntu1.5 \
  gcc=4:5.3.1-1ubuntu1 \
  gzip=1.6-4ubuntu1 \
@@ -25,11 +25,11 @@ RUN apt-get update && apt-get install -y make \
  apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
 # install seqtk
-RUN wget https://github.com/lh3/seqtk/archive/v${SEQTK_VERSION}.tar.gz && \
+RUN wget --progress=dot:giga https://github.com/lh3/seqtk/archive/v${SEQTK_VERSION}.tar.gz && \
  tar -xzvf v${SEQTK_VERSION}.tar.gz && \
- rm v${SEQTK_VERSION}.tar.gz && \
- cd seqtk-${SEQTK_VERSION} && \
- make 
+ rm v${SEQTK_VERSION}.tar.gz
+WORKDIR seqtk-${SEQTK_VERSION}
+RUN make 
 
 # set PATH and working directory
 ENV PATH="${PATH}:/seqtk-${SEQTK_VERSION}"
