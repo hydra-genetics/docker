@@ -18,10 +18,10 @@ LABEL maintainer.email="jonas.almlof@scilifelab.uu.se"
 
 # install dependencies, take out the apt garbage
 RUN apt-get update && apt-get install -y make \
- wget \
- gcc \
- gzip \
- zlib1g-dev && \
+ wget=1.17.1-1ubuntu1.5 \
+ gcc=4:5.3.1-1ubuntu1 \
+ gzip=1.6-4ubuntu1 \
+ zlib1g-dev=1:1.2.8.dfsg-2ubuntu4.3 && \
  apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
 # install seqtk
