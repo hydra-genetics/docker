@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y make=4.1-6 \
  apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
 # install seqtk
-RUN wget --progress=dot:giga https://github.com/lh3/seqtk/archive/v${SEQTK_VERSION}.tar.gz && \
+RUN wget --no-check-certificate --progress=dot:giga https://github.com/lh3/seqtk/archive/v${SEQTK_VERSION}.tar.gz && \
  tar -xzvf v${SEQTK_VERSION}.tar.gz && \
  rm v${SEQTK_VERSION}.tar.gz
 WORKDIR /seqtk-${SEQTK_VERSION}
