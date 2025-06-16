@@ -44,10 +44,8 @@ RUN apt-get update && \
     && apt-get purge \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/list/* \
-	&& wget -nv https://github.com/broadinstitute/picard/releases/download/3.4.0/picard.jar
-
-
-RUN R -e "install.packages(c('tidyverse', 'optparse', 'data.table', 'vcfR', 'stringr', 'BiocManager'))" \
+	&& wget -nv https://github.com/broadinstitute/picard/releases/download/3.4.0/picard.jar \
+	&& R -e "install.packages(c('tidyverse', 'optparse', 'data.table', 'vcfR', 'stringr', 'BiocManager'))" \
     && R -e "library(BiocManager)" \
 	&& R -e "BiocManager::install(ask = F)" \
     && R -e "BiocManager::install(c('Biostrings', 'Rsamtools', 'GenomicRanges'))"
