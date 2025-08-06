@@ -18,7 +18,7 @@ RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
 	  scipy=1.13.1 \
 	  numpy==2.0.2 \
 	  matplotlib==3.9.4 \
-	  pandas==3.3.1 \
+	  pandas==2.3.1 \
 	  seaborn==0.13.2
 
 
@@ -53,7 +53,7 @@ LABEL tabix=1.11
 LABEL scipy=1.13.1
 LABEL numpy=2.0.2
 LABEL matplotlib=3.9.4
-LABEL pandas=3.3.1
+LABEL pandas=2.3.1
 LABEL seaborn=0.13.2
 
 # Copy /venv from the previous stage:
