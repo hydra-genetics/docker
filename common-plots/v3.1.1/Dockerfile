@@ -19,7 +19,7 @@ RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
 	  numpy==2.0.2 \
 	  matplotlib==3.9.4 \
 	  pandas==3.3.1 \
-	  seaborn==0.13.2 \
+	  seaborn==0.13.2
 
 
 # Use conda-pack to create a standalone enviornment
