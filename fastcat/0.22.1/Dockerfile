@@ -1,7 +1,7 @@
 ARG VERSION=0.22.1
 
 # The build-stage image:
-FROM continuumio/miniconda3:23.5.2-0 AS build
+FROM continuumio/miniconda3:25.3.1-1 AS build
 
 ARG VERSION
 ENV VERSION=${VERSION}
@@ -9,7 +9,8 @@ ENV VERSION=${VERSION}
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
-    conda create --name hydra -c conda-forge -c nanoporetech \
+    conda create --name hydra -c bioconda -c conda-forge -c nanoporetech \
+        htslib=1.22.1 \
         fastcat=${VERSION}
 
 # The runtime-stage image; we can use Debian as the
@@ -24,6 +25,7 @@ ENV VERSION=${VERSION}
 LABEL maintainer="camille.clouard@scilifelab.uu.se"
 LABEL version=${VERSION}
 LABEL fastcat=${VERSION}
+LABEL htslib=1.22.1
 
 
 COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
