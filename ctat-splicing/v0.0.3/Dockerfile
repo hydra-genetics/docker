@@ -24,26 +24,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     liblzma-dev=5.2.2-1.3ubuntu0.1 \
     git=1:2.17.1-1ubuntu0.18 && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-
-# make python3 be the default python
-RUN ln -sf /usr/bin/python3 /usr/bin/python
-
-RUN curl https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py && \
-    python get-pip.py
-
-
-
-RUN pip install --no-cache-dir \
+    rm -rf /var/lib/apt/lists/* && \
+    # make python3 be the default python
+    ln -sf /usr/bin/python3 /usr/bin/python && \
+    curl https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py && \
+    python get-pip.py && \
+    pip install --no-cache-dir \
     igv-reports==1.0.1 \
     requests==2.27.1 \
     pysam==0.23.0 \
     pandas==1.1.5
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl -L https://cpanmin.us | perl - App::cpanminus
-RUN cpanm install URI::Escape
+RUN curl -L https://cpanmin.us | perl - App::cpanminus && \
+    cpanm install URI::Escape
 
 
 ENV SRC=/usr/local/src
@@ -77,6 +71,7 @@ RUN git checkout $CO && \
   make
 
 
+###Metadata###
 LABEL maintainer="jonas.almlof@scilifelab.uu.se"
 LABEL version=0.0.3
 LABEL samtools=1.17
