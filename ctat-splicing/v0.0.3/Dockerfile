@@ -42,6 +42,7 @@ RUN curl -L https://cpanmin.us | perl - App::cpanminus && \
 
 ENV SRC=/usr/local/src
 ENV BIN=/usr/local/bin
+ENV PATH=${PATH}:/usr/local/src/CTAT-SPLICING/
 
 ## Samtools
 ENV SAMTOOLS_VERSION=1.7
