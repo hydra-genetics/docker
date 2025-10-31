@@ -7,10 +7,9 @@
 # Changed biocmanager to be installed in a run R command
 # updated rBLAST to install from dev branch and set dependencies to TRUE
 
-# set noninterative mode
-ENV DEBIAN_FRONTEND=noninteractive
+FROM ubuntu:24.04
 
-# R 4.3.3 (from Ubuntu 24.04) -> Bioconductor 3.18
+ENV DEBIAN_FRONTEND=noninteractive
 ENV R_VERSION=4.3.3
 ENV BIOC_VERSION=3.18
 
@@ -47,16 +46,12 @@ RUN apt-get clean && \
 # install global r requirements
 # todo: doublecheck snapshot if needed; doublecheck rBLAST version
 ENV CRAN_SNAPSHOT=https://packagemanager.posit.co/cran/2024-04-01
-RUN echo "local({ r <- getOption('repos'); r['CRAN'] <- '${CRAN_SNAPSHOT}'; options(repos = r) })" > ~/.Rprofile
-
-# Install BiocManager and set Bioconductor version
-# kommer klaga sätt dom som och (&&)
-RUN Rscript -e "if (!require('BiocManager', quietly = TRUE)) install.packages('BiocManager')"
-RUN Rscript -e "BiocManager::install(version = '${BIOC_VERSION}', ask = FALSE, update = FALSE)"
-
-RUN Rscript -e "if (!require('devtools', quietly = TRUE)) install.packages('devtools')"
-RUN Rscript -e "devtools::install_github('mhahsler/rBLAST', ref = 'devel', dependencies = TRUE)"
-RUN Rscript -e "if (!require('rBLAST')) stop('rBLAST installation failed')"
+RUN echo "local({ r <- getOption('repos'); r['CRAN'] <- '${CRAN_SNAPSHOT}'; options(repos = r) })" > ~/.Rprofile \
+  && Rscript -e "if (!require('BiocManager', quietly = TRUE)) install.packages('BiocManager')" \
+  && Rscript -e "BiocManager::install(version = '${BIOC_VERSION}', ask = FALSE, update = FALSE)" \
+  && Rscript -e "if (!require('devtools', quietly = TRUE)) install.packages('devtools')" \
+  && Rscript -e "devtools::install_github('mhahsler/rBLAST', ref = 'devel', dependencies = TRUE)" \
+  && Rscript -e "if (!require('rBLAST')) stop('rBLAST installation failed')"
 
 # install scramble
 # todo: change path to hardcoded
