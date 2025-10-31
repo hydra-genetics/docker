@@ -70,3 +70,8 @@ RUN ln -s /app/cluster_identifier/src/build/cluster_identifier /usr/local/bin
 # define default command
 CMD ["Rscript"]
 
+################## METADATA ######################
+LABEL maintainer="julia.hoglund@scilifelab.uu.se"
+LABEL version=1.0.2
+LABEL r-base=4.3.3
+LABEL bioconductor=3.18
