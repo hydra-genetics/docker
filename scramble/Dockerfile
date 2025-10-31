@@ -18,30 +18,28 @@ RUN apt-get clean all && \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y  \
-        autoconf \
-        autogen \
-        build-essential \
-        curl \
-        libbz2-dev \
-        libcurl4-gnutls-dev \
-        libhts3 \
-        libhts-dev \
-        liblzma-dev \
-        libncurses5-dev \
-        libnss-sss \
-        libssl-dev \
-        libxml2-dev \
-        ncbi-blast+ \
-        r-base \
-        r-bioc-biostrings \
-        r-bioc-rsamtools \
-        r-cran-stringr \
-        r-cran-optparse \
-        zlib1g-dev
-
-# apt-get clean and remove cached source lists
-RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+        autoconf=2.71-3 \
+        autogen=1:5.18.16-5build1 \
+        build-essential=12.10ubuntu1 \
+        curl=8.5.0-2ubuntu10.6 \
+        libbz2-dev=1.0.8-5.1build0.1 \
+        libcurl4-gnutls-dev=8.5.0-2ubuntu10.6 \
+        libhts3=1.19+ds-1.1build3 \
+        libhts-dev=1.19+ds-1.1build3 \
+        liblzma-dev=5.6.1+really5.4.5-1ubuntu0.2 \
+        libncurses5-dev=6.4+20240113-1ubuntu2 \
+        libnss-sss=1.0.0-2ubuntu0.1 \
+        libssl-dev=3.0.13-0ubuntu3.6 \
+        libxml2-dev=2.9.14+dfsg-1.3ubuntu3.6 \
+        ncbi-blast+=2.12.0+ds-4build2 \
+        r-base=4.3.3-2build2 \
+        r-bioc-biostrings=2.70.2+dfsg-1 \
+        r-bioc-rsamtools=2.18.0+dfsg-1build2 \
+        r-cran-stringr=1.5.1-1 \
+        r-cran-optparse=1.7.4-1 \
+        zlib1g-dev=1:1.3.dfsg-3.1ubuntu2.1 \
+        && apt-get clean \
+        && rm -rf /var/lib/apt/lists/*
 
 # install global r requirements
 # todo: doublecheck snapshot if needed; doublecheck rBLAST version
