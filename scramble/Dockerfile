@@ -1,10 +1,11 @@
-# Updated to support rBLAST from Bioconductor 3.18+
-FROM ubuntu:24.04
+# Originally created by Carlos Borroto (https://github.com/GeneDx/scramble)
 
-# Metadata
-LABEL maintainer="updated by julia höglund 2025-10-27"
-LABEL description="SCRAMble - https://github.com/GeneDx/scramble"
-LABEL version="1.0"
+## Edited by Julia Höglund to update R and Bioconductor versions
+## as well as for buillding from the hydra-genetics docker repo.
+# Updated ubuntu to support rBLAST from Bioconductor 3.18+
+# Added fixed versions to apt packages
+# Changed biocmanager to be installed in a run R command
+# updated rBLAST to install from dev branch and set dependencies to TRUE
 
 # set noninterative mode
 ENV DEBIAN_FRONTEND=noninteractive
@@ -14,9 +15,6 @@ ENV R_VERSION=4.3.3
 ENV BIOC_VERSION=3.18
 
 # apt-get update and install global requirements
-# linting: ha versioner på paketen här 
-# info: se docker repo på hydra genetics
-# pipa log när den byggs istället för som den gör och lås senare.
 RUN apt-get clean all && \
     apt-get update && \
     apt-get upgrade -y && \
@@ -47,7 +45,7 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # install global r requirements
-# Using snapshot from 2024-04-01 for reproducibility; compatible with R 4.3.3
+# todo: doublecheck snapshot if needed; doublecheck rBLAST version
 ENV CRAN_SNAPSHOT=https://packagemanager.posit.co/cran/2024-04-01
 RUN echo "local({ r <- getOption('repos'); r['CRAN'] <- '${CRAN_SNAPSHOT}'; options(repos = r) })" > ~/.Rprofile
 
@@ -61,7 +59,7 @@ RUN Rscript -e "devtools::install_github('mhahsler/rBLAST', ref = 'devel', depen
 RUN Rscript -e "if (!require('rBLAST')) stop('rBLAST installation failed')"
 
 # install scramble
-# ändra path i env så den inte hårdkodas i kommandot
+# todo: change path to hardcoded
 COPY . /app
 RUN cd /app/cluster_identifier/src && \
   make
