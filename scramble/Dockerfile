@@ -3,9 +3,13 @@
 ## Edited by Julia Höglund to update R and Bioconductor versions
 ## as well as for buillding from the hydra-genetics docker repo.
 # Updated ubuntu to support rBLAST from Bioconductor 3.18+
-# Added fixed versions to apt packages
-# Changed biocmanager to be installed in a run R command
+# Added locked versions to apt packages
+# changed biocmanager to be installed in a run R command
+# added biocmanager dependencies that need to explicitly be installed before rblast
 # updated rBLAST to install from dev branch and set dependencies to TRUE
+# added additional devtools dependencies after updating ubuntu base image
+# added CRAN snapshot to lock R package versions
+
 
 FROM ubuntu:24.04
 
