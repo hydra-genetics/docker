@@ -65,12 +65,15 @@ RUN echo "local({ r <- getOption('repos'); r['CRAN'] <- '${CRAN_SNAPSHOT}'; opti
   && Rscript -e "devtools::install_github('mhahsler/rBLAST', ref = 'devel', dependencies = TRUE)" \
   && Rscript -e "if (!require('rBLAST')) stop('rBLAST installation failed')"
 
-# install scramble
-# todo: change path to hardcoded
-COPY . /app
-RUN cd /app/cluster_identifier/src && \
-  make
-RUN ln -s /app/cluster_identifier/src/build/cluster_identifier /usr/local/bin
+# install scramble from GitHub
+RUN git clone https://github.com/GeneDx/scramble.git /opt/scramble
+WORKDIR /opt/scramble/cluster_identifier/src
+RUN make \
+  && ln -s /opt/scramble/cluster_identifier/src/build/cluster_identifier /usr/local/bin/cluster_identifier \
+  && ln -s /opt/scramble/cluster_analysis/bin/SCRAMble.R /usr/local/bin/SCRAMble.R
+
+# Set working directory
+WORKDIR /data
 
 # define default command
 CMD ["Rscript"]
