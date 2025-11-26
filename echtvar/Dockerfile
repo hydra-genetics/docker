@@ -15,7 +15,7 @@ RUN apt-get update \
     ca-certificates=20230311+deb12u1 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && wget --progress=dot:giga /usr/bin/echtvar https://github.com/brentp/echtvar/releases/download/v${VERSION}/echtvar \
+    && wget --progress=dot:giga -O /usr/bin/echtvar https://github.com/brentp/echtvar/releases/download/v${VERSION}/echtvar \
     && chmod +x /usr/bin/echtvar
 
 
