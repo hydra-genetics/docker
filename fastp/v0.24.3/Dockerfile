@@ -10,7 +10,8 @@ ENV VERSION=${VERSION}
 RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda  -c conda-forge \
-        fastp=${VERSION}
+        fastp=${VERSION} \
+        snakemake-wrapper-utils=0.3.1
 
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
@@ -24,6 +25,7 @@ ENV VERSION=${VERSION}
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL version=${VERSION}
 LABEL fastp=${VERSION}
+LABEL snakemake-wrapper-utils=0.3.1
 
 
 COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
