@@ -10,6 +10,7 @@ ENV VERSION=${VERSION}
 RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda  -c conda-forge \
+        python=3.11 \
         bcftools=${VERSION} \
         snakemake-wrapper-utils=0.3.1
 
