@@ -12,7 +12,7 @@ RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda create --name hydra -c bioconda  -c conda-forge \
         python=3.8 \
         bcftools=${VERSION} \
-        snakemake-wrapper-utils=0.3.1
+        snakemake-wrapper-utils=0.8.0
 
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
