@@ -7,10 +7,10 @@ ARG VERSION
 ENV VERSION=${VERSION}
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
+RUN conda install -y -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
-    conda create --name hydra -c bioconda  -c conda-forge \
-        trgt=${VERSION} 
+    conda create -y --name hydra -c bioconda -c conda-forge \
+        trgt=${VERSION}
 
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
