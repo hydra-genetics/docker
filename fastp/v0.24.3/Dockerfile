@@ -11,6 +11,7 @@ RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda  -c conda-forge \
         fastp=${VERSION} \
+        python=3.11 \
         snakemake-wrapper-utils=0.3.1
 
 # The runtime-stage image; we can use Debian as the
