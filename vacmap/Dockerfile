@@ -1,7 +1,8 @@
 FROM ubuntu:22.04
 
-ARG VACMAP_REF=main
+ARG VACMAP_REF
 ARG MICROMAMBA_VERSION=1.5.10-0
+ARG MICROMAMBA_SHA256
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -17,11 +18,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     bzip2 \
     ca-certificates \
     curl \
-    && curl -L "https://conda.anaconda.org/conda-forge/linux-64/micromamba-${MICROMAMBA_VERSION}.tar.bz2" -o /tmp/micromamba.tar.bz2 \
+    && curl -fsSL "https://conda.anaconda.org/conda-forge/linux-64/micromamba-${MICROMAMBA_VERSION}.tar.bz2" -o /tmp/micromamba.tar.bz2 \
+    && echo "${MICROMAMBA_SHA256}  /tmp/micromamba.tar.bz2" | sha256sum -c - \
     && tar -xjf /tmp/micromamba.tar.bz2 -C /tmp bin/micromamba \
     && install -m 755 /tmp/bin/micromamba /usr/local/bin/micromamba \
     && rm -rf /tmp/micromamba.tar.bz2 /tmp/bin \
-    && git clone --depth 1 --branch "${VACMAP_REF}" --single-branch https://github.com/micahvista/VACmap.git /opt/VACmap \
+    && git clone https://github.com/micahvista/VACmap.git /opt/VACmap \
+    && git -C /opt/VACmap checkout --detach "${VACMAP_REF}" \
     && micromamba create -y -n vacmap_env -f /opt/VACmap/VACmap_environment.yml \
     && micromamba run -n vacmap_env python -m pip install --no-cache-dir --no-build-isolation /opt/VACmap \
     && if ! head -n 1 /opt/micromamba/envs/vacmap_env/bin/vacmap | grep -q '^#!'; then \
@@ -31,10 +34,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && micromamba clean --all --yes \
     && rm -rf /opt/VACmap \
     && mkdir -p "${MPLCONFIGDIR}" \
+    && useradd --create-home --uid 10001 --shell /usr/sbin/nologin vacmap \
+    && chown -R vacmap:vacmap "${MPLCONFIGDIR}" /home/vacmap \
     && vacmap --help >/dev/null \
     && apt-get purge -y --auto-remove build-essential git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+USER 10001:10001
 ENTRYPOINT ["vacmap"]
 CMD ["--help"]
