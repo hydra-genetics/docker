@@ -44,3 +44,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 USER 10001:10001
 ENTRYPOINT ["vacmap"]
 CMD ["--help"]
+
+################## METADATA ######################
+LABEL maintainer="andrei.guliaev@scilifelab.uu.se"
+LABEL version=1.0.0
