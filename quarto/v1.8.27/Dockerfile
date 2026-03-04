@@ -39,7 +39,8 @@ COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
 
 
 RUN mkdir -p /opt/conda/envs/hydra/bin/tools/x86_64/ && \
-    ln -s /opt/conda/envs/hydra/bin/deno /opt/conda/envs/hydra/bin/tools/x86_64/deno
+    ln -s /opt/conda/envs/hydra/bin/deno /opt/conda/envs/hydra/bin/tools/x86_64/deno && \
+    ln -s /opt/conda/envs/hydra/share/quarto/editor /opt/conda/envs/hydra/share/editor
 
 
 ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
