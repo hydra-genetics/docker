@@ -39,11 +39,10 @@ COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
 
 
 RUN mkdir -p /opt/conda/envs/hydra/bin/tools/x86_64/ && \
-    ln -s /opt/conda/envs/hydra/bin/deno /opt/conda/envs/hydra/bin/tools/x86_64/deno 
-
-RUN cd /opt/conda/envs/hydra/share/quarto && \
-    for dir in */; do \
-        ln -sf "/opt/conda/envs/hydra/share/quarto/$dir" "/opt/conda/envs/hydra/share/$dir"; \
+    ln -s /opt/conda/envs/hydra/bin/deno /opt/conda/envs/hydra/bin/tools/x86_64/deno && \
+    for dir in /opt/conda/envs/hydra/share/quarto/*/; do \
+        dirname=$(basename "$dir"); \
+        ln -sf "$dir" "/opt/conda/envs/hydra/share/$dirname"; \
     done
 
 
