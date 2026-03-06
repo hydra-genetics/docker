@@ -27,11 +27,12 @@ RUN mkdir -p /opt/Fragle && \
     rm /opt/Fragle.tar.gz
 
 # Download and unzip the Fragle source code
-RUN wget -q https://github.com/skandlab/FRAGLE/archive/refs/heads/main.zip -O /opt/fragle.zip && \
+ARG FRAGLE_COMMIT=3212220151e4250cd8eeb5f26f50c17b878a55da
+RUN wget -q https://github.com/skandlab/FRAGLE/archive/${FRAGLE_COMMIT}.zip -O /opt/fragle.zip && \
     unzip -q /opt/fragle.zip -d /opt && \
-    mv /opt/FRAGLE-main /opt/FRAGLE && \
+    mv /opt/FRAGLE-${FRAGLE_COMMIT} /opt/Fragle_app && \
     rm /opt/fragle.zip && \
-    printf '#!/bin/bash\nsource /opt/Fragle/bin/activate && python /opt/FRAGLE/main.py "$@"\n' > /opt/Fragle/bin/fragle && \
+    printf '#!/bin/bash\nsource /opt/Fragle/bin/activate && python /opt/Fragle_app/main.py "$@"\n' > /opt/Fragle/bin/fragle && \
     chmod +x /opt/Fragle/bin/fragle
 
 ENV PATH=/opt/Fragle/bin:${PATH}
