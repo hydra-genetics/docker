@@ -3,4 +3,4 @@ FROM brentp/somalier:v0.2.18
 
 ################## METADATA ######################
 LABEL maintainer="julia.hoglund@scilifelab.uu.se"
-LABEL somalier-version=0.3.1
+LABEL version=0.3.1
