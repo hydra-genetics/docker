@@ -4,12 +4,12 @@ FROM ghcr.io/quarto-dev/quarto:1.8.27
 # Prevent prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 1. Install Python 3.12 and system dependencies
+# 1. Install Python 3.10 and system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3.10=3.10.12 \
-    python3.10-venv=3.10.12 \
+    python3.10=3.10.12-1~22.04.14 \
+    python3.10-venv=3.10.12-1~22.04.14 \
     python3-pip=22.0.2+dfsg-1ubuntu0.7 \
-    curl=7.81.0 \
+    curl=7.81.0-1ubuntu1.22 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
