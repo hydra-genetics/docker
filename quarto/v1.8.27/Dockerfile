@@ -1,49 +1,53 @@
-ARG VERSION=1.8.27
+# Start with the official Quarto dev image
+FROM ghcr.io/quarto-dev/quarto:1.8.27
 
-# The build-stage image:
-FROM continuumio/miniconda3:23.5.2-0 AS build
+# Prevent prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
 
-ARG VERSION
-ENV VERSION=${VERSION}
+# 1. Install Python 3.12 and system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.10 \
+    python3.10-venv \
+    python3-pip \
+    curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install conda-pack:
-RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
-    conda config --set solver libmamba && \
-    conda create --name hydra -c bioconda  -c conda-forge \
-        python=3.12 \
-        quarto=${VERSION} \
-        pandas=2.3.3 \
-        plotly=6.5.2 \
-        openpyxl=3.1.5 \
-        itables=2.7.0 
+# 2. Set Python 3.10 as the default 'python' and 'python3'
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1 \
+    && update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
 
-# The runtime-stage image; we can use Debian as the
-# base image since the Conda env also includes Python
-# for us.
-FROM debian:bookworm-slim AS runtime
+# 3. Install your Python library stack
+RUN pip install --no-cache-dir \
+    pandas 2.3.3 \
+    itables 2.7.0 \
+    plotly 6.6.0 \
+    openpyxl 3.1.5 \
+    jupyter 1.1.1 \
+    nbformat 5.10.4 \
+    nbconvert 7.17.0 \
+    papermill 2.7.0
 
-ARG VERSION
-ENV VERSION=${VERSION}
+# Set the working directory
+WORKDIR /data
+
+# Default command: show versions to verify setup
+CMD ["quarto", "--version"]
+
+
+
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL version=${VERSION}
 LABEL pandas=2.3.3
-LABEL plotly=6.5.2
-LABEL openpyxl=3.1.5
 LABEL itables=2.7.0
+LABEL plotly=6.6.0
+LABEL openpyxl=3.1.5
+LABEL jupyter=1.1.1 
+LABEL nbformat=5.10.4
+LABEL nbconvert=7.17.0
+LABEL papermill=2.7.0
 
 
 
-COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
-
-
-RUN mkdir -p /opt/conda/envs/hydra/bin/tools/x86_64/ && \
-    ln -s /opt/conda/envs/hydra/bin/deno /opt/conda/envs/hydra/bin/tools/x86_64/deno && \
-    for dir in /opt/conda/envs/hydra/share/quarto/*/; do \
-        dirname=$(basename "$dir"); \
-        ln -sf "$dir" "/opt/conda/envs/hydra/share/$dirname"; \
-    done
-
-
-ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
