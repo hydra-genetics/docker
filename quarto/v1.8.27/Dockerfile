@@ -38,6 +38,8 @@ CMD ["quarto", "--version"]
 
 
 ################## METADATA ######################
+ARG VERSION=1.8.27
+
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
 LABEL version=${VERSION}
 LABEL pandas=2.3.3
