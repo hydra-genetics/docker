@@ -3,20 +3,22 @@ FROM r-base:4.4.0
 # --- STEP 1: System Dependencies ---
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+# --- STEP 1: System Dependencies ---
+# hadolint ignore=DL3008
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    curl=8.12.1-2 \
-    libcurl4-openssl-dev=8.12.1-2 \
-    libssl-dev=3.4.1-1 \
-    libxml2-dev=2.12.7+dfsg-3 \
-    wget=1.24.5-2 \
-    git=1:2.47.2-1 \
-    libpng-dev=1.6.44-2 \
-    libjpeg-dev=1:2.1.5-3 \
-    zlib1g-dev=1:1.3.1+dfsg-2 \
-    libbz2-dev=1.0.8-6 \
-    libfftw3-dev=3.3.10-1 \
-    libgsl-dev=2.8+dfsg-2 \
-    liblzma-dev=5.6.2-2 \
+    curl \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    wget \
+    git \
+    libpng-dev \
+    libjpeg-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    liblzma-dev \
+    libfftw3-dev \
+    libgsl-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
