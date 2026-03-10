@@ -1,44 +1,60 @@
 FROM r-base:4.4.0
 
+# --- STEP 1: System Dependencies & Build Tools ---
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    curl=8.12.1-2 \
+    libcurl4-openssl-dev=8.12.1-2 \
+    libssl-dev=3.4.1-1 \
+    libxml2-dev=2.12.7+dfsg-3 \
+    wget=1.24.5-2 \
+    git=1:2.47.2-1 \
+    libpng-dev=1.6.44-2 \
+    libjpeg-dev=1:2.1.5-3 \
+    zlib1g-dev=1:1.3.1+dfsg-2 \
+    libbz2-dev=1.0.8-6 \
+    liblzma-dev=5.6.2-2 \
+    libfftw3-dev=3.3.10-1 \
+    libgsl-dev=2.8+dfsg-2 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# install curl and libcurl
-RUN apt-get update \
-  && apt-get install --no-install-recommends -y \
-    curl=8.18.0-2 \
-    libcurl4-openssl-dev=8.18.0-2 \
-    libssl-dev=3.5.5-1 \
-    libxml2-dev=2.15.1+dfsg-2+b1 \
-    wget=1.25.0-2 \
-    git=1:2.51.0-1 \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* \
-  && R -e "install.packages('remotes', clean = TRUE)" \
-  && R -e "install.packages('BiocManager', clean = TRUE)" \
-  && R -e "library(remotes)" \
-  && R -e "library(BiocManager)" && R -e "BiocManager::install(ask = F)" \
-  && R -e "BiocManager::install(c('aroma.light', 'bamsignals', 'BSgenome', 'BSgenome.Hsapiens.UCSC.hg19', 'csaw', 'GenomicRanges', 'Repitools', 'Rsamtools', 'VariantAnnotation', 'DNAcopy'), clean = TRUE)" \
-  && R -e "install.packages(c('data.table', 'doParallel', 'fastICA', 'ggplot2', 'MASS', 'patchwork', 'PSCBS', 'optparse', 'stringr'), clean = TRUE)" \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* \
-  && rm -rf /tmp/downloaded_packages \
-  && rm -rf /usr/local/lib/R/site-library/*/help
+# --- STEP 2: R Environment Configuration ---
+RUN mkdir -p ~/.R && \
+    echo "CFLAGS += -Wno-implicit-function-declaration -Wno-error=implicit-function-declaration" > ~/.R/Makevars && \
+    echo "CXXFLAGS += -Wno-error=implicit-function-declaration" >> ~/.R/Makevars
 
+ENV R_REPOS="c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/bookworm/2025-12-01')"
 
+# --- STEP 3: Genomic Data & R Packages ---
+RUN R -e "options(timeout = 3000, download.file.method = 'libcurl'); \
+    install.packages('BiocManager', repos='https://cloud.r-project.org'); \
+    BiocManager::install(c('BSgenome.Hsapiens.UCSC.hg19', 'BSgenome.Hsapiens.UCSC.hg38'), ask=FALSE)"
+
+RUN wget --progress=dot:giga https://cran.r-project.org/src/contrib/Archive/gsmoothr/gsmoothr_0.1.7.tar.gz -O /tmp/gsmoothr.tar.gz && \
+    R CMD INSTALL /tmp/gsmoothr.tar.gz && \
+    rm /tmp/gsmoothr.tar.gz
+
+RUN R -e "options(repos = ${R_REPOS}); \
+    BiocManager::install(c('biomaRt', 'Repitools', 'aroma.light', 'bamsignals', 'csaw', \
+    'GenomicRanges', 'Rsamtools', 'VariantAnnotation', 'DNAcopy', 'edgeR', 'limma'), ask = FALSE); \
+    install.packages(c('data.table', 'doParallel', 'fastICA', 'ggplot2', 'MASS', \
+    'patchwork', 'PSCBS', 'optparse', 'stringr', 'ggrepel', 'remotes'))"
+
+# --- STEP 4: The Jumble Installation ---
 WORKDIR /opt/jumble
 RUN git clone https://github.com/ClinSeq/jumble.git . && \
     git checkout 862b485f6ea87515f77fe7d21e7bbba622a4a07a && \
+    R -e "remotes::install_local('.', dependencies = FALSE, upgrade = 'never')" && \
     mkdir -p /Jumble && \
     cp inst/scripts/jumble-*.R /Jumble/ && \
     chmod +x /Jumble/jumble-*.R && \
-    rm -rf .git
-
+    rm -rf .git /tmp/*
 
 WORKDIR /Jumble   
-ENV PATH=/Jumble:${PATH}
-
+ENV PATH="/Jumble:${PATH}"
 
 ################## METADATA ######################
-LABEL maintainer="jonas.almlöf@scilifelab.uu.se"
-LABEL version=260309
-LABEL jumble=260309
-LABEL r-base=4.4.0
+LABEL maintainer="jonas.almlöf@scilifelab.uu.se" \
+      version="260310" \
+      jumble="260310" \
+      r-base="4.4.0"
