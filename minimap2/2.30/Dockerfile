@@ -8,7 +8,7 @@ ENV VERSION=${VERSION}
 
 RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
-    conda create --name hydra -c bioconda  -c conda-forge \    minimap2=${VERSION} \
+    conda create --name hydra -c bioconda -c conda-forge \
     minimap2=${VERSION} \
     samtools=1.23 \
     snakemake-wrapper-utils=0.6.1
