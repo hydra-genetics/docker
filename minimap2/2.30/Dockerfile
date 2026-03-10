@@ -6,7 +6,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 ARG VERSION
 ENV VERSION=${VERSION}
 
-RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
+RUN conda install -c conda-forge conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda -c conda-forge \
     minimap2=${VERSION} \
