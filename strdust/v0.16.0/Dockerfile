@@ -11,7 +11,7 @@ ENV VERSION=${VERSION}
 RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda  -c conda-forge \
-    strdust=0.8.2
+    strdust=${VERSION}
 
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
