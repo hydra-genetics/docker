@@ -1,7 +1,7 @@
 ARG VERSION=2.30
 
 # The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
+FROM continuumio/miniconda3:23.5.2-0 AS build
 
 ARG VERSION
 ENV VERSION=${VERSION}
