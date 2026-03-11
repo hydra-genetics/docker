@@ -61,6 +61,6 @@ ENV PATH="/Jumble:${PATH}"
 
 ################## METADATA ######################
 LABEL maintainer="jonas.almlöf@scilifelab.uu.se"
-LABEL version="260310"
-LABEL jumble="260310"
-LABEL r-base="4.4.0"
+LABEL version=260310
+LABEL jumble=260310
+LABEL r-base=4.4.0
