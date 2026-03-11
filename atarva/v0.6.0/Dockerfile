@@ -13,10 +13,8 @@ RUN apt-get update && \
         build-essential=12.12 \
         libssl-dev=3.5.4-1~deb13u2 \
         git=1:2.47.3-0+deb13u1 \
-        && rm -rf /var/lib/apt/lists/*
-
-
-RUN pip install --no-cache-dir atarva==${VERSION} 
+        && rm -rf /var/lib/apt/lists/* && \
+        pip install --no-cache-dir atarva==${VERSION} 
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
