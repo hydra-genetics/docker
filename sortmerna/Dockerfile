@@ -31,7 +31,6 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
 LABEL version=4.3.4
-LABEL python=3.9
 LABEL snakemake-wrapper-utils=0.3.1
 LABEL sortmerna=4.3.4
 
