@@ -4,12 +4,12 @@ FROM continuumio/miniconda3:4.10.3 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
     conda create --name hydra -c bioconda -c conda-forge \
-    jinja2=3.0.1 \
-    pigz=2.9rc3 \
+    jinja2 \
+    pigz \
     python=3.9 \
-    pyyaml=6.0.3 \
-    rapidgzip=0.16.0 \
-    requests=2.32.5 \
+    pyyaml \
+    rapidgzip \
+    requests \
     snakemake-wrapper-utils=0.3.1 \
     sortmerna=4.3.4
 
@@ -31,12 +31,12 @@ FROM debian:buster-slim AS runtime
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
 LABEL version=4.3.4
-LABEL jinja2=3.0.1
-LABEL pigz=2.9rc3
+LABEL jinja2
+LABEL pigz
 LABEL python=3.9
-LABEL pyyaml=6.0.3
-LABEL rapidgzip=0.16.0
-LABEL requests=2.32.5
+LABEL pyyaml
+LABEL rapidgzip
+LABEL requests
 LABEL snakemake-wrapper-utils=0.3.1
 LABEL sortmerna=4.3.4
 
