@@ -3,7 +3,7 @@ FROM continuumio/miniconda3:4.10.3 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda -c conda-forge \ 
+    conda create --name hydra -c bioconda -c conda-forge \
     jinja2=3.0.1 \
     pigz=2.9rc3 \
     python=3.9 \
