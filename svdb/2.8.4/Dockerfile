@@ -6,7 +6,7 @@ FROM continuumio/miniconda3:23.5.2-0 AS build
 ARG VERSION
 ENV VERSION=${VERSION}
 
-# Install conda-pack:
+# Install libmamba solver and create the hydra environment:
 RUN conda install -c conda-forge conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda  -c conda-forge \
