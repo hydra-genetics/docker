@@ -45,8 +45,15 @@ LABEL tabix=1.11
 LABEL xlsxwriter=3.2.3
 LABEL scipy=1.13.1
 
+# Create a non-root user/group with fixed UID/GID
+RUN groupadd --gid 1000 hydra && \
+    useradd --uid 1000 --gid 1000 --no-create-home --shell /bin/bash hydra
+
 # Copy the Conda environment from the build stage
 # and update PATH to make tools available without
 # explicit activation
 COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
+RUN chown -R hydra:hydra /opt/conda/envs/hydra/
 ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
+
+USER hydra
