@@ -1,8 +1,7 @@
 # The build-stage image:
 FROM continuumio/miniconda3:25.3.1-1 AS build
 
-# Install conda-pack:
-RUN conda install -c conda-forge conda-pack=0.8.0 conda-libmamba-solver=24.9.0 && \
+RUN conda install -c conda-forge conda-libmamba-solver=24.9.0 && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda -c conda-forge \
       bc=1.07.1 \
@@ -46,9 +45,8 @@ LABEL tabix=1.11
 LABEL xlsxwriter=3.2.3
 LABEL scipy=1.13.1
 
-# Copy /venv from the previous stage:
-# to /usr/local to make it possible
-# running the softwares without activating
-# any conda env
+# Copy the Conda environment from the build stage
+# and update PATH to make tools available without
+# explicit activation
 COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
 ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
