@@ -1,7 +1,7 @@
 # The build-stage image:
 FROM continuumio/miniconda3:25.3.1-1 AS build
 
-RUN conda install -c conda-forge conda-libmamba-solver=24.9.0 && \
+RUN conda install -c conda-forge conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda -c conda-forge \
       bc=1.07.1 \
@@ -21,9 +21,6 @@ RUN conda install -c conda-forge conda-libmamba-solver=24.9.0 && \
     conda run -n hydra pip install --no-cache-dir hydra-genetics==4.0.0
 
 
-# The runtime-stage image; we can use Debian as the
-# base image since the Conda env also includes Python
-# for us.
 FROM debian:bookworm-slim AS runtime
 
 ################## METADATA ######################
