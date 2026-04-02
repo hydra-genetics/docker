@@ -28,17 +28,21 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-    build-essential=12.8ubuntu1.1 \
-    libxml2-dev=2.9.10+dfsg-5ubuntu0.20.04.10 \
-    libcurl4-openssl-dev=7.68.0-1ubuntu2.25 \
-    libssl-dev=1.1.1f-1ubuntu2.24 && \
+    build-essential=12.8* \
+    libxml2-dev=2.9.10* \
+    libcurl4-openssl-dev=7.68.0* \
+    libssl-dev=1.1.1f* && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 COPY environment.yaml .
 
 RUN mamba env create -f environment.yaml && \
-    mamba clean -afy
+    mamba clean -afy && \
+    groupadd -r fragmentomics && useradd -m -r -g fragmentomics fragmentomics && \
+    chown -R fragmentomics:fragmentomics /app /opt/conda/envs/fragmentomics_metrics
+
+USER fragmentomics
 
 ENV PATH="/opt/conda/envs/fragmentomics_metrics/bin:$PATH"
 

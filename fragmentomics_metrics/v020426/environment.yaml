@@ -2,7 +2,6 @@ name: fragmentomics_metrics
 channels:
   - conda-forge
   - bioconda
-  - defaults
 dependencies:
   - python=3.10
   - r-base=4.3.3
@@ -13,11 +12,11 @@ dependencies:
   - r-tidyverse=2.0.0
   - r-entropy=1.3.1
   - r-tidymodels=1.1.0
-  - r-glmnet=4.1_7
+  - r-glmnet=4.1-7
   - r-fmsb=0.7.5
   - r-proc=1.18.2
   - r-dosnow=1.0.20
   - r-themis=1.0.1
   - r-patchwork=1.1.2
   - r-pals=1.8
-  - r-rcolorbrewer=1.1_3
+  - r-rcolorbrewer=1.1-3
