@@ -3,24 +3,24 @@ FROM condaforge/mambaforge:23.3.1-1
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ################## METADATA ######################
-LABEL maintainer="jonas.almlof@scilifelab.uu.se" \
-      version="020426" \
-      snakemake="7.15.1" \
-      bedtools="2.26.0" \
-      sambamba="0.8.2" \
-      bedops="2.4.40" \
-      r-base="4.3.3" \
-      r-tidyverse="2.0.0" \
-      r-entropy="1.3.1" \
-      r-tidymodels="1.1.0" \
-      r-glmnet="4.1-7" \
-      r-fmsb="0.7.5" \
-      r-proc="1.18.2" \
-      r-dosnow="1.0.20" \
-      r-themis="1.0.1" \
-      r-patchwork="1.1.2" \
-      r-pals="1.8" \
-      r-rcolorbrewer="1.1-3"
+LABEL version="020426"
+LABEL maintainer="jonas.almlof@scilifelab.uu.se"
+LABEL snakemake="7.15.1"
+LABEL bedtools="2.26.0"
+LABEL sambamba="0.8.2"
+LABEL bedops="2.4.40"
+LABEL r-base="4.3.3"
+LABEL r-tidyverse="2.0.0"
+LABEL r-entropy="1.3.1"
+LABEL r-tidymodels="1.1.0"
+LABEL r-glmnet="4.1-7"
+LABEL r-fmsb="0.7.5"
+LABEL r-proc="1.18.2"
+LABEL r-dosnow="1.0.20"
+LABEL r-themis="1.0.1"
+LABEL r-patchwork="1.1.2"
+LABEL r-pals="1.8"
+LABEL r-rcolorbrewer="1.1-3"
 
 WORKDIR /app
 
