@@ -1,3 +1,5 @@
+# hadolint ignore=DL3008
+
 ############################
 # Build stage: compile STAR and prepare Arriba
 ############################
@@ -12,14 +14,17 @@ RUN apt-get update && \
         zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
 
+WORKDIR /build
+
 # Download and compile STAR
-RUN wget https://github.com/alexdobin/STAR/archive/2.7.10a.tar.gz && \
+RUN wget --progress=dot:giga https://github.com/alexdobin/STAR/archive/2.7.10a.tar.gz && \
     tar -xzf 2.7.10a.tar.gz && \
-    cd STAR-2.7.10a/source && \
-    make STAR
+
+WORKDIR /build/STAR-2.7.10a/source
+RUN make STAR
 
 # Download Arriba
-RUN wget https://github.com/suhrig/arriba/releases/download/v2.5.1/arriba_v2.5.1.tar.gz && \
+RUN wget --progress=dot:giga https://github.com/suhrig/arriba/releases/download/v2.5.1/arriba_v2.5.1.tar.gz && \
     tar -xzf arriba_v2.5.1.tar.gz
 
 
@@ -30,8 +35,8 @@ FROM debian:bullseye-slim
 
 ################## METADATA ##################
 LABEL maintainer="nina.hollfelder@scilifelab.uu.se"
-LABEL star_version="2.7.10a"
-LABEL arriba_version="2.5.1"
+LABEL version="2.5.1"
+LABEL arriba="2.5.1"
 
 ################## SYSTEM TOOLS ##################
 RUN apt-get update && \
