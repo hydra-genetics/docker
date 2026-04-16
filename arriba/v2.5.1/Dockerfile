@@ -1,24 +1,55 @@
-FROM debian:buster-slim AS build
+############################
+# Build stage: compile STAR and prepare Arriba
+############################
+FROM debian:bullseye-slim AS build
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y wget=1.20.1-1.1 ca-certificates=20200601~deb10u2 && \
-    rm -rf /var/lib/apt/lists/* && \
-    wget --progress=dot:giga 'https://github.com/alexdobin/STAR/archive/2.7.10a.tar.gz' && \
+    apt-get install --no-install-recommends -y \
+        wget \
+        ca-certificates \
+        make \
+        g++ \
+        zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download and compile STAR
+RUN wget https://github.com/alexdobin/STAR/archive/2.7.10a.tar.gz && \
     tar -xzf 2.7.10a.tar.gz && \
-    wget --progress=dot:giga 'https://github.com/suhrig/arriba/releases/download/v2.5.1/arriba_v2.5.1.tar.gz' && \
+    cd STAR-2.7.10a/source && \
+    make STAR
+
+# Download Arriba
+RUN wget https://github.com/suhrig/arriba/releases/download/v2.5.1/arriba_v2.5.1.tar.gz && \
     tar -xzf arriba_v2.5.1.tar.gz
 
-FROM r-base:4.2.0 AS runtime
 
-################## METADATA ######################
+############################
+# Runtime stage: stable Debian + R + tools
+############################
+FROM debian:bullseye-slim
+
+################## METADATA ##################
 LABEL maintainer="nina.hollfelder@scilifelab.uu.se"
-LABEL version=2.5.1
-LABEL arriba=2.5.1
+LABEL star_version="2.7.10a"
+LABEL arriba_version="2.5.1"
 
+################## SYSTEM TOOLS ##################
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y libcurl4=7.83.1-1+b1 libcurl4-openssl-dev=7.83.1-1+b1 libxml2=2.9.14+dfsg-1 samtools=1.13-4 && \
-    rm -rf /var/lib/apt/lists/* && \
-    Rscript -e "install.packages(c(\"circlize\", \"BiocManager\"))" -e "BiocManager::install(\"GenomicAlignments\")" -e "BiocManager::install(\"GenomicRanges\")"
-COPY --from=build /STAR-2.7.10a/bin/Linux_x86_64/STAR /usr/local/bin/
-COPY --from=build /arriba_v2.5.1/arriba /usr/local/bin/
-COPY --from=build /arriba_v2.5.1/draw_fusions.R /usr/local/bin/
+    apt-get install --no-install-recommends -y \
+        r-base \
+        samtools \
+        libxml2-dev \
+        ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+################## R / BIOCONDUCTOR ##################
+RUN Rscript -e 'install.packages(c("circlize","BiocManager"), repos="https://cloud.r-project.org")' && \
+    Rscript -e 'BiocManager::install(c("GenomicAlignments","GenomicRanges"))'
+
+################## COPY BINARIES ##################
+COPY --from=build /STAR-2.7.10a/source/STAR /usr/local/bin/STAR
+COPY --from=build /arriba_v2.5.1/arriba /usr/local/bin/arriba
+COPY --from=build /arriba_v2.5.1/draw_fusions.R /usr/local/bin/draw_fusions.R
+
+################## DEFAULT COMMAND ##################
+CMD ["bash"]
