@@ -36,12 +36,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && mkdir -p "${MPLCONFIGDIR}" \
     && useradd --create-home --uid 10001 --shell /usr/sbin/nologin vacmap \
     && chown -R vacmap:vacmap "${MPLCONFIGDIR}" /home/vacmap \
-    && vacmap --help >/dev/null \
     && apt-get purge -y --auto-remove build-essential git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 USER 10001:10001
+RUN vacmap --help >/dev/null
+
 ENTRYPOINT ["vacmap"]
 CMD ["--help"]
 
