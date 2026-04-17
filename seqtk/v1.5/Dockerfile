@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:24.04
 
 # ARGs are variables that are only available during docker image build, not available
 # when running the container
@@ -17,12 +17,14 @@ LABEL maintainer="Jonas Almlöf"
 LABEL maintainer.email="jonas.almlof@scilifelab.uu.se"
 
 # install dependencies, take out the apt garbage
-RUN apt-get update && apt-get install --no-install-recommends -y make=4.1-6 \
- python3-dev=3.12 \
- wget=1.17.1-1ubuntu1.5 \
- gcc=4:5.3.1-1ubuntu1 \
- gzip=1.6-4ubuntu1 \
- zlib1g-dev=1:1.2.8.dfsg-2ubuntu4.3 && \
+RUN apt-get update && apt-get install --no-install-recommends -y make=4.3-4.1build2 \
+ python3-dev=3.12.3-0ubuntu2.1 \
+ wget=1.21.4-1ubuntu4.1 \
+ gcc=4:13.2.0-7ubuntu1 \
+ gzip=1.12-1ubuntu3.1 \
+ pigz=2.8-1 \
+ zlib1g-dev=1:1.3.dfsg-3.1ubuntu2.1 && \
+ update-alternatives --install /usr/bin/python python /usr/bin/python3 1 && \
  apt-get clean && apt-get autoclean && rm -rf /var/lib/apt/lists/*
 
 # install seqtk
