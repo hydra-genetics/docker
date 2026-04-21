@@ -60,15 +60,15 @@ RUN wget -qO - "https://github.com/suhrig/arriba/releases/download/v${ARRIBA_VER
 RUN mkdir -p /references /output
 
 # Make wrapper script for download_references.sh
-RUN printf '#!/bin/bash\n\
+RUN printf "#!/bin/bash\n\
 cd /references\n\
 /usr/local/bin/download_references.sh $1 && \\\n\
 ASSEMBLY=$(sed -e "s/viral+.*//" -e "s/+.*//" <<<"$1") && \\\n\
-cp /usr/local/share/arriba/*${ASSEMBLY}* /references\n' > /usr/local/bin/download_refs.sh && \
+cp /usr/local/share/arriba/*${ASSEMBLY}* /references\n" > /usr/local/bin/download_refs.sh && \
     chmod a+x /usr/local/bin/download_refs.sh
 
 # Make wrapper script for running arriba
-RUN printf '#!/bin/bash\n\
+RUN printf "#!/bin/bash\n\
 cd /output && \\\n\
 /usr/local/bin/run_arriba.sh \
 /references/STAR_index_* \
@@ -79,18 +79,18 @@ cd /output && \\\n\
 /references/protein_domains_*.gff3 \
 ${THREADS-8} \
 /read1.fastq.gz \
-$(ls /read2.fastq.gz 2> /dev/null)\n' > /usr/local/bin/arriba.sh && \
+$(ls /read2.fastq.gz 2> /dev/null)\n" > /usr/local/bin/arriba.sh && \
     chmod a+x /usr/local/bin/arriba.sh
 
 # Make wrapper script for draw_fusions.R
-RUN printf '#!/bin/bash\n\
+RUN printf "#!/bin/bash\n\
 Rscript /usr/local/bin/draw_fusions.R \
   --annotation=$(ls /references/*.gtf) \
   --fusions=/fusions.tsv \
   --output=/output/fusions.pdf \
   --proteinDomains=$(ls /references/protein_domains_*.gff3) \
   --alignments=/Aligned.sortedByCoord.out.bam \
-  --cytobands=$(ls /references/cytobands_*.tsv)\n' > /usr/local/bin/draw_fusions.sh && \
+  --cytobands=$(ls /references/cytobands_*.tsv)\n" > /usr/local/bin/draw_fusions.sh && \
     chmod a+x /usr/local/bin/draw_fusions.sh
 
 WORKDIR /output
