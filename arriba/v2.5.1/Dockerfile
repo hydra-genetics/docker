@@ -8,6 +8,9 @@ LABEL version="2.5.1"
 ARG ARRIBA_VERSION=2.5.1
 ARG DEBIAN_FRONTEND=noninteractive
 
+# Set pipefail so piped commands fail properly (DL4006)
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 # Install system dependencies
 # - build-essential, make, g++: compile arriba from source
 # - wget, ca-certificates: download source and references
@@ -15,6 +18,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # - r-base + R packages: required by draw_fusions.R
 # - libxml2: runtime dependency
 # - zlib1g-dev, libbz2-dev, liblzma-dev: htslib build dependencies
+# hadolint ignore=DL3008
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
         wget \
@@ -36,10 +40,9 @@ RUN apt-get update -y && \
     rm -rf /var/lib/apt/lists/*
 
 # Download and compile arriba from source
-WORKDIR /opt
+WORKDIR /opt/arriba_v${ARRIBA_VERSION}
 RUN wget -qO - "https://github.com/suhrig/arriba/releases/download/v${ARRIBA_VERSION}/arriba_v${ARRIBA_VERSION}.tar.gz" | \
-    tar -xzf - && \
-    cd arriba_v${ARRIBA_VERSION} && \
+    tar -xzf - --strip-components=1 && \
     make && \
     # Install the arriba binary to /usr/local/bin
     cp arriba /usr/local/bin/ && \
@@ -57,15 +60,15 @@ RUN wget -qO - "https://github.com/suhrig/arriba/releases/download/v${ARRIBA_VER
 RUN mkdir -p /references /output
 
 # Make wrapper script for download_references.sh
-RUN echo '#!/bin/bash\n\
+RUN printf '#!/bin/bash\n\
 cd /references\n\
 /usr/local/bin/download_references.sh $1 && \\\n\
 ASSEMBLY=$(sed -e "s/viral+.*//" -e "s/+.*//" <<<"$1") && \\\n\
-cp /usr/local/share/arriba/*${ASSEMBLY}* /references' > /usr/local/bin/download_refs.sh && \
+cp /usr/local/share/arriba/*${ASSEMBLY}* /references\n' > /usr/local/bin/download_refs.sh && \
     chmod a+x /usr/local/bin/download_refs.sh
 
 # Make wrapper script for running arriba
-RUN echo '#!/bin/bash\n\
+RUN printf '#!/bin/bash\n\
 cd /output && \\\n\
 /usr/local/bin/run_arriba.sh \
 /references/STAR_index_* \
@@ -76,24 +79,24 @@ cd /output && \\\n\
 /references/protein_domains_*.gff3 \
 ${THREADS-8} \
 /read1.fastq.gz \
-$(ls /read2.fastq.gz 2> /dev/null)' > /usr/local/bin/arriba.sh && \
+$(ls /read2.fastq.gz 2> /dev/null)\n' > /usr/local/bin/arriba.sh && \
     chmod a+x /usr/local/bin/arriba.sh
 
 # Make wrapper script for draw_fusions.R
-RUN echo '#!/bin/bash\n\
+RUN printf '#!/bin/bash\n\
 Rscript /usr/local/bin/draw_fusions.R \
   --annotation=$(ls /references/*.gtf) \
   --fusions=/fusions.tsv \
   --output=/output/fusions.pdf \
   --proteinDomains=$(ls /references/protein_domains_*.gff3) \
   --alignments=/Aligned.sortedByCoord.out.bam \
-  --cytobands=$(ls /references/cytobands_*.tsv)' > /usr/local/bin/draw_fusions.sh && \
+  --cytobands=$(ls /references/cytobands_*.tsv)\n' > /usr/local/bin/draw_fusions.sh && \
     chmod a+x /usr/local/bin/draw_fusions.sh
 
 WORKDIR /output
 
 # Verify installation
-RUN arriba -h 2>&1 | head -1 && \
+RUN arriba -h 2>&1 || true && \
     Rscript -e 'library(circlize); library(GenomicAlignments); library(GenomicRanges); cat("R packages OK\n")'
 
 CMD ["bash"]
