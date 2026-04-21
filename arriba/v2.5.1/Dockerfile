@@ -2,9 +2,9 @@
 FROM debian:bookworm-slim
 
 LABEL description="Arriba v2.5.1 - Fusion gene detection from RNA-Seq data"
-LABEL arriba="2.5.1"
+LABEL arriba=2.5.1
 LABEL maintainer="nina.hollfelder@scilifelab.uu.se"
-LABEL version="2.5.1"
+LABEL version=2.5.1
 
 ARG ARRIBA_VERSION=2.5.1
 ARG DEBIAN_FRONTEND=noninteractive
