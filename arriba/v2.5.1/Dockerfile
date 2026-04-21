@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM debian:bookworm-slim
 
 LABEL description="Arriba v2.5.1 - Fusion gene detection from RNA-Seq data"
@@ -59,39 +60,42 @@ RUN wget -qO - "https://github.com/suhrig/arriba/releases/download/v${ARRIBA_VER
 # Create directories for references and output
 RUN mkdir -p /references /output
 
-# Make wrapper script for download_references.sh
-RUN printf "#!/bin/bash\n\
-cd /references\n\
-/usr/local/bin/download_references.sh $1 && \\\n\
-ASSEMBLY=$(sed -e "s/viral+.*//" -e "s/+.*//" <<<"$1") && \\\n\
-cp /usr/local/share/arriba/*${ASSEMBLY}* /references\n" > /usr/local/bin/download_refs.sh && \
-    chmod a+x /usr/local/bin/download_refs.sh
+# Wrapper script for download_references.sh
+COPY --chmod=755 <<'EOF' /usr/local/bin/download_refs.sh
+#!/bin/bash
+cd /references || exit 1
+/usr/local/bin/download_references.sh "$1" && \
+ASSEMBLY=$(sed -e "s/viral+.*//" -e "s/+.*//" <<<"$1") && \
+cp /usr/local/share/arriba/*"${ASSEMBLY}"* /references
+EOF
 
-# Make wrapper script for running arriba
-RUN printf "#!/bin/bash\n\
-cd /output && \\\n\
+# Wrapper script for running arriba
+COPY --chmod=755 <<'EOF' /usr/local/bin/arriba.sh
+#!/bin/bash
+cd /output || exit 1
 /usr/local/bin/run_arriba.sh \
-/references/STAR_index_* \
-/references/*.gtf \
-/references/*.fa \
-/references/blacklist_*.tsv.gz \
-/references/known_fusions_*.tsv.gz \
-/references/protein_domains_*.gff3 \
-${THREADS-8} \
-/read1.fastq.gz \
-$(ls /read2.fastq.gz 2> /dev/null)\n" > /usr/local/bin/arriba.sh && \
-    chmod a+x /usr/local/bin/arriba.sh
+  /references/STAR_index_* \
+  /references/*.gtf \
+  /references/*.fa \
+  /references/blacklist_*.tsv.gz \
+  /references/known_fusions_*.tsv.gz \
+  /references/protein_domains_*.gff3 \
+  "${THREADS-8}" \
+  /read1.fastq.gz \
+  $(ls /read2.fastq.gz 2> /dev/null)
+EOF
 
-# Make wrapper script for draw_fusions.R
-RUN printf "#!/bin/bash\n\
+# Wrapper script for draw_fusions.R
+COPY --chmod=755 <<'EOF' /usr/local/bin/draw_fusions.sh
+#!/bin/bash
 Rscript /usr/local/bin/draw_fusions.R \
-  --annotation=$(ls /references/*.gtf) \
+  --annotation="$(ls /references/*.gtf)" \
   --fusions=/fusions.tsv \
   --output=/output/fusions.pdf \
-  --proteinDomains=$(ls /references/protein_domains_*.gff3) \
+  --proteinDomains="$(ls /references/protein_domains_*.gff3)" \
   --alignments=/Aligned.sortedByCoord.out.bam \
-  --cytobands=$(ls /references/cytobands_*.tsv)\n" > /usr/local/bin/draw_fusions.sh && \
-    chmod a+x /usr/local/bin/draw_fusions.sh
+  --cytobands="$(ls /references/cytobands_*.tsv)"
+EOF
 
 WORKDIR /output
 
