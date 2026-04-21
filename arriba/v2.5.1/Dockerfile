@@ -12,7 +12,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Set pipefail so piped commands fail properly (DL4006)
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Install system dependencies
+# Install system dependencies 
 # - build-essential, make, g++: compile arriba from source
 # - wget, ca-certificates: download source and references
 # - rna-star, samtools: alignment tools required by arriba
