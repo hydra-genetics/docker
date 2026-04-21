@@ -57,48 +57,6 @@ RUN wget -qO - "https://github.com/suhrig/arriba/releases/download/v${ARRIBA_VER
     mkdir -p /usr/local/share/arriba && \
     cp -r database/* /usr/local/share/arriba/
 
-# Create directories for references and output
-RUN mkdir -p /references /output
-
-# Wrapper script for download_references.sh
-COPY --chmod=755 <<'EOF' /usr/local/bin/download_refs.sh
-#!/bin/bash
-cd /references || exit 1
-/usr/local/bin/download_references.sh "$1" && \
-ASSEMBLY=$(sed -e "s/viral+.*//" -e "s/+.*//" <<<"$1") && \
-cp /usr/local/share/arriba/*"${ASSEMBLY}"* /references
-EOF
-
-# Wrapper script for running arriba
-COPY --chmod=755 <<'EOF' /usr/local/bin/arriba.sh
-#!/bin/bash
-cd /output || exit 1
-/usr/local/bin/run_arriba.sh \
-  /references/STAR_index_* \
-  /references/*.gtf \
-  /references/*.fa \
-  /references/blacklist_*.tsv.gz \
-  /references/known_fusions_*.tsv.gz \
-  /references/protein_domains_*.gff3 \
-  "${THREADS-8}" \
-  /read1.fastq.gz \
-  $(ls /read2.fastq.gz 2> /dev/null)
-EOF
-
-# Wrapper script for draw_fusions.R
-COPY --chmod=755 <<'EOF' /usr/local/bin/draw_fusions.sh
-#!/bin/bash
-Rscript /usr/local/bin/draw_fusions.R \
-  --annotation="$(ls /references/*.gtf)" \
-  --fusions=/fusions.tsv \
-  --output=/output/fusions.pdf \
-  --proteinDomains="$(ls /references/protein_domains_*.gff3)" \
-  --alignments=/Aligned.sortedByCoord.out.bam \
-  --cytobands="$(ls /references/cytobands_*.tsv)"
-EOF
-
-WORKDIR /output
-
 # Verify installation
 RUN arriba -h 2>&1 || true && \
     Rscript -e 'library(circlize); library(GenomicAlignments); library(GenomicRanges); cat("R packages OK\n")'
