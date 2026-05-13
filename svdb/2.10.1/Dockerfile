@@ -15,7 +15,7 @@ RUN conda install -c conda-forge conda-libmamba-solver && \
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
 # for us.
-FROM debian:buster-slim AS runtime
+FROM debian:bookworm-slim  AS runtime
 
 ARG VERSION
 ENV VERSION=${VERSION}
