@@ -26,5 +26,8 @@ LABEL version=${VERSION}
 LABEL svdb=${VERSION}
 
 
+RUN groupadd -r hydra && useradd -r -g hydra -d /home/hydra -m hydra
 COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
+RUN chown -R hydra:hydra /opt/conda/envs/hydra /home/hydra
 ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
+USER hydra
