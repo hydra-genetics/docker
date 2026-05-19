@@ -7,10 +7,13 @@ ARG VERSION
 ENV VERSION=${VERSION}
 
 # Install libmamba solver and create the hydra environment:
-RUN conda install -c conda-forge conda-libmamba-solver && \
+RUN conda install -c conda-forge conda-libmamba-solver git && \
     conda config --set solver libmamba && \
-    conda create --name hydra -c bioconda  -c conda-forge \
-        svdb=${VERSION}
+    conda create --name hydra -c conda-forge python=3.12 && \
+    git clone --branch ${VERSION} --depth 1 \
+        https://github.com/J35P312/SVDB.git /tmp/svdb && \
+    /opt/conda/envs/hydra/bin/pip install --no-cache-dir /tmp/svdb && \
+    rm -rf /tmp/svdb
 
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
