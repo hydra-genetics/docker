@@ -9,7 +9,7 @@ ENV VERSION=${VERSION}
 # Install libmamba solver and create the hydra environment:
 RUN conda install -c conda-forge conda-libmamba-solver git && \
     conda config --set solver libmamba && \
-    conda create --name hydra -c conda-forge python=3.12 \
+    conda create --name hydra -c bioconda  -c conda-forge python=3.12 \
         svdb=${VERSION}
 
 # The runtime-stage image; we can use Debian as the
