@@ -1,5 +1,5 @@
 # The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
+FROM continuumio/miniconda3:26.3.2 AS build
 
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack && \
@@ -20,7 +20,7 @@ RUN /venv/bin/conda-unpack
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
 # for us.
-FROM debian:buster-slim AS runtime
+FROM debian:trixie-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
