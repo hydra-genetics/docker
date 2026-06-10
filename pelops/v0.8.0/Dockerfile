@@ -1,5 +1,6 @@
 # Dockerfile for Pelops – DUX4 rearrangement caller
 # https://github.com/Illumina/Pelops
+# hadolint ignore=DL3008
 
 FROM python:3.12-slim
 
@@ -26,7 +27,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Pelops from PyPI
-RUN pip install --no-cache-dir ilmn-pelops --upgrade
+RUN pip install --no-cache-dir ilmn-pelops==0.8.0 --upgrade
 
 # Create a working directory for data
 WORKDIR /data
