@@ -1,6 +1,5 @@
 # Dockerfile for Pelops – DUX4 rearrangement caller
 # https://github.com/Illumina/Pelops
-# hadolint ignore=DL3008
 
 FROM python:3.12-slim
 
@@ -11,6 +10,7 @@ LABEL pelops=0.8.0
 LABEL version=0.8.0
 
 # Install system dependencies required for pysam / htslib (BAM/CRAM support)
+# hadolint ignore=DL3008
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         gcc \
