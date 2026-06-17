@@ -20,9 +20,9 @@ ARG VERSION
 ENV VERSION=${VERSION}
 
 ################## METADATA ######################
-LABEL maintainer="andrei.guliaev@scilifelab.uu.se" \
-      version=${VERSION} \
-      wakhan=${VERSION}
+LABEL maintainer="andrei.guliaev@scilifelab.uu.se"
+LABEL version=${VERSION}
+LABEL wakhan=${VERSION}
    
 RUN groupadd -r wakhan && useradd -r -g wakhan wakhan
 COPY --chown=wakhan:wakhan --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
