@@ -7,9 +7,9 @@ ARG VERSION
 ENV VERSION=${VERSION}
 
 # Install libmamba solver and create the hydra environment:
-RUN conda install -c conda-forge conda-libmamba-solver  && \
+RUN conda install --yes -c conda-forge conda-libmamba-solver && \
     conda config --set solver libmamba && \
-    conda create --name hydra -c bioconda  -c conda-forge  \
+    conda create --yes --name hydra -c bioconda -c conda-forge \
         longphase=${VERSION}
 
 # The runtime-stage image; we can use Debian as the
