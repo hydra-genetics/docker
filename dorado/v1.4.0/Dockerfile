@@ -1,5 +1,5 @@
 # The build-stage image:
-FROM ontresearch/dorado:shac8f356489fa8b44b31beba841b84d2879de2088e AS build
+FROM ontresearch/dorado@sha256:6d875196de11126aa952da0075dae8fa2aabef13a6f6c4f93c2ac416de9d94a8 AS build
 
 ################## METADATA ######################
 LABEL maintainer="camille.clouard@scilifelab.uu.se"
