@@ -65,6 +65,7 @@ ENV PATH="/opt/hmmcopy_utils/bin:/opt/hmmcopy_utils/util:${PATH}"
 ################## METADATA ######################
 ARG ICHORCNA_COMMIT
 ARG HMMCOPY_UTILS_COMMIT
+LABEL version=v260817
 LABEL maintainer="jonas.almlof@scilifelab.uu.se"
 LABEL ichorcna_commit=${ICHORCNA_COMMIT}
 LABEL hmmcopy_utils_commit=${HMMCOPY_UTILS_COMMIT}
