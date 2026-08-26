@@ -29,9 +29,14 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 # Dependency list and R>=3.6.0 requirement per
 # https://github.com/broadinstitute/ichorCNA/wiki/Installation
 # Pinned to master's HEAD as of 2026-08-17; bump when a newer commit is needed.
+# BSgenome.Hsapiens.UCSC.hg19/hg38 are not in ichorCNA's own dependency list,
+# but its getSeqInfo() (R/utils.R) falls back to a live UCSC network request
+# for chromosome sizes whenever the matching BSgenome package isn't installed
+# - which fails on compute nodes without outbound internet. Installing both
+# genome builds here keeps every run on the offline code path.
 ARG ICHORCNA_COMMIT=5bfc03ed854f0e93fe5b624c97c1290fa0053837
 RUN R -e "install.packages(c('remotes', 'BiocManager', 'plyr', 'optparse'), repos='https://cloud.r-project.org')" && \
-    R -e "BiocManager::install(c('HMMcopy', 'GenomeInfoDb', 'GenomicRanges'), ask=FALSE, update=FALSE)" && \
+    R -e "BiocManager::install(c('HMMcopy', 'GenomeInfoDb', 'GenomicRanges', 'BSgenome.Hsapiens.UCSC.hg19', 'BSgenome.Hsapiens.UCSC.hg38'), ask=FALSE, update=FALSE)" && \
     R -e "remotes::install_github('broadinstitute/ichorCNA', ref='${ICHORCNA_COMMIT}')"
 
 # scripts/runIchorCNA.R and scripts/createPanelOfNormals.R live at the repo's
