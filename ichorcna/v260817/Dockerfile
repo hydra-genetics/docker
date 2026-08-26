@@ -35,9 +35,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 # - which fails on compute nodes without outbound internet. Installing both
 # genome builds here keeps every run on the offline code path.
 ARG ICHORCNA_COMMIT=5bfc03ed854f0e93fe5b624c97c1290fa0053837
-RUN R -e "install.packages(c('remotes', 'BiocManager', 'plyr', 'optparse'), repos='https://cloud.r-project.org')" && \
-    R -e "BiocManager::install(c('HMMcopy', 'GenomeInfoDb', 'GenomicRanges', 'BSgenome.Hsapiens.UCSC.hg19', 'BSgenome.Hsapiens.UCSC.hg38'), ask=FALSE, update=FALSE)" && \
-    R -e "remotes::install_github('broadinstitute/ichorCNA', ref='${ICHORCNA_COMMIT}')"
+# BSgenome.Hsapiens.UCSC.hg19/hg38 are ~800-900MB each (full 2bit genome
+# sequence); R's default download.file() timeout is 60s, which is too short
+# for these on a normal connection and is a common cause of install failures.
+RUN R -e "options(timeout = 1200); install.packages(c('remotes', 'BiocManager', 'plyr', 'optparse'), repos='https://cloud.r-project.org')" && \
+    R -e "options(timeout = 1200); BiocManager::install(c('HMMcopy', 'GenomeInfoDb', 'GenomicRanges', 'BSgenome.Hsapiens.UCSC.hg19', 'BSgenome.Hsapiens.UCSC.hg38'), ask=FALSE, update=FALSE)" && \
+    R -e "options(timeout = 1200); remotes::install_github('broadinstitute/ichorCNA', ref='${ICHORCNA_COMMIT}')"
 
 # scripts/runIchorCNA.R and scripts/createPanelOfNormals.R live at the repo's
 # top level, not under inst/ - so installing the R package above does NOT
