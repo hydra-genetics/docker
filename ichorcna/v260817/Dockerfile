@@ -38,6 +38,13 @@ ARG ICHORCNA_COMMIT=5bfc03ed854f0e93fe5b624c97c1290fa0053837
 # BSgenome.Hsapiens.UCSC.hg19/hg38 are ~800-900MB each (full 2bit genome
 # sequence); R's default download.file() timeout is 60s, which is too short
 # for these on a normal connection and is a common cause of install failures.
+# rtracklayer (a BSgenome dependency) vendors UCSC's old "kent" C sources,
+# which predate strict prototype checking; the newer gcc/g++ (15.x) pulled in
+# above makes mismatched builtin-function declarations (e.g. its free() call)
+# a hard error under its new default C standard. Same class of issue as the
+# binutils pin above - pin the C/C++ standard back to gnu17/gnu++17 for R's
+# own package compilation too, mirroring the hmmcopy_utils build below.
+RUN mkdir -p /root/.R && printf 'CFLAGS += -std=gnu17\nCXXFLAGS += -std=gnu++17\n' >> /root/.R/Makevars
 RUN R -e "options(timeout = 1200); install.packages(c('remotes', 'BiocManager', 'plyr', 'optparse'), repos='https://cloud.r-project.org')" && \
     R -e "options(timeout = 1200); BiocManager::install(c('HMMcopy', 'GenomeInfoDb', 'GenomicRanges', 'BSgenome.Hsapiens.UCSC.hg19', 'BSgenome.Hsapiens.UCSC.hg38'), ask=FALSE, update=FALSE)" && \
     R -e "options(timeout = 1200); remotes::install_github('broadinstitute/ichorCNA', ref='${ICHORCNA_COMMIT}')"
