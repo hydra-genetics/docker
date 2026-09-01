@@ -11,7 +11,7 @@ RUN conda create --name hydra -c bioconda -c conda-forge -y \
         python=3.11 \
         pysam=0.23.0 \
         pyfaidx=0.8.1.3 \
-        pillow=9.0.1 \
+        pillow=9.4.0 \
         pytabix=0.1 \
         git=2.48.1 && \
     conda run -n hydra pip install --no-cache-dir git+https://github.com/parklab/bamsnap.git@${VERSION} && \
@@ -29,7 +29,7 @@ LABEL bamsnap=${VERSION}
 LABEL python=3.11
 LABEL pysam=0.23.0
 LABEL pyfaidx=0.8.1.3
-LABEL pillow=9.0.1
+LABEL pillow=9.4.0
 LABEL pytabix=0.1
 LABEL git=2.48.1
 
