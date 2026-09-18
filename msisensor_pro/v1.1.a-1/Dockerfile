@@ -1,4 +1,5 @@
 ARG VERSION=1.1.a
+ARG IMAGE_VERSION=1.1.a-1
 
 # The build-stage image:
 FROM continuumio/miniconda3:25.3.1-1 AS build
@@ -10,7 +11,7 @@ RUN conda install -c conda-forge conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda -c conda-forge \
       msisensor-pro=${VERSION} \
-      python=3.9 \
+      python=3.10 \
       snakemake-wrapper-utils=0.9.0
 
 # The runtime-stage image; we can use Debian as the
@@ -19,11 +20,12 @@ RUN conda install -c conda-forge conda-libmamba-solver && \
 FROM debian:bookworm-slim AS runtime
 
 ARG VERSION
+ARG IMAGE_VERSION
 ENV VERSION=${VERSION}
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=${VERSION}
+LABEL version=${IMAGE_VERSION}
 LABEL msisensor-pro=${VERSION}
 LABEL snakemake-wrapper-utils=0.9.0
 
