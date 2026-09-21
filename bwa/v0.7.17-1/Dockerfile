@@ -5,6 +5,8 @@ RUN conda install -c conda-forge conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda -c conda-forge \
       bwa=0.7.17 \
+      fgbio-minimal=4.1.1 \
+      picard-slim=3.5.0 \
       python=3.12 \
       samtools=1.15 \
       snakemake-wrapper-utils=0.9.0
@@ -18,6 +20,8 @@ FROM debian:bookworm-slim AS runtime
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
 LABEL version=0.7.17-1
 LABEL bwa=0.7.17
+LABEL fgbio-minimal=4.1.1 
+LABEL picard-slim=3.5.0 
 LABEL python=3.12
 LABEL samtools=1.15
 LABEL snakemake-wrapper-utils=0.9.0
