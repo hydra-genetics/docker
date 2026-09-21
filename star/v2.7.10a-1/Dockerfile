@@ -1,8 +1,9 @@
 # The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
+FROM continuumio/miniconda3:25.3.1-1 AS build
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack && \
+RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
+    conda config --set solver libmamba && \
     conda create --name hydra -c bioconda  -c conda-forge \
 	  python=3.12 \
     snakemake-wrapper-utils=0.9.0 \
@@ -25,7 +26,7 @@ FROM debian:buster-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
-LABEL version=2.7.10a
+LABEL version=2.7.10a-1
 LABEL python=3.12
 LABEL snakemake-wrapper-utils=0.9.0
 LABEL star=2.7.10a
