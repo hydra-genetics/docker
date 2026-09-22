@@ -1,4 +1,5 @@
 ARG VERSION=4.1.9.0
+ARG IMAGE_VERSION=4.1.9.0-1
 # The build-stage image:
 FROM continuumio/miniconda3:25.3.1-1 AS build
 
@@ -23,7 +24,7 @@ ENV VERSION=${VERSION}
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
-LABEL version=${VERSION}-1
+LABEL version=${IMAGE_VERSION}
 LABEL gatk4=${VERSION}
 LABEL python=3.12
 LABEL snakemake-wrapper-utils=0.9.0
