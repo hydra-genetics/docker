@@ -5,8 +5,7 @@ RUN conda install -c conda-forge conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda -c conda-forge \
     picard=3.5.0 \
-    python=3.11 \
-    r-base=3.6.2 \
+    python=3.12 \
     snakemake-wrapper-utils=0.9.0
 
 # The runtime-stage image; we can use Debian as the
@@ -18,8 +17,7 @@ FROM debian:bookworm-slim AS runtime
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
 LABEL version=3.5.0
 LABEL picard=3.5.0
-LABEL python=3.11
-LABEL r-base=3.6.2
+LABEL python=3.12
 LABEL snakemake-wrapper-utils=0.9.0
 
 # Copy the Conda environment from the build stage
