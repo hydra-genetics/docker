@@ -16,7 +16,7 @@ FROM debian:bookworm-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=2.25.0-1
+LABEL version=2.25.0-s9
 LABEL picard=2.25.0
 LABEL python=3.11
 LABEL r-base=3.6.2
