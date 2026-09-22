@@ -1,4 +1,5 @@
-ARG VERSION=4.6.2.0
+ARG VERSION=4.1.9.0
+ARG CONTAINER_VERSION=4.1.9.0-s9
 # The build-stage image:
 FROM continuumio/miniconda3:25.3.1-1 AS build
 
@@ -19,11 +20,13 @@ RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
 FROM debian:bookworm-slim AS runtime
 
 ARG VERSION
-ENV VERSION=${VERSION}  
+ENV VERSION=${VERSION}
+ARG CONTAINER_VERSION
+ENV CONTAINER_VERSION=${CONTAINER_VERSION}
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
-LABEL version=${VERSION}-1
+LABEL version=${CONTAINER_VERSION}
 LABEL gatk4=${VERSION}
 LABEL python=3.12
 LABEL snakemake-wrapper-utils=0.9.0
