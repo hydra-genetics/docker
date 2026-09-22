@@ -20,7 +20,9 @@ RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
 FROM debian:bookworm-slim AS runtime
 
 ARG VERSION
+ARG IMAGE_VERSION
 ENV VERSION=${VERSION}  
+ENV IMAGE_VERSION=${IMAGE_VERSION}  
 
 ################## METADATA ######################
 LABEL maintainer="padraic.corcoran@scilifelab.uu.se"
