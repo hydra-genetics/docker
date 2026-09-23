@@ -9,10 +9,12 @@ ARG VERSION
 ENV VERSION=${VERSION}
 ARG SHA256=df68d18213d83ef4d6de3ea44aa5c7bcad20cfa47a934fc1b2ed290d2fd5eb24
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-    wget \
-    ca-certificates \
+    wget=1.21.3-1+deb12u1 \
+    ca-certificates=20250419~deb12u1 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
