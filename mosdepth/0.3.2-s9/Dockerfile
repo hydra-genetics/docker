@@ -25,7 +25,7 @@ FROM debian:bookworm-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
-LABEL version=0.3.2-1
+LABEL version=0.3.2-s9
 LABEL mosdepth=0.3.2
 LABEL python=3.12
 LABEL snakemake-wrapper-utils=0.9.0
