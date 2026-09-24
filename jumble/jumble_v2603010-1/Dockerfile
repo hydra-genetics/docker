@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # --- STEP 1: System Dependencies ---
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    python3.13-dev
+    python3.13-dev \
     curl \
     libcurl4-openssl-dev \
     libssl-dev \
