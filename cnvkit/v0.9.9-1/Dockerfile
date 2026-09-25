@@ -18,6 +18,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl=7.88.1-10+deb12u15 ca-certificates=20250419~deb12u1 \
         locales=2.36-9+deb12u14 gfortran=11.3.0-12 libblas-dev=3.11.0-2 \
@@ -29,7 +31,7 @@ RUN apt-get update && \
         tar xz -C /usr/local && \
     rig add --without-pak "https://cdn.posit.co/r/debian-12/pkgs/r-${R_VERSION}_1_$(dpkg --print-architecture).deb" && \
     rm -rf /var/lib/apt/lists/* && \
-    pip install --no-cache-dir "cython<3" "numpy<2" scipy setuptools wheel && \
+    pip install --no-cache-dir cython==0.29.37 numpy==1.26.4 scipy==1.17.1 setuptools==79.0.1 wheel==0.46.3 && \
     mkdir /tmp/pomegranate && \
     curl -fsSL https://files.pythonhosted.org/packages/source/p/pomegranate/pomegranate-0.14.8.tar.gz | \
         tar xz -C /tmp/pomegranate --strip-components=1 && \
@@ -37,7 +39,8 @@ RUN apt-get update && \
     pip install --no-cache-dir --no-build-isolation /tmp/pomegranate && \
     rm -rf /tmp/pomegranate && \
     pip install --no-cache-dir snakemake-wrapper-utils==0.9.0 numpy==1.26.4 pandas==1.5.3 scikit-learn==1.3.2 \
-        joblib==1.3.2 biopython matplotlib networkx pyfaidx pysam reportlab && \
+        joblib==1.3.2 biopython==1.88 matplotlib==3.11.2 networkx==3.6.1 pyfaidx==0.9.0.4 pysam==0.24.1 \
+        reportlab==5.0.1 && \
     pip install --no-cache-dir --no-deps cnvkit==0.9.9 && \
     Rscript -e 'install.packages("BiocManager")' && \
     Rscript -e "source('http://callr.org/install#DNAcopy')" && \
