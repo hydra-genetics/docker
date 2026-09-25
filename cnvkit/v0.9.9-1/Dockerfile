@@ -20,9 +20,11 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+# pomegranate is installed from a local source dir (cython<3 rebuild), which older hadolint flags as unpinned
+# hadolint ignore=DL3013
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl=7.88.1-10+deb12u15 ca-certificates=20250419~deb12u1 \
-        locales=2.36-9+deb12u14 gfortran=11.3.0-12 libblas-dev=3.11.0-2 \
+        locales=2.36-9+deb12u14 gfortran=4:12.2.0-3 libblas-dev=3.11.0-2 \
         liblapack-dev=3.11.0-2 python3-setuptools=66.1.1-1+deb12u2 build-essential=12.9 && \
     sed -i 's/^# *\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen && \
     locale-gen && \
@@ -39,7 +41,7 @@ RUN apt-get update && \
     pip install --no-cache-dir --no-build-isolation /tmp/pomegranate && \
     rm -rf /tmp/pomegranate && \
     pip install --no-cache-dir snakemake-wrapper-utils==0.9.0 numpy==1.26.4 pandas==1.5.3 scikit-learn==1.3.2 \
-        joblib==1.3.2 biopython==1.88 matplotlib==3.11.2 networkx==3.6.1 pyfaidx==0.9.0.4 pysam==0.24.1 \
+        joblib==1.3.2 biopython==1.88 matplotlib==3.8.4 networkx==3.6.1 pyfaidx==0.9.0.4 pysam==0.24.1 \
         reportlab==5.0.1 && \
     pip install --no-cache-dir --no-deps cnvkit==0.9.9 && \
     Rscript -e 'install.packages("BiocManager")' && \
