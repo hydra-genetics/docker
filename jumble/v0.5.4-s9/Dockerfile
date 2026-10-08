@@ -1,27 +1,36 @@
 FROM r-base:4.4.0
 
-# --- STEP 1: System Dependencies ---
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # --- STEP 1: System Dependencies ---
-# hadolint ignore=DL3008
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    python3.13-dev \
-    curl \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    libxml2-dev \
-    wget \
-    git \
-    libpng-dev \
-    libjpeg-dev \
-    zlib1g-dev \
-    libbz2-dev \
-    liblzma-dev \
-    libfftw3-dev \
-    libgsl-dev \
+# Use the Debian snapshot the base image was built from: python3.12 is no longer in
+# testing/sid, and a snapshot keeps the pinned versions below installable.
+RUN rm -f /etc/apt/sources.list && \
+    printf '%s\n' \
+    'Types: deb' \
+    'URIs: http://snapshot.debian.org/archive/debian/20240612T000000Z' \
+    'Suites: testing' \
+    'Components: main' \
+    'Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg' \
+    > /etc/apt/sources.list.d/debian.sources && \
+    apt-get -o Acquire::Check-Valid-Until=false update && apt-get install --no-install-recommends -y \
+    python3.12-dev=3.12.3-1 \
+    curl=8.8.0-1 \
+    libcurl4-openssl-dev=8.8.0-1 \
+    libssl-dev=3.2.1-3 \
+    libxml2-dev=2.9.14+dfsg-1.3+b3 \
+    wget=1.24.5-1 \
+    git=1:2.43.0-1+b1 \
+    libpng-dev=1.6.43-5 \
+    libjpeg-dev=1:2.1.5-3 \
+    zlib1g-dev=1:1.3.dfsg+really1.3.1-1 \
+    libbz2-dev=1.0.8-5.1 \
+    liblzma-dev=5.6.1+really5.4.5-1 \
+    libfftw3-dev=3.3.10-1+b2 \
+    libgsl-dev=2.7.1+dfsg-6+b1 \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -s /usr/bin/python3.12 /usr/local/bin/python3
 
 # --- STEP 2: R Configuration ---
 RUN mkdir -p ~/.R && \
