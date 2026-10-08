@@ -6,7 +6,6 @@ ARG SEQTK_VERSION=1.5
 ENV SEQTK_VERSION=${SEQTK_VERSION}
 
 ################## METADATA ######################
-LABEL maintainer="jonas.almlof@scilifelab.uu.se"
 LABEL version=${SEQTK_VERSION}
 LABEL seqtk=${SEQTK_VERSION}
 LABEL base.image="ubuntu:xenial"
