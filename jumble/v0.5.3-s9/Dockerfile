@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # --- STEP 1: System Dependencies ---
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    python3.13-dev
+    python3.13-dev \
     curl \
     libcurl4-openssl-dev \
     libssl-dev \
@@ -44,25 +44,24 @@ RUN R -e "options(timeout = 3000, download.file.method = 'libcurl'); \
     BiocManager::install(c('aroma.light', 'bamsignals', 'csaw', 'GenomicRanges', \
     'Rsamtools', 'VariantAnnotation', 'DNAcopy', 'edgeR', 'limma'), ask = FALSE); \
     install.packages(c('data.table', 'doParallel', 'fastICA', 'ggplot2', 'MASS', \
-    'patchwork', 'PSCBS', 'optparse', 'stringr', 'ggrepel'))" && \
+    'patchwork', 'PSCBS', 'optparse', 'stringr', 'ggrepel', 'httr'))" && \
     rm -rf /tmp/*
 
 # --- STEP 4: Jumble Installation ---
 WORKDIR /opt/jumble
 RUN git clone https://github.com/ClinSeq/jumble.git . && \
-    git checkout 862b485f6ea87515f77fe7d21e7bbba622a4a07a && \
+    git checkout 04c63fac3223bb2dfd96de7dabeb0bf0458e7409 && \
     R -e "remotes::install_local('.', dependencies = FALSE, upgrade = 'never')" && \
     mkdir -p /Jumble && \
     cp inst/scripts/jumble-*.R /Jumble/ && \
     chmod +x /Jumble/jumble-*.R && \
     rm -rf .git /tmp/*
 
-WORKDIR /Jumble   
+WORKDIR /Jumble
 ENV PATH="/Jumble:${PATH}"
 
 ################## METADATA ######################
 LABEL maintainer="jonas.almlöf@scilifelab.uu.se"
-LABEL version=260310-1
-LABEL jumble=260310
-LABEL python=3.13
+LABEL version=0.5.3-s9
+LABEL jumble=0.5.3
 LABEL r-base=4.4.0
