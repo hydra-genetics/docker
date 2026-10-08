@@ -4,7 +4,7 @@ FROM continuumio/miniconda3:25.3.1-1 AS build
 # Install conda-pack:
 RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
     conda config --set solver libmamba && \
-    conda create --name hydra -c bioconda  -c conda-forge \
+    conda create --name hydra -c bioconda -c conda-forge \
 	  python=3.12 \
     snakemake-wrapper-utils=0.9.0 \
 	  star=2.7.10a
@@ -22,7 +22,7 @@ RUN /venv/bin/conda-unpack
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
 # for us.
-FROM debian:buster-slim AS runtime
+FROM debian:bookworm-slim AS runtime
 
 ################## METADATA ######################
 LABEL maintainer="martin.rippin@scilifelab.uu.se"
