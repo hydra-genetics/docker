@@ -1,36 +1,38 @@
+ARG VERSION=2.3
+ARG CONTAINER_VERSION=2.3-s9
+
 # The build-stage image:
 FROM continuumio/miniconda3:25.3.1-1 AS build
+
+ARG VERSION
+ENV VERSION=${VERSION}
+ARG CONTAINER_VERSION
+ENV CONTAINER_VERSION=${CONTAINER_VERSION}
 
 RUN conda install -c conda-forge conda-libmamba-solver && \
     conda config --set solver libmamba && \
     conda create --name hydra -c bioconda -c conda-forge \
-      bwa=0.7.15 \
-      python=3.12 \
-      samtools=1.15 \
-      snakemake-wrapper-utils=0.9.0
+    bwa-mem2=${VERSION} \
+    samtools=1.23 \
+    python=3.11 \
+    snakemake-wrapper-utils=0.9.0
 
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
 # for us.
 FROM debian:bookworm-slim AS runtime
 
+ARG VERSION
+ENV VERSION=${VERSION}
+ARG CONTAINER_VERSION
+
 ################## METADATA ######################
-LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=0.7.15-1
-LABEL bwa=0.7.15
-LABEL python=3.12
-LABEL samtools=1.15
+LABEL maintainer="jonas.almlof@scilifelab.uu.se"
+LABEL version=${CONTAINER_VERSION}
+LABEL bwa-mem2=${VERSION}
+LABEL samtools=1.23
+LABEL python=3.11
 LABEL snakemake-wrapper-utils=0.9.0
 
-# Create a non-root user/group with fixed UID/GID
-RUN groupadd --gid 1000 hydra && \
-    useradd --uid 1000 --gid 1000 --no-create-home --shell /bin/bash hydra
-
-# Copy the Conda environment from the build stage
-# and update PATH to make tools available without
-# explicit activation
 COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
-RUN chown -R hydra:hydra /opt/conda/envs/hydra/
 ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
-
-USER hydra
