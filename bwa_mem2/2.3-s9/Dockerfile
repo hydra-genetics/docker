@@ -34,5 +34,12 @@ LABEL samtools=1.23
 LABEL python=3.11
 LABEL snakemake-wrapper-utils=0.9.0
 
+# Create a non-root user/group with fixed UID/GID
+RUN groupadd --gid 1000 hydra && \
+    useradd --uid 1000 --gid 1000 --no-create-home --shell /bin/bash hydra
+
 COPY --from=build /opt/conda/envs/hydra/ /opt/conda/envs/hydra/
+RUN chown -R hydra:hydra /opt/conda/envs/hydra/
 ENV PATH=${PATH}:/opt/conda/envs/hydra/bin
+
+USER hydra
