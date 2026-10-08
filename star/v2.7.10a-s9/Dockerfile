@@ -1,16 +1,18 @@
 # The build-stage image:
-FROM continuumio/miniconda3:4.10.3 AS build
+FROM continuumio/miniconda3:25.3.1-1 AS build
 
 # Install conda-pack:
-RUN conda install -c conda-forge conda-pack && \
-    conda create --name hydra -c bioconda \
-    msisensor-pro=1.1.a \
-    snakemake-wrapper-utils=0.3.1
+RUN conda install -c conda-forge conda-pack conda-libmamba-solver && \
+    conda config --set solver libmamba && \
+    conda create --name hydra -c bioconda -c conda-forge \
+	  python=3.12 \
+    snakemake-wrapper-utils=0.9.0 \
+	  star=2.7.10a
 
 # Use conda-pack to create a standalone enviornment
 # in /venv:
 RUN conda-pack -n hydra -o /tmp/env.tar
-WORKDIR /venv 
+WORKDIR /venv
 RUN tar xf /tmp/env.tar
 
 # We've put venv in same path it'll be in final image,
@@ -20,13 +22,14 @@ RUN /venv/bin/conda-unpack
 # The runtime-stage image; we can use Debian as the
 # base image since the Conda env also includes Python
 # for us.
-FROM debian:buster-slim AS runtime
+FROM debian:bookworm-slim AS runtime
 
 ################## METADATA ######################
-LABEL maintainer="patrik.smeds@scilifelab.uu.se"
-LABEL version=1.1.a
-LABEL msisensor-pro=1.1.a
-LABEL snakemake-wrapper-utils=0.3.1
+LABEL maintainer="martin.rippin@scilifelab.uu.se"
+LABEL version=2.7.10a-s9
+LABEL python=3.12
+LABEL snakemake-wrapper-utils=0.9.0
+LABEL star=2.7.10a
 
 # Copy /venv from the previous stage:
 # to /usr/local to make it possible
