@@ -21,7 +21,7 @@ RUN conda install -c conda-forge conda-libmamba-solver && \
       pyvcf=0.6.8 \
       snakemake-wrapper-utils=0.7.2 \
       scipy=1.13.1 \
-      snakemake=7.32.4 \
+      snakemake-minimal=7.32.4 \
       xlsxwriter=3.2.3 && \
     conda run -n hydra pip install --no-cache-dir hydra-genetics==${VERSION}
 
@@ -50,7 +50,7 @@ LABEL scipy=1.13.1
 
 # Create a non-root user/group with fixed UID/GID
 RUN groupadd --gid 1000 hydra && \
-    useradd --uid 1000 --gid 1000 --no-create-home --shell /bin/bash hydra
+    useradd --uid 1000 --gid 1000 --create-home --shell /bin/bash hydra
 
 # Copy the Conda environment from the build stage (owned by root,
 # read-only for the hydra user)
